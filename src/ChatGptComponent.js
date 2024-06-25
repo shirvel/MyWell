@@ -20,6 +20,7 @@ const ChatGPTComponent = () => {
     const newConversation = [...conversation, newMessage];
 
     try {
+      console.log('API Key:', apiKey);
       const response = await makeRequestWithRetry(newConversation);
       const botResponse = {
         role: 'assistant',
@@ -29,6 +30,7 @@ const ChatGPTComponent = () => {
       setConversation([...newConversation, botResponse]);
       setInput('');
     } catch (error) {
+      console.log('API Key:', apiKey);
       console.error('Error fetching response:', error);
       setError('An error occurred while fetching the response.');
     }
@@ -38,6 +40,7 @@ const ChatGPTComponent = () => {
     let delay = 1000; // initial delay of 1 second
     for (let attempt = 0; attempt < retries; attempt++) {
       try {
+        console.log('Attempting to make request to OpenAI...');
         const result = await axios.post(
           'https://api.openai.com/v1/chat/completions',
           {
@@ -48,7 +51,7 @@ const ChatGPTComponent = () => {
             headers: {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${apiKey}`,
-              'OpenAI-Organization': "org-5Uoqt7lAqpj6y5h1ZcD4AjFj", // Include the organization ID in the headers
+              'OpenAI-Organization': "org-5Uoqt7lAqpj6y5h1ZcD4AjFj", // Ensure this is correct or remove if unnecessary
             },
           }
         );

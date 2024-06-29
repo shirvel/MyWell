@@ -4,34 +4,34 @@ import {
 	TableBody,
 	TableRow,
 	TableCell,
-	Card,
-	CardHeader,
-	Avatar,
-	IconButton,
-	CardContent,
-	CardActions,
 } from "@mui/material";
-import FreeBreakfastIcon from "@mui/icons-material/FreeBreakfast";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import EditIcon from "@mui/icons-material/Edit";
+
+import { useEffect, useState } from "react";
+import { IMealPlanner, MealTypes, getMealPlan } from "./MealPlannerService";
+import { Meal } from "./Meal";
 
 export const MealPlanner = () => {
-	const daysOfWeek = [
-		"Sunday",
-		"Monday",
-		"Tuesday",
-		"Wednesday",
-		"Thursday",
-		"Friday",
-		"Saturday",
-	];
+	const [mealPlan, setMealPlan] = useState<IMealPlanner>({});
+
+	useEffect(() => {
+		const userId = "123";
+
+		const loadMealPlan = async () => {
+			if (userId) {
+				const response = await getMealPlan(userId);
+				setMealPlan(response);
+			}
+		};
+
+		loadMealPlan();
+	}, []);
 
 	return (
 		<div className="w-full py-8 px-2">
 			<Table className="w-full">
 				<TableHead className="bg-blue-600 ">
 					<TableRow>
-						{daysOfWeek.map((day) => (
+						{Object.keys(mealPlan).map((day) => (
 							<TableCell key={day} align="center">
 								<div className="font-bold text-white decoration-8">{day}</div>
 							</TableCell>
@@ -39,30 +39,15 @@ export const MealPlanner = () => {
 					</TableRow>
 				</TableHead>
 				<TableBody>
-					{["Breakfast", "Lunch", "Dinner"].map((meal) => (
+					{MealTypes.map((meal) => (
 						<TableRow key={meal}>
-							{daysOfWeek.map((day) => (
+							{Object.keys(mealPlan).map((day) => (
 								<TableCell key={`${meal}-${day}`} align="center">
-									<Card>
-										<CardHeader
-											avatar={
-												<Avatar aria-label="recipe">
-													<FreeBreakfastIcon />
-												</Avatar>
-											}
-											title="breakfast"
-										/>
-
-										<CardContent>the meal</CardContent>
-										<CardActions disableSpacing>
-											<IconButton aria-label="Like">
-												<FavoriteIcon />
-											</IconButton>
-											<IconButton aria-label="Edit">
-												<EditIcon />
-											</IconButton>
-										</CardActions>
-									</Card>
+									<Meal
+										mealKind={meal}
+										mealContent={mealPlan[day][meal].meal}
+										mealId={mealPlan[day][meal].meal_id}
+									/>
 								</TableCell>
 							))}
 						</TableRow>

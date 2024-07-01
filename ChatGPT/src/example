@@ -1,0 +1,13 @@
+i'm keren, 23 years old.
+My diet is vegan and i don't like peanuts.
+I want to eat healtier and to improve my sleep.
+please prepare for me a week planner that contains 3 meals and some workout (yoga or meditation or etc) in some of the days.
+please specify the meals' recipes and the workout's instructions.
+if you give me a workout, add recommendation for the hour it should be done.
+please send it in this template:
+<day>: {
+			Breakfast: { meal: <meal>, meal_id: <meal_id>, ingridents: <ingridents>, instructions: <instructions> },
+			Lunch: { meal: <meal>, meal_id: <meal_id>, ingridents: <ingridents>, instructions: <instructions> },
+			Dinner: { meal: <meal>, meal_id: <meal_id>, ingridents: <ingridents>, instructions: <instructions> },
+            Workout: { workout: <workout>, workout_id: <workout_id>, instructions: <instructions> }
+		},

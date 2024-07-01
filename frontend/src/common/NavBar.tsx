@@ -58,6 +58,7 @@ export const NavBar = () => {
 					<MenuItem onClick={() => handleClose("week-reflection")}>
 						Week Reflection
 					</MenuItem>
+					<MenuItem onClick={() => handleClose("register")}>Register</MenuItem>
 				</Menu>
 			</Toolbar>
 		</AppBar>

@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { PageNotFound } from "./common/PageNotFound";
 import { NavBar } from "./common/NavBar";
 import { WeekReflection } from "./WeekReflection/WeekRelection";
+import { RegisterPage } from "./Registration/RegisterPage";
 
 export const App = () => {
 	return (
@@ -16,6 +17,7 @@ export const App = () => {
 					<Route path="/" element={<MealPlanner />} />
 					<Route path="meal-planner" element={<MealPlanner />} />
 					<Route path="week-reflection" element={<WeekReflection />} />
+					<Route path="register" element={<RegisterPage />} />
 					<Route path="*" element={<PageNotFound />} />
 				</Routes>
 			</BrowserRouter>

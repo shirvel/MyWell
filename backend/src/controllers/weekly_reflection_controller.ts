@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 import { Request, Response } from 'express';
 import { Console } from 'console';
 
-export interface IweeklyReflection {
+export interface IReflectionSummery {
   user_id: string; 
   feeling: string;
   pastWeek: string;

@@ -10,4 +10,7 @@ export const endpoints = {
 		CHANGE_MEAL: (user_id: string, meal_id: string) =>
 			base + "meal-plan/" + user_id + "/" + meal_id + "/",
 	},
+	WEEKLY_REFLECTION: {
+		CREATE_FEEDBACK: () => base + "api/weekly_reflection/"
+	}
 };

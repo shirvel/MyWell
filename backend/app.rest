@@ -1,0 +1,9 @@
+POST http://localhost:3000/api/weekly_reflection
+//Content-Type: application/json
+{
+  "user_id": "123",
+  "feeling": "good",
+  "pastWeek": "good",
+  "feedbackOnWeeklyPlan": "good"
+    
+}

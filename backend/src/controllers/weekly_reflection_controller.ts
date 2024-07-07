@@ -27,14 +27,13 @@ const createfeedback = async (req: Request, res: Response) => {
 };
 
 const getAllfeedback = async (req: Request, res: Response) => {
+  try {
     const weekly_reflections = await weeklyReflection.find();
-    try {
-        res.status(200).json(weekly_reflections);
-      } catch (err) {
-        console.error('Error getting weekly_reflections:', err);
-        res.status(500).json({ error: 'An error occurred while fetching weekly_reflections' });
-      }
-
+    res.status(200).json(weekly_reflections);
+  } catch (err) {
+    console.error('Error getting weekly_reflections:', err);
+    res.status(500).json({ error: 'An error occurred while fetching weekly_reflections' });
+  }
 };
 
   export default {createfeedback, getAllfeedback}

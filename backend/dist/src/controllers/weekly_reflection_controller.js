@@ -30,8 +30,8 @@ const createfeedback = (req, res) => __awaiter(void 0, void 0, void 0, function*
     }
 });
 const getAllfeedback = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const weekly_reflections = yield weekly_reflection_1.default.find();
     try {
+        const weekly_reflections = yield weekly_reflection_1.default.find();
         res.status(200).json(weekly_reflections);
     }
     catch (err) {

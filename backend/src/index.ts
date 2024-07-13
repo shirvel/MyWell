@@ -1,12 +1,9 @@
-import express from 'express';
+import { Router, Request, Response } from 'express';
 
-const app = express();
-const port = 3000;
+const router = Router();
 
-app.get('/', (req, res) => {
-  res.send('Hello World!');
+router.get('/', (req: Request, res: Response) => {
+  res.send('Hello, World!');
 });
 
-app.listen(port, () => {
-  console.log(`Server is running at http://localhost:${port}`);
-});
+export default router;

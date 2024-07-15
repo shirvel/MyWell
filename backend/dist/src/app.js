@@ -11,6 +11,7 @@ const body_parser_1 = __importDefault(require("body-parser"));
 const cors_1 = __importDefault(require("cors"));
 dotenv_1.default.config();
 const weekly_reflection_routers_1 = __importDefault(require("./routes/weekly_reflection_routers"));
+const meal_planner_route_1 = __importDefault(require("./routes/meal_planner_route"));
 const initApp = () => {
     const promise = new Promise((resolve) => {
         mongoose_1.default.connect(process.env.DATABASE_URL);
@@ -36,6 +37,7 @@ const initApp = () => {
                 next();
             });
             app.use("/api/weekly_reflection", weekly_reflection_routers_1.default);
+            app.use("/api/planner", meal_planner_route_1.default);
             resolve(app);
         });
     });

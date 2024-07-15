@@ -7,6 +7,7 @@ import cors from "cors";
 env.config();
 
 import weekly_reflection_routers from "./routes/weekly_reflection_routers";
+import planner_routers from "./routes/meal_planner_route";
 
 export const initApp = (): Promise<Express> => {
   const promise = new Promise<Express>((resolve) => {
@@ -35,6 +36,7 @@ export const initApp = (): Promise<Express> => {
         next();
       });
       app.use("/api/weekly_reflection", weekly_reflection_routers);
+      app.use("/api/planner", planner_routers);
       resolve(app);
     });
   });

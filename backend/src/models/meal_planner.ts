@@ -1,32 +1,43 @@
 import mongoose from 'mongoose';
 
-const mealSchema = new mongoose.Schema({
-  breakfast: {
-    type: [String],
+const mealItemSchema = new mongoose.Schema({
+  meal: {
+    type: String,
     required: true,
   },
-  lunch: {
-    type: [String],
+  meal_id: {
+    type: String,
     required: true,
   },
-  dinner: {
-    type: [String],
+});
+
+const dailyMealsSchema = new mongoose.Schema({
+  Breakfast: {
+    type: mealItemSchema,
     required: true,
-  }
+  },
+  Lunch: {
+    type: mealItemSchema,
+    required: true,
+  },
+  Dinner: {
+    type: mealItemSchema,
+    required: true,
+  },
 });
 
 const plannerSchema = new mongoose.Schema({
-  sunday: mealSchema,
-  monday: mealSchema,
-  tuesday: mealSchema,
-  wednesday: mealSchema,
-  thursday: mealSchema,
-  friday: mealSchema,
-  saturday: mealSchema,
+  Sunday: dailyMealsSchema,
+  Monday: dailyMealsSchema,
+  Tuesday: dailyMealsSchema,
+  Wednesday: dailyMealsSchema,
+  Thursday: dailyMealsSchema,
+  Friday: dailyMealsSchema,
+  Saturday: dailyMealsSchema,
   user_id: {
     type: String,
     required: true,
-  }
+  },
 });
-export default mongoose.model('Planner', plannerSchema);
 
+export default mongoose.model('Planner', plannerSchema);

@@ -35,6 +35,7 @@ export const initApp = (): Promise<Express> => {
         res.header("Access-Control-Allow-Headers", "*");
         next();
       });
+      app.use(bodyParser.json());
       app.use("/api/weekly_reflection", weekly_reflection_routers);
       app.use("/api/planner", planner_routers);
       resolve(app);

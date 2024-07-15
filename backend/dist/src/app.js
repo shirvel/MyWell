@@ -36,6 +36,7 @@ const initApp = () => {
                 res.header("Access-Control-Allow-Headers", "*");
                 next();
             });
+            app.use(body_parser_1.default.json());
             app.use("/api/weekly_reflection", weekly_reflection_routers_1.default);
             app.use("/api/planner", meal_planner_route_1.default);
             resolve(app);

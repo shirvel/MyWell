@@ -13,49 +13,14 @@ export const changeMeal = async (mealId: string, reason: string) => {
 };
 
 export const getMealPlan = async (userId: string): Promise<IMealPlanner> => {
-	// try {
-	// 	const response = await get(endpoints.MEAL_PLAN.GET_USER_MEAL_PLAN(userId));
-	// 	const data = await response.data;
-	// 	const newPost: IMealPlanner = data;
-	// 	return newPost;
-	// } catch (error) {
-	// 	throw error; // Handle any errors appropriately
-	// }
-	return {
-		Sunday: {
-			Breakfast: { meal: "coffee", meal_id: "123" },
-			Lunch: { meal: "hamburger", meal_id: "123" },
-			Dinner: { meal: "soup", meal_id: "123" },
-		},
-		Monday: {
-			Breakfast: { meal: "coffee", meal_id: "123" },
-			Lunch: { meal: "hamburger", meal_id: "123" },
-			Dinner: { meal: "soup", meal_id: "123" },
-		},
-		Tuesday: {
-			Breakfast: { meal: "coffee", meal_id: "123" },
-			Lunch: { meal: "hamburger", meal_id: "123" },
-			Dinner: { meal: "soup", meal_id: "123" },
-		},
-		Wednesday: {
-			Breakfast: { meal: "coffee", meal_id: "123" },
-			Lunch: { meal: "hamburger", meal_id: "123" },
-			Dinner: { meal: "soup", meal_id: "123" },
-		},
-		Thursday: {
-			Breakfast: { meal: "coffee", meal_id: "123" },
-			Lunch: { meal: "hamburger", meal_id: "123" },
-			Dinner: { meal: "soup", meal_id: "123" },
-		},
-		Friday: {
-			Breakfast: { meal: "coffee", meal_id: "123" },
-			Lunch: { meal: "hamburger", meal_id: "123" },
-			Dinner: { meal: "soup", meal_id: "123" },
-		},
-		Saturday: {
-			Breakfast: { meal: "coffee", meal_id: "123" },
-			Lunch: { meal: "hamburger", meal_id: "123" },
-			Dinner: { meal: "soup", meal_id: "123" },
-		},
-	};
-};
+	try {
+	  const url = endpoints.MEAL_PLAN.GET_USER_MEAL_PLAN(userId);
+	  console.log(`Requesting meal plan from: ${url}`);
+	  const data: IMealPlanner = await get(url);
+	  console.log('Received meal plan data:', data);
+	  return data;
+	} catch (error) {
+	  console.error('Error in getMealPlan:', error);
+	  throw error;
+	}
+  };

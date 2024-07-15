@@ -9,51 +9,49 @@ Content-Type: application/json
 }
 
 ### Test GET Request
-GET http://localhost:3000/api/weekly_reflection
+curl -X POST http://localhost:3000/api/planner \
+-H "Content-Type: application/json" \
+-d '{
+  "Sunday": {
+    "Breakfast": { "meal": "coffee", "meal_id": "123" },
+    "Lunch": { "meal": "hamburger", "meal_id": "123" },
+    "Dinner": { "meal": "soup", "meal_id": "123" }
+  },
+  "Monday": {
+    "Breakfast": { "meal": "coffee", "meal_id": "123" },
+    "Lunch": { "meal": "hamburger", "meal_id": "123" },
+    "Dinner": { "meal": "soup", "meal_id": "123" }
+  },
+  "Tuesday": {
+    "Breakfast": { "meal": "coffee", "meal_id": "123" },
+    "Lunch": { "meal": "hamburger", "meal_id": "123" },
+    "Dinner": { "meal": "soup", "meal_id": "123" }
+  },
+  "Wednesday": {
+    "Breakfast": { "meal": "coffee", "meal_id": "123" },
+    "Lunch": { "meal": "hamburger", "meal_id": "123" },
+    "Dinner": { "meal": "soup", "meal_id": "123" }
+  },
+  "Thursday": {
+    "Breakfast": { "meal": "coffee", "meal_id": "123" },
+    "Lunch": { "meal": "hamburger", "meal_id": "123" },
+    "Dinner": { "meal": "soup", "meal_id": "123" }
+  },
+  "Friday": {
+    "Breakfast": { "meal": "coffee", "meal_id": "123" },
+    "Lunch": { "meal": "hamburger", "meal_id": "123" },
+    "Dinner": { "meal": "soup", "meal_id": "123" }
+  },
+  "Saturday": {
+    "Breakfast": { "meal": "coffee", "meal_id": "123" },
+    "Lunch": { "meal": "hamburger", "meal_id": "123" },
+    "Dinner": { "meal": "soup", "meal_id": "123" }
+  },
+  "user_id": "1234"
+}'
 
-### Create a new planner
-POST http://localhost:3000/api/planner
-Content-Type: application/json
-
-{
-  "user_id": "1234",
-  "sunday": {
-    "breakfast": ["eggs", "bacon"],
-    "lunch": ["salad", "chicken"],
-    "dinner": ["pasta"]
-  },
-  "monday": {
-    "breakfast": ["cereal"],
-    "lunch": ["sandwich"],
-    "dinner": ["steak", "potatoes"]
-  },
-  "tuesday": {
-    "breakfast": ["pancakes"],
-    "lunch": ["burger"],
-    "dinner": ["fish", "rice"]
-  },
-  "wednesday": {
-    "breakfast": ["toast"],
-    "lunch": ["soup"],
-    "dinner": ["chicken", "veggies"]
-  },
-  "thursday": {
-    "breakfast": ["yogurt"],
-    "lunch": ["tacos"],
-    "dinner": ["pizza"]
-  },
-  "friday": {
-    "breakfast": ["smoothie"],
-    "lunch": ["wrap"],
-    "dinner": ["lasagna"]
-  },
-  "saturday": {
-    "breakfast": ["waffles"],
-    "lunch": ["salmon"],
-    "dinner": ["stir-fry"]
-  }
-}
-### Retrieve the planner for user 123
+###
 GET http://localhost:3000/api/planner/1234
+
 
 ###

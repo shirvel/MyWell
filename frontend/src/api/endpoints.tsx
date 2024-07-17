@@ -12,6 +12,9 @@ export const endpoints = {
 	},
 	WEEKLY_REFLECTION: {
 		CREATE_FEEDBACK: () => base + "api/weekly_reflection/"
+	},
+	USER: {
+		CREATE_USER: () => base + "api/user/"
 	}
 	
 };

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from 'react';
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
@@ -13,6 +13,7 @@ import { FourthStage } from "./Stages/FourthStage";
 import { FifthStage } from "./Stages/FifthStage";
 import { endpoints } from "../api/endpoints";
 import { post } from "../api/requests";
+import { useUserContext } from "../providers/UserContextProvider";
 
 const steps = [
     "Getting To Know you",
@@ -23,6 +24,7 @@ const steps = [
 ];
 
 export const RegisterPage = () => {
+	const { userId, setUserId } = useUserContext();
     const [activeStep, setActiveStep] = useState(0);
     const [formData, setFormData] = useState({
         name: '',
@@ -69,9 +71,12 @@ export const RegisterPage = () => {
     const handleSubmit = async () => {
         try {
 			const url = endpoints.USER.CREATE_USER();
-			await post(url, formData);
-            alert('User registered successfully!');
-            handleReset();
+			const response = await post(url, formData);
+			if (response.status == 201) {
+				setUserId(response.data._id)
+    	        handleReset();
+				// TODO Navigate to planner
+			}
         } catch (error) {
             console.error('There was an error submitting the form!', error);
         }

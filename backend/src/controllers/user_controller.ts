@@ -3,7 +3,6 @@ import { Request, Response } from 'express';
 
 const getAllUsers = async (req: Request, res: Response) => {
     try {
-       
     } catch (err) {
         if (err instanceof Error) {
             res.status(500).json({ message: err.message });
@@ -73,4 +72,18 @@ const deleteUserById = async (req: Request, res: Response) => {
     }
 };
 
-export default { getAllUsers, getUserById, putUserById, deleteUserById, getUserByName };
+const createUser = async (req: Request, res: Response) => {
+    try {
+        const user = new User(req.body);
+        await user.save();
+        res.status(201).json(user);
+    } catch (err) {
+        if (err instanceof Error) {
+            res.status(500).json({ message: err.message });
+        } else {
+            res.status(500).json({ message: 'Unknown error occurred' });
+        }
+    }
+};
+
+export default { getAllUsers, getUserById, putUserById, deleteUserById, getUserByName, createUser };

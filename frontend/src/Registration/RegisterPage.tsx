@@ -8,84 +8,122 @@ import Typography from "@mui/material/Typography";
 import { useState } from "react";
 import { FirstStage } from "./Stages/FirstStage";
 import { SecondStage } from "./Stages/SecondStage";
+import { ThirdStage } from "./Stages/ThirdStage";
+import { FourthStage } from "./Stages/FourthStage";
+import { FifthStage } from "./Stages/FifthStage";
+import { endpoints } from "../api/endpoints";
+import { post } from "../api/requests";
 
 const steps = [
-	"Getting To Know you",
-	"What is you main goal",
-	"Diets",
-	"Extra",
+    "Getting To Know you",
+    "What is your main goal?",
+    "Diets",
+    "Extra",
+    "Register",
 ];
 
-const components: Record<(typeof steps)[number], JSX.Element> = {
-	"Getting To Know you": <FirstStage />,
-	"What is you main goal": <SecondStage />,
-	Diets: <FirstStage />,
-	Extra: <FirstStage />,
-};
-
 export const RegisterPage = () => {
-	const [activeStep, setActiveStep] = useState(0);
+    const [activeStep, setActiveStep] = useState(0);
+    const [formData, setFormData] = useState({
+        name: '',
+        birthday: '',
+        gender: '',
+        mainGoal: '',
+        specialDiets: '',
+        healthConditions: '',
+        comment: '',
+		email: '',
+		password: ''
+    });
 
-	const handleNext = () => {
-		setActiveStep((prevActiveStep) => prevActiveStep + 1);
-	};
+    const handleNext = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep + 1);
+    };
 
-	const handleBack = () => {
-		setActiveStep((prevActiveStep) => prevActiveStep - 1);
-	};
+    const handleBack = () => {
+        setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    };
 
-	const handleReset = () => {
-		setActiveStep(0);
-	};
+    const handleReset = () => {
+        setActiveStep(0);
+        setFormData({
+            name: '',
+            birthday: '',
+            gender: '',
+            mainGoal: '',
+            specialDiets: '',
+            healthConditions: '',
+            comment: '',
+			email: '',
+			password: ''
+        });
+    };
 
-	const StepComp = components[steps[activeStep]];
+    const handleChange = (field, value) => {
+        setFormData(prev => ({
+            ...prev,
+            [field]: value
+        }));
+    };
 
-	return (
-		<div className="flex items-center justify-center">
-			<Box className="w-1/2 p-4">
-				<Stepper activeStep={activeStep}>
-					{steps.map((label) => {
-						const stepProps: { completed?: boolean } = {};
-						const labelProps: {
-							optional?: React.ReactNode;
-						} = {};
+    const handleSubmit = async () => {
+        try {
+			const url = endpoints.USER.CREATE_USER();
+			await post(url, formData);
+            alert('User registered successfully!');
+            handleReset();
+        } catch (error) {
+            console.error('There was an error submitting the form!', error);
+        }
+    };
 
-						return (
-							<Step key={label} {...stepProps}>
-								<StepLabel {...labelProps}>{label}</StepLabel>
-							</Step>
-						);
-					})}
-				</Stepper>
-				{activeStep === steps.length ? (
-					<React.Fragment>
-						<Typography sx={{ mt: 2, mb: 1 }}>
-							All steps completed - you&apos;re finished
-						</Typography>
-						<Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-							<Box sx={{ flex: "1 1 auto" }} />
-							<Button onClick={handleReset}>Reset</Button>
-						</Box>
-					</React.Fragment>
-				) : (
-					<React.Fragment>
-						{StepComp}
-						<Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-							<Button
-								color="inherit"
-								disabled={activeStep === 0}
-								onClick={handleBack}
-								sx={{ mr: 1 }}>
-								Back
-							</Button>
-							<Box sx={{ flex: "1 1 auto" }} />
-							<Button onClick={handleNext}>
-								{activeStep === steps.length - 1 ? "Finish" : "Next"}
-							</Button>
-						</Box>
-					</React.Fragment>
-				)}
-			</Box>
-		</div>
-	);
+    const components = [
+        <FirstStage formData={formData} handleChange={handleChange} />,
+        <SecondStage formData={formData} handleChange={handleChange} />,
+        <ThirdStage formData={formData} handleChange={handleChange} />,
+        <FourthStage formData={formData} handleChange={handleChange} />,
+        <FifthStage formData={formData} handleChange={handleChange} />,
+    ];
+
+    return (
+        <div className="flex items-center justify-center">
+            <Box className="w-1/2 p-4">
+                <Stepper activeStep={activeStep}>
+                    {steps.map((label) => (
+                        <Step key={label}>
+                            <StepLabel>{label}</StepLabel>
+                        </Step>
+                    ))}
+                </Stepper>
+                {activeStep === steps.length ? (
+                    <React.Fragment>
+                        <Typography sx={{ mt: 2, mb: 1 }}>
+                            All steps completed - you&apos;re finished
+                        </Typography>
+                        <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                            <Box sx={{ flex: "1 1 auto" }} />
+                            <Button onClick={handleReset}>Reset</Button>
+                        </Box>
+                    </React.Fragment>
+                ) : (
+                    <React.Fragment>
+                        {components[activeStep]}
+                        <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                            <Button
+                                color="inherit"
+                                disabled={activeStep === 0}
+                                onClick={handleBack}
+                                sx={{ mr: 1 }}>
+                                Back
+                            </Button>
+                            <Box sx={{ flex: "1 1 auto" }} />
+                            <Button onClick={activeStep === steps.length - 1 ? handleSubmit : handleNext}>
+                                {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                            </Button>
+                        </Box>
+                    </React.Fragment>
+                )}
+            </Box>
+        </div>
+    );
 };

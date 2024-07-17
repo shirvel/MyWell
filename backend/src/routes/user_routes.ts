@@ -143,5 +143,6 @@ router.delete("/:id", User.deleteUserById);
 
 // router.delete("/:id", authMiddleware, User.deleteUserById);
 
+router.post("/", User.createUser);
 
 export default router;

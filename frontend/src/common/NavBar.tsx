@@ -6,6 +6,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { IconButton, Menu, MenuItem } from "@mui/material";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useUserContext } from "../providers/UserContextProvider";
 
 export const NavBar = () => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -14,6 +15,7 @@ export const NavBar = () => {
 		setAnchorEl(event.currentTarget);
 	};
 	const navigate = useNavigate();
+	const { userId, setUserId } = useUserContext();
 
 	const handleClose = useCallback((route?: string) => {
 		if (route)
@@ -22,6 +24,11 @@ export const NavBar = () => {
 			});
 		setAnchorEl(null);
 	}, []);
+
+	const handleLogOut = () => {
+		setUserId(null)
+		handleClose("register")
+	}
 
 	return (
 		<AppBar position="sticky">
@@ -59,6 +66,7 @@ export const NavBar = () => {
 						Week Reflection
 					</MenuItem>
 					<MenuItem onClick={() => handleClose("register")}>Register</MenuItem>
+					<MenuItem onClick={() => handleLogOut()}>Log out</MenuItem>
 				</Menu>
 			</Toolbar>
 		</AppBar>

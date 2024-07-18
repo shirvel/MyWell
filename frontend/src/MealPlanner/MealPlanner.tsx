@@ -8,23 +8,30 @@ import {
   import { useEffect, useState } from "react";
   import { IMealPlanner, MealTypes, getMealPlan } from "./MealPlannerService";
   import { Meal } from "./Meal";
+import { useUserContext } from "../providers/UserContextProvider";
+import { useNavigate } from "react-router-dom";
   
   export const MealPlanner = () => {
+	const navigate = useNavigate();
+	const { userId, setUserId } = useUserContext();
 	const [mealPlan, setMealPlan] = useState<IMealPlanner | null>(null);
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
   
-	useEffect(() => {
-	  const userId = "1234";
-  
+	useEffect(() => {  
 	  const loadMealPlan = async () => {
-		try {
-		  const response = await getMealPlan(userId);
-		  setMealPlan(response);
-		} catch (err) {
-		  setError("Failed to load meal plan");
-		} finally {
-		  setLoading(false);
+		if (userId != null) {
+			try {
+			const response = await getMealPlan(userId);
+			setMealPlan(response);
+			} catch (err) {
+			setError("Failed to load meal plan");
+			} finally {
+			setLoading(false);
+			}
+		}
+		else {
+			navigate("/register")
 		}
 	  };
   

@@ -14,6 +14,7 @@ import { FifthStage } from "./Stages/FifthStage";
 import { endpoints } from "../api/endpoints";
 import { post } from "../api/requests";
 import { useUserContext } from "../providers/UserContextProvider";
+import { useNavigate } from 'react-router-dom';
 
 const steps = [
     "Getting To Know you",
@@ -25,6 +26,7 @@ const steps = [
 
 export const RegisterPage = () => {
 	const { userId, setUserId } = useUserContext();
+	const navigate = useNavigate();
     const [activeStep, setActiveStep] = useState(0);
     const [formData, setFormData] = useState({
         name: '',
@@ -75,7 +77,7 @@ export const RegisterPage = () => {
 			if (response.status == 201) {
 				setUserId(response.data._id)
     	        handleReset();
-				// TODO Navigate to planner
+				navigate("/")
 			}
         } catch (error) {
             console.error('There was an error submitting the form!', error);

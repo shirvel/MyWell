@@ -21,9 +21,9 @@ beforeAll(async () => {
   console.log("beforeAll");
   await User.deleteMany();
 
-let userResponse = await request(app).post("/user").send(user);
-expect(userResponse.statusCode).toBe(200);
-  userId = userResponse.body._id;
+  const response = await request(app).post('/auth/register').send(user)
+  expect(response.statusCode).toEqual(201);
+  userId = response.body._id;
 
 //   let userResponse = await request(app).post("/auth/register").send(user);
 //   userId = userResponse.body._id;

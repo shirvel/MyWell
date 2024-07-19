@@ -3,80 +3,71 @@ import { Request, Response } from 'express';
 
 const getAllUsers = async (req: Request, res: Response) => {
     try {
-    } catch (err) {
-        if (err instanceof Error) {
-            res.status(500).json({ message: err.message });
-        } else {
-            res.status(500).json({ message: 'Unknown error occurred' });
+        let users;
+         if (req.params.email) {
+             users = await User.find( { email: req.params.email } );
+         }
+         else if (req.params.id) {
+             users = await User.find( { _id: req.params._id } );
+         }
+         else {
+            users = await User.find();
         }
+        res.send(users);
+    } catch (err) {
+        res.status(500).json( {message: err.message} );
     }
+  
 };
 
 const getUserByName = async (req: Request, res: Response) => {
     try {
-        const user = await User.findOne({ name: req.params.name });
-        res.send(user);
+        const users = await User.findOne({name: req.params.name});
+        res.send(users);
     } catch (err) {
-        if (err instanceof Error) {
-            res.status(500).json({ message: err.message });
-        } else {
-            res.status(500).json({ message: 'Unknown error occurred' });
-        }
+        res.status(500).json( {message: err.message} );
     }
 };
 
 const getUserById = async (req: Request, res: Response) => {
     try {
-        const user = await User.findById(req.params.id);
-        res.send(user);
+        const users = await User.findById(req.params.id);
+        res.send(users);
     } catch (err) {
-        if (err instanceof Error) {
-            res.status(500).json({ message: err.message });
-        } else {
-            res.status(500).json({ message: 'Unknown error occurred' });
-        }
+        res.status(500).json( {message: err.message} );
     }
 };
 
 const putUserById = async (req: Request, res: Response) => {
-    try {
-        let user;
+       try {
+           let user;
         if (req.body.email) {
-            user = await User.findOneAndUpdate(
-                { _id: req.params.id },
-                { email: req.body.email, name: req.body.name },
-                { new: true } // To return the updated document
-            );
+             user = await User.findOneAndUpdate({_id: req.params.id}, {"email" :req.body.email, "name": req.body.name});
+        
         }
-        res.status(204).json({ message: user });
+        res.status(204).json({"message": user});
+            
     } catch (err) {
-        if (err instanceof Error) {
-            res.status(500).json({ message: err.message });
-        } else {
-            res.status(500).json({ message: 'Unknown error occurred' });
-        }
+        res.status(500).json( {message: err.message} );
+    }
+   };
+
+   const deleteUserById = async (req: Request, res: Response) => {
+    console.log("deleteUserById");
+    try {
+        const users = await User.findByIdAndDelete(req.params.id);
+        res.send(users);
+    } catch (err) {
+        res.status(500).json( {message: err.message} );
     }
 };
 
-const deleteUserById = async (req: Request, res: Response) => {
-    console.log("deleteUserById");
-    try {
-        const user = await User.findByIdAndDelete(req.params.id);
-        res.send(user);
-    } catch (err) {
-        if (err instanceof Error) {
-            res.status(500).json({ message: err.message });
-        } else {
-            res.status(500).json({ message: 'Unknown error occurred' });
-        }
-    }
-};
 
 const createUser = async (req: Request, res: Response) => {
     try {
         const user = new User(req.body);
         await user.save();
-        res.status(201).json(user);
+        res.status(200).json(user);
     } catch (err) {
         if (err instanceof Error) {
             res.status(500).json({ message: err.message });

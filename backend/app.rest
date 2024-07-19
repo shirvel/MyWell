@@ -50,8 +50,28 @@ curl -X POST http://localhost:3000/api/planner \
   "user_id": "1234"
 }'
 
-###
+# ###
 GET http://localhost:3000/api/planner/1234
 
 
+# ###
+
+###
+POST http://localhost:3000/user
+Content-Type: application/json
+
+{
+  "name": "123",
+  "email": "good",
+  "password": "good"
+}
+
+###
+
+###
+GET http://localhost:3000/user/669a709b3fa640cc5886aba4
+###
+
+###
+GET http://localhost:3000/user
 ###

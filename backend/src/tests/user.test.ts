@@ -25,20 +25,20 @@ beforeAll(async () => {
   expect(userResponse.statusCode).toEqual(201);
   userId = userResponse.body._id;
   console.log(`The use Id is ${userId}`);
-//   const response = await request(app).post("/auth/login").send(user);
-//   accessToken = response.body.accessToken;
+  const response = await request(app).post("/auth/login").send(user);
+  accessToken = response.body.accessToken;
 });
 
 afterAll(async () => {
   console.log("afterAll");
-//   await User.deleteMany();
+  await User.deleteMany();
   await mongoose.connection.close();
 });
 
 describe("User tests", () => {
   test("Test Get All Users", async () => {
     const response = await request(app).get('/user')
-    //   .set("Authorization", "JWT " + accessToken);
+      .set("Authorization", "JWT " + accessToken);
     expect(response.statusCode).toBe(200);
 
     console.log("lal " + JSON.stringify(response))
@@ -49,7 +49,7 @@ describe("User tests", () => {
   test("Test get User by email", async () => {
     const response = await request(app)
       .get(`/user?email=${user.email}`)
-      // .set("Authorization", "JWT " + accessToken);
+      .set("Authorization", "JWT " + accessToken);
     expect(response.statusCode).toBe(200);
     expect(response.body.length).toBe(1);
     const userResponse = response.body[0];
@@ -60,7 +60,7 @@ describe("User tests", () => {
   test("Test get User by Id", async () => {
     const response = await request(app)
       .get(`/user?id=${userId}`)
-      // .set("Authorization", "JWT " + accessToken);
+      .set("Authorization", "JWT " + accessToken);
     expect(response.statusCode).toBe(200);
     expect(response.body.length).toBe(1);
     expect(response.body[0]._id).toBe(userId);
@@ -71,7 +71,7 @@ describe("User tests", () => {
   test("Test get User by name", async () => {
     const response = await request(app)
       .get(`/user?name=${user.name}`)
-      // .set("Authorization", "JWT " + accessToken);
+      .set("Authorization", "JWT " + accessToken);
     expect(response.statusCode).toBe(200);
     expect(response.body.length).toBe(1);
     expect(response.body[0].name).toBe(user.name);
@@ -81,7 +81,7 @@ describe("User tests", () => {
   test("Test get User by Id", async () => {
     const response = await request(app)
       .get(`/user/${userId}`)
-      // .set("Authorization", "JWT " + accessToken);
+      .set("Authorization", "JWT " + accessToken);
     expect(response.statusCode).toBe(200);
     expect(response.body.email).toBe(user.email);
     expect(response.body.name).toBe(user.name);
@@ -90,11 +90,11 @@ describe("User tests", () => {
   test("Test update User by Id", async () => {
     let response = await request(app)
       .patch(`/user/${userId}`)
-      // .set("Authorization", "JWT " + accessToken)
+      .set("Authorization", "JWT " + accessToken)
       .send({ email: newEmail});
     expect(response.statusCode).toBe(204);
     let response2 = await request(app).get("/user")
-    // .set("Authorization", "JWT " + accessToken);
+    .set("Authorization", "JWT " + accessToken);
     expect(response2.body.length).toBe(1);
     expect(response2.body[0].email).toBe(newEmail);
     expect(response2.body[0].name).toBe(user.name);
@@ -103,13 +103,13 @@ describe("User tests", () => {
   test("Test delete User by Id", async () => {
     let response = await request(app)
       .delete(`/user/${userId}`)
-      // .set("Authorization", "JWT " + accessToken);
+      .set("Authorization", "JWT " + accessToken);
     expect(response.statusCode).toBe(200);
     expect(response.body.email).toBe(newEmail);
     expect(response.body.name).toBe(user.name);
     response = await request(app)
       .get(`/user`)
-      // .set("Authorization", "JWT " + accessToken);
+      .set("Authorization", "JWT " + accessToken);
     expect(response.statusCode).toBe(200);
     expect(response.body.length).toBe(0);
   });

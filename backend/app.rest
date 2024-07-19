@@ -75,3 +75,14 @@ GET http://localhost:3000/user/669a709b3fa640cc5886aba4
 ###
 GET http://localhost:3000/user
 ###
+
+###
+POST http://localhost:3000/auth/register
+Content-Type: application/json
+
+{
+  "email": "myUserEmail!!!!@gmail.com",
+  "password": "myPassword123456",
+  "name": "Lior"
+}
+###

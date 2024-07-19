@@ -11,8 +11,8 @@ export interface IUser {
     // healthConditions: string,
     // comment: string,
     _id?: string;
-    // refreshTokens?: string[];
-    // expiredTokens?: string[];
+    refreshTokens?: string[];
+    expiredTokens?: string[];
     imageUrl?: string;
   }
 
@@ -53,14 +53,14 @@ const userSchema = new mongoose.Schema<IUser>({
     //   type: String,
     //   required: true
     // },
-    // refreshTokens: {
-    //     type: [String],
-    //     required: false,
-    //   },
-    // expiredTokens: {
-    //   type: [String],
-    //   required: false
-    // },
+    refreshTokens: {
+        type: [String],
+        required: false,
+      },
+    expiredTokens: {
+      type: [String],
+      required: false
+    },
       imageUrl: {
         type: String,
       },

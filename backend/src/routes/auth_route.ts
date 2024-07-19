@@ -106,7 +106,7 @@ router.post("/register", Auth.register);
 *               $ref: '#/components/schemas/Tokens'
 */
 
-// router.post("/login", Auth.login);
+router.post("/login", Auth.login);
 
 /**
 * @swagger
@@ -141,6 +141,6 @@ router.post("/register", Auth.register);
 *                 $ref: '#/components/schemas/Tokens'
 */
 
-// router.get("/refresh", Auth.refresh)
+router.get("/refresh", Auth.refresh)
 
 export default router;

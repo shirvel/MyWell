@@ -1,7 +1,7 @@
 import express from "express";
 const router = express.Router();
 import User from '../controllers/user_controller';
-// import authMiddleware from '../common/auth_middleware';
+import authMiddleware from '../common/auth_middleware';
 
 /**
 * @swagger
@@ -51,8 +51,8 @@ import User from '../controllers/user_controller';
 *               $ref: '#/components/schemas/User'
 */
 
-router.get("/", User.getAllUsers);
-// router.get("/", authMiddleware, User.getAllUsers);
+// router.get("/", User.getAllUsers);
+router.get("/", authMiddleware, User.getAllUsers);
 
 /**
 * @swagger
@@ -75,13 +75,13 @@ router.get("/", User.getAllUsers);
 *               $ref: '#/components/schemas/User'
 */
 
-router.get("/:id", User.getUserById);
+// router.get("/:id", User.getUserById);
 
-// router.get("/:id", authMiddleware, User.getUserById);
+router.get("/:id", authMiddleware, User.getUserById);
 
 
-// router.get("/get_by_name/:name", authMiddleware, User.getUserByName);
-router.get("/get_by_name/:name", User.getUserByName);
+router.get("/get_by_name/:name", authMiddleware, User.getUserByName);
+// router.get("/get_by_name/:name", User.getUserByName);
 
 
 /**
@@ -111,9 +111,9 @@ router.get("/get_by_name/:name", User.getUserByName);
 *               $ref: '#/components/schemas/User'
 */
 
-router.patch("/:id", User.putUserById);
+// router.patch("/:id", User.putUserById);
 
-// router.patch("/:id", authMiddleware, User.putUserById);
+router.patch("/:id", authMiddleware, User.putUserById);
 
 
 /**
@@ -139,10 +139,12 @@ router.patch("/:id", User.putUserById);
 *         description: success message
 */
 
-router.delete("/:id", User.deleteUserById);
+// router.delete("/:id", User.deleteUserById);
 
-// router.delete("/:id", authMiddleware, User.deleteUserById);
+router.delete("/:id", authMiddleware, User.deleteUserById);
 
-router.post("/", User.createUser);
+
+router.post("/", authMiddleware, User.createUser);
+// router.post("/", User.createUser);
 
 export default router;

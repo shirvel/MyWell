@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import env from "dotenv";
 import bodyParser from 'body-parser';
 import cors from "cors";
+import authRoute from "./routes/auth_route";
 
 env.config();
 
@@ -43,6 +44,7 @@ export const initApp = (): Promise<Express> => {
       app.use("/api/weekly_reflection", weekly_reflection_routers);
       app.use("/api/planner", planner_routers);
       app.use("/user", userRoute);
+      app.use("/auth", authRoute)
       resolve(app);
     });
   });

@@ -146,11 +146,12 @@ afterAll(async () => {
 
     describe("Auth: refresh token + logout Tests", ()=> {
   
+      // Will pass just if JWT_TOKEN_EXPIRATION = '3s' in .env file
       jest.setTimeout(10000);
       test("Test access after timeout of token", async () => {
           await new Promise(resolve => setTimeout(() => resolve("done"), 5000));
           const response = await request(app)
-            .get("/use")
+            .get("/user")
             .set("Authorization", "JWT " + accessToken).send();
           expect(response.statusCode).not.toBe(200);
         });

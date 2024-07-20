@@ -69,73 +69,79 @@ afterAll(async () => {
   });
  })
 
-//  describe("Auth: Login Tests", ()=> {
-//   test("Login missing email", async ()=> {
-//       const response = await request(app).post('/auth/login').send({
-//         password: user.password
-//       })
-//       expect(response.statusCode).not.toEqual(200);
-//       expect(response.statusCode).toEqual(400);
-//     });
+ describe("Auth: Login Tests", ()=> {
+  test("Login missing email", async ()=> {
+      const response = await request(app).post('/auth/login').send({
+        password: user.password
+      })
+      expect(response.statusCode).not.toEqual(200);
+      expect(response.statusCode).toEqual(400);
+    });
 
-//     test("Login missing password", async ()=> {
-//       const response = await request(app).post('/auth/login').send({
-//         email: user.email
-//       })
-//       expect(response.statusCode).not.toEqual(200);
-//       expect(response.statusCode).toEqual(400);
-//     });
+    test("Login missing password", async ()=> {
+      const response = await request(app).post('/auth/login').send({
+        email: user.email
+      })
+      expect(response.statusCode).not.toEqual(200);
+      expect(response.statusCode).toEqual(400);
+    });
 
-//     test("Login incorrect email", async ()=> {
-//       const response = await request(app).post('/auth/login').send({
-//         email: "incorrectEmail",
-//         password: user.password
-//       })
-//       expect(response.statusCode).not.toEqual(200);
-//       expect(response.statusCode).toEqual(401);
-//     });
+    test("Login incorrect email", async ()=> {
+      const response = await request(app).post('/auth/login').send({
+        email: "incorrectEmail",
+        password: user.password
+      })
+      expect(response.statusCode).not.toEqual(200);
+      expect(response.statusCode).toEqual(401);
+    });
 
-//     test("Login incorrect password", async ()=> {
-//       const response = await request(app).post('/auth/login').send({
-//         email: user.email,
-//         password: "IncorrectPassword"
-//       })
-//       expect(response.statusCode).not.toEqual(200);
-//       expect(response.statusCode).toEqual(401);
-//     });
+    test("Login incorrect password", async ()=> {
+      const response = await request(app).post('/auth/login').send({
+        email: user.email,
+        password: "IncorrectPassword"
+      })
+      expect(response.statusCode).not.toEqual(200);
+      expect(response.statusCode).toEqual(401);
+    });
 
-//     test("Login basic test", async ()=> {
-//         const response = await request(app).post('/auth/login').send(user)
-//         expect(response.statusCode).toEqual(200);
-//         accessToken = response.body.accessToken;
-//         refreshToken = response.body.refreshToken;
-//         expect(accessToken).toBeDefined();
-//     });
+    test("Login basic test", async ()=> {
+        const response = await request(app).post('/auth/login').send(user)
+        expect(response.statusCode).toEqual(200);
+        accessToken = response.body.accessToken;
+        refreshToken = response.body.refreshToken;
+        expect(accessToken).toBeDefined();
+    });
 
-//     // test("Test forbidden access without token - Comments", async ()=> {
-//     //     const response = await request(app).post('/comments').send(comment);
-//     //     expect(response.statusCode).toEqual(401);
-//     // });
+    // TODO: change it to planner after Shely will check her code (unit testing)
 
-//     test("Test forbidden access without token - User", async ()=> {
-//         const response = await request(app).get('/user').send(user);
-//         expect(response.statusCode).toEqual(401);
-//     });
+    // test("Test forbidden access without token - Comments", async ()=> {
+    //     const response = await request(app).post('/comments').send(comment);
+    //     expect(response.statusCode).toEqual(401);
+    // });
 
-//     // test("Test access with valid token - Commetns", async ()=> {
-//     //     const response = await request(app).get('/comments').set("Authorization", "JWT " + accessToken);
-//     //     expect(response.statusCode).toEqual(200);
-//     // });
+    test("Test forbidden access without token - User", async ()=> {
+        const response = await request(app).get('/user').send(user);
+        expect(response.statusCode).toEqual(401);
+    });
 
-//     test("Test access with valid token - User", async ()=> {
-//         const response = await request(app).get('/user').set("Authorization", "JWT " + accessToken);
-//         expect(response.statusCode).toEqual(200);
-//     });
+     // TODO: change it to planner after Shely will check her code (unit testing)
+     
+    // test("Test access with valid token - Commetns", async ()=> {
+    //     const response = await request(app).get('/comments').set("Authorization", "JWT " + accessToken);
+    //     expect(response.statusCode).toEqual(200);
+    // });
 
-//     test("Test access with invalid token - User", async ()=> {
-//         const response = await request(app).get('/user').set("Authorization", "JWT 333" + accessToken);
-//         expect(response.statusCode).toEqual(401);
-//     });
+    test("Test access with valid token - User", async ()=> {
+        const response = await request(app).get('/user').set("Authorization", "JWT " + accessToken);
+        expect(response.statusCode).toEqual(200);
+    });
+
+    test("Test access with invalid token - User", async ()=> {
+        const response = await request(app).get('/user').set("Authorization", "JWT 333" + accessToken);
+        expect(response.statusCode).toEqual(401);
+    });
+
+  });
 
 //     describe("Auth: refresh token + logout Tests", ()=> {
   

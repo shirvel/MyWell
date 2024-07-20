@@ -6,7 +6,7 @@ import { Console } from 'console';
 
 export interface IFeedbackSummery {
   user_id: string; 
-  meal_id: string;
+  meal: string;
   feedback: string;
   _id?: string;
 };

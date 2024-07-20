@@ -5,7 +5,7 @@ const mealFeedbackSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    meal_id: {
+    meal: {
       type: String,
       required: true
     },

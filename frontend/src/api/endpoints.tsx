@@ -14,7 +14,7 @@ export const endpoints = {
 		CREATE_FEEDBACK: () => base + "api/weekly_reflection/"
 	},
 	USER: {
-		CREATE_USER: () => base + "api/user/"
+		CREATE_USER: () => base + "auth/register/"
 	}
 	
 };

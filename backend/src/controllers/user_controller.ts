@@ -62,7 +62,7 @@ const putUserById = async (req: Request, res: Response) => {
     }
 };
 
-
+// TODO: delete it, it's not relevent anymore
 const createUser = async (req: Request, res: Response) => {
     try {
         const user = new User(req.body);

@@ -13,7 +13,12 @@ let newRefreshToken: string
 const user: IUser = {
   email: "testUser@test.com",
   password: "1234567890",
-  name: "Liran"
+  name: "Liran",
+
+  birthday: "20.12.1995",
+  gender: "female",
+  mainGoal: "Improve sleep",
+  specialDiets: "Gluten-free"
 }
 
 // const comment: IComment = {

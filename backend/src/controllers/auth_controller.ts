@@ -10,10 +10,18 @@ const register = async (req: Request, res: Response) => {
     const email = req.body.email;
     const password = req.body.password;
     const name = req.body.name;
+
+    const birthday = req.body.birthday;
+    const gender = req.body.gender;
+    const mainGoal = req.body.mainGoal;
+    const specialDiets = req.body.specialDiets;
+
+    const healthConditions = req.body.healthConditions;
+    const comment = req.body.comment;
     const imageUrl = req.body.imageUrl;
 
-    if (email == null || password == null || name == null) {
-        return res.status(400).send("Missing email, password or name!!!");
+    if (email == null || password == null || name == null || birthday == null || gender == null || mainGoal == null || specialDiets == null) {
+        return res.status(400).send("Missing email, password, name, birthday, gender, main goal or special diets!!!");
     }
 
    // Check if it not already registred
@@ -24,7 +32,9 @@ const register = async (req: Request, res: Response) => {
        }
        const salt = await bcrypt.genSalt(10);
         const encryptedPassword = await bcrypt.hash(password, salt);
-        const newUser = await User.create({ 'email': email, 'password': encryptedPassword, 'name': name, 'imageUrl': imageUrl });
+        const newUser = await User.create({ 'email': email, 'password': encryptedPassword, 'name': name, "birthday" : birthday,
+             'gender': gender, 'mainGoal': mainGoal, 'specialDiets': specialDiets, 'healthConditions': healthConditions, 'comment':comment,
+              'imageUrl': imageUrl });
         return res.status(201).send(newUser);
 
    } catch(err) {

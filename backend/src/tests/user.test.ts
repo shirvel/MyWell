@@ -8,7 +8,7 @@ let app: Express;
 let accessToken: string;
 let userId: string;
 
-const user: IUser = {
+const user: Partial<IUser> = {
   email: "myUserEmail@gmail.com",
   password: "myPassword123456",
   name: "Lior"

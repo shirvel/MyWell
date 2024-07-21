@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import axios from 'axios';
 
 const apiKey = process.env.REACT_APP_OPENAI_ORG_ID;

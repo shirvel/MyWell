@@ -24,3 +24,4 @@ yarn-error.log*
 ChatGPT/node_modules
 *.env
 backend/node_modules
+backend/dist

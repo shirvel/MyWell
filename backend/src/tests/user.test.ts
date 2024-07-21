@@ -11,7 +11,11 @@ let userId: string;
 const user: Partial<IUser> = {
   email: "myUserEmail@gmail.com",
   password: "myPassword123456",
-  name: "Lior"
+  name: "Lior",
+  birthday: "20.12.1995",
+  gender: "female",
+  mainGoal: "Improve sleep",
+  specialDiets: "Gluten-free"
 };
 
 const newEmail = "myNewUserEmail@gmail.com"
@@ -40,8 +44,6 @@ describe("User tests", () => {
     const response = await request(app).get('/user')
       .set("Authorization", "JWT " + accessToken);
     expect(response.statusCode).toBe(200);
-
-    console.log("lal " + JSON.stringify(response))
     const userResponse = response.body[0];
     expect(userResponse.email).toBe(user.email);
   });

@@ -9,52 +9,151 @@ Content-Type: application/json
 }
 
 ### Test GET Request
-curl -X POST http://localhost:3000/api/planner \
--H "Content-Type: application/json" \
--d '{
+POST http://localhost:3000/api/planner
+Content-Type: application/json
+
+{
+  "user_id": "1234",
+  "startDate": "2023-07-21T00:00:00.000Z",
+  "endDate": "2023-07-27T00:00:00.000Z",
   "Sunday": {
-    "Breakfast": { "meal": "coffee", "meal_id": "123" },
-    "Lunch": { "meal": "hamburger", "meal_id": "123" },
-    "Dinner": { "meal": "soup", "meal_id": "123" }
+    "Breakfast": {
+      "name": "Omelette",
+      "ingredients": ["Eggs", "Salt", "Pepper"],
+      "instructions": ["Beat eggs", "Cook in pan"]
+    },
+    "Lunch": {
+      "name": "Salad",
+      "ingredients": ["Lettuce", "Tomato", "Cucumber"],
+      "instructions": ["Chop vegetables", "Mix together"]
+    },
+    "Dinner": {
+      "name": "Steak",
+      "ingredients": ["Beef", "Salt", "Pepper"],
+      "instructions": ["Season steak", "Grill"]
+    }
   },
   "Monday": {
-    "Breakfast": { "meal": "coffee", "meal_id": "123" },
-    "Lunch": { "meal": "hamburger", "meal_id": "123" },
-    "Dinner": { "meal": "soup", "meal_id": "123" }
+    "Breakfast": {
+      "name": "Pancakes",
+      "ingredients": ["Flour", "Eggs", "Milk"],
+      "instructions": ["Mix ingredients", "Cook on skillet"]
+    },
+    "Lunch": {
+      "name": "Sandwich",
+      "ingredients": ["Bread", "Ham", "Cheese"],
+      "instructions": ["Assemble sandwich", "Serve"]
+    },
+    "Dinner": {
+      "name": "Pasta",
+      "ingredients": ["Pasta", "Tomato Sauce", "Cheese"],
+      "instructions": ["Cook pasta", "Add sauce"]
+    }
   },
   "Tuesday": {
-    "Breakfast": { "meal": "coffee", "meal_id": "123" },
-    "Lunch": { "meal": "hamburger", "meal_id": "123" },
-    "Dinner": { "meal": "soup", "meal_id": "123" }
+    "Breakfast": {
+      "name": "Smoothie",
+      "ingredients": ["Banana", "Milk", "Berries"],
+      "instructions": ["Blend all ingredients"]
+    },
+    "Lunch": {
+      "name": "Burrito",
+      "ingredients": ["Tortilla", "Beans", "Rice"],
+      "instructions": ["Assemble burrito", "Serve"]
+    },
+    "Dinner": {
+      "name": "Chicken Curry",
+      "ingredients": ["Chicken", "Curry Powder", "Coconut Milk"],
+      "instructions": ["Cook chicken", "Add curry"]
+    }
   },
   "Wednesday": {
-    "Breakfast": { "meal": "coffee", "meal_id": "123" },
-    "Lunch": { "meal": "hamburger", "meal_id": "123" },
-    "Dinner": { "meal": "soup", "meal_id": "123" }
+    "Breakfast": {
+      "name": "Toast",
+      "ingredients": ["Bread", "Butter", "Jam"],
+      "instructions": ["Toast bread", "Spread butter and jam"]
+    },
+    "Lunch": {
+      "name": "Soup",
+      "ingredients": ["Chicken", "Carrots", "Celery"],
+      "instructions": ["Boil ingredients", "Serve hot"]
+    },
+    "Dinner": {
+      "name": "Stir Fry",
+      "ingredients": ["Vegetables", "Soy Sauce", "Rice"],
+      "instructions": ["Stir fry vegetables", "Serve with rice"]
+    }
   },
   "Thursday": {
-    "Breakfast": { "meal": "coffee", "meal_id": "123" },
-    "Lunch": { "meal": "hamburger", "meal_id": "123" },
-    "Dinner": { "meal": "soup", "meal_id": "123" }
+    "Breakfast": {
+      "name": "Yogurt",
+      "ingredients": ["Yogurt", "Honey", "Granola"],
+      "instructions": ["Mix ingredients"]
+    },
+    "Lunch": {
+      "name": "Tacos",
+      "ingredients": ["Tortilla", "Beef", "Cheese"],
+      "instructions": ["Cook beef", "Assemble tacos"]
+    },
+    "Dinner": {
+      "name": "Pizza",
+      "ingredients": ["Dough", "Tomato Sauce", "Cheese"],
+      "instructions": ["Bake pizza"]
+    }
   },
   "Friday": {
-    "Breakfast": { "meal": "coffee", "meal_id": "123" },
-    "Lunch": { "meal": "hamburger", "meal_id": "123" },
-    "Dinner": { "meal": "soup", "meal_id": "123" }
+    "Breakfast": {
+      "name": "Muffins",
+      "ingredients": ["Flour", "Sugar", "Eggs"],
+      "instructions": ["Mix ingredients", "Bake"]
+    },
+    "Lunch": {
+      "name": "Burger",
+      "ingredients": ["Bun", "Beef", "Lettuce"],
+      "instructions": ["Grill beef", "Assemble burger"]
+    },
+    "Dinner": {
+      "name": "Fish and Chips",
+      "ingredients": ["Fish", "Potatoes", "Oil"],
+      "instructions": ["Fry fish and chips"]
+    }
   },
   "Saturday": {
-    "Breakfast": { "meal": "coffee", "meal_id": "123" },
-    "Lunch": { "meal": "hamburger", "meal_id": "123" },
-    "Dinner": { "meal": "soup", "meal_id": "123" }
-  },
-  "user_id": "1234"
-}'
+    "Breakfast": {
+      "name": "French Toast",
+      "ingredients": ["Bread", "Eggs", "Milk"],
+      "instructions": ["Dip bread in egg mixture", "Cook in pan"]
+    },
+    "Lunch": {
+      "name": "Pasta Salad",
+      "ingredients": ["Pasta", "Tomatoes", "Olives"],
+      "instructions": ["Cook pasta", "Mix with other ingredients"]
+    },
+    "Dinner": {
+      "name": "BBQ Ribs",
+      "ingredients": ["Ribs", "BBQ Sauce", "Spices"],
+      "instructions": ["Season ribs", "Grill"]
+    }
+  }
+}
 
-# ###
+
+####
 GET http://localhost:3000/api/planner/1234
 
+###
+### Update Meal for User
+PUT http://localhost:3000/api/planner/1234/Monday/Breakfast
+Content-Type: application/json
 
-# ###
+{
+  "name": "Pancakes",
+  "ingredients": ["Flour", "Eggs", "Milk"],
+  "instructions": ["Mix ingredients", "Cook on skillet"]
+}
+
+
+####
 
 ###
 POST http://localhost:3000/user

@@ -4,34 +4,28 @@ import {
 	TableBody,
 	TableRow,
 	TableCell,
+	Box,
   } from "@mui/material";
   import { useEffect, useState } from "react";
   import { IMealPlanner, MealTypes, getMealPlan } from "./MealPlannerService";
   import { Meal } from "./Meal";
-import { useUserContext } from "../providers/UserContextProvider";
-import { useNavigate } from "react-router-dom";
+  import { useNavigate } from "react-router-dom";
   
   export const MealPlanner = () => {
 	const navigate = useNavigate();
-	const { userId, setUserId } = useUserContext();
 	const [mealPlan, setMealPlan] = useState<IMealPlanner | null>(null);
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
   
-	useEffect(() => {  
+	useEffect(() => {
 	  const loadMealPlan = async () => {
-		if (userId != null) {
-			try {
-			const response = await getMealPlan(userId);
-			setMealPlan(response);
-			} catch (err) {
-			setError("Failed to load meal plan");
-			} finally {
-			setLoading(false);
-			}
-		}
-		else {
-			navigate("/register")
+		try {
+		  const response = await getMealPlan("1234");
+		  setMealPlan(response);
+		} catch (err) {
+		  setError("Failed to load meal plan");
+		} finally {
+		  setLoading(false);
 		}
 	  };
   
@@ -46,10 +40,13 @@ import { useNavigate } from "react-router-dom";
 	  return <div>{error}</div>;
 	}
   
-	const dayColumns = Object.keys(mealPlan || {}).filter(day => day !== "_id" && day !== "user_id" && day !== "__v");
+	const dayColumns = Object.keys(mealPlan || {}).filter(
+	  (day) =>
+		day !== "_id" && day !== "user_id" && day !== "__v" && day !== "startDate" && day !== "endDate"
+	);
   
 	return (
-	  <div className="w-full py-8 px-2">
+	  <Box sx={{ width: "100%", py: 4 }}>
 		<Table className="w-full">
 		  <TableHead className="bg-blue-600">
 			<TableRow>
@@ -69,7 +66,11 @@ import { useNavigate } from "react-router-dom";
 					  <Meal
 						key={mealPlan[day][mealType].meal_id}
 						mealKind={mealType}
-						mealContent={mealPlan[day][mealType].meal}
+						mealContent={{
+						  name: mealPlan[day][mealType].name,
+						  ingredients: mealPlan[day][mealType].ingredients,
+						  instructions: mealPlan[day][mealType].instructions,
+						}}
 						mealId={mealPlan[day][mealType].meal_id}
 					  />
 					)}
@@ -79,6 +80,7 @@ import { useNavigate } from "react-router-dom";
 			))}
 		  </TableBody>
 		</Table>
-	  </div>
+	  </Box>
 	);
   };
+  

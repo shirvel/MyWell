@@ -7,6 +7,7 @@ import { PageNotFound } from "./common/PageNotFound";
 import { NavBar } from "./common/NavBar";
 import { WeekReflection } from "./WeekReflection/WeekRelection";
 import { RegisterPage } from "./Registration/RegisterPage";
+import { LoginPage } from "./login/LoginPage";
 
 export const App = () => {
 	return (
@@ -16,6 +17,7 @@ export const App = () => {
 				<Routes>
 					<Route path="/" element={<MealPlanner />} />
 					<Route path="meal-planner" element={<MealPlanner />} />
+					<Route path="login" element={<LoginPage />} />
 					<Route path="week-reflection" element={<WeekReflection />} />
 					<Route path="register" element={<RegisterPage />} />
 					<Route path="*" element={<PageNotFound />} />

@@ -24,7 +24,7 @@ const register = async (req: Request, res: Response) => {
         return res.status(400).send("Missing email, password, name, birthday, gender, main goal or special diets!!!");
     }
 
-   // Check if it not already registred
+   // Check if it not already registered
    try {
        const user = await User.findOne( {'email': email} );
        if (user != null) {
@@ -38,7 +38,7 @@ const register = async (req: Request, res: Response) => {
         return res.status(201).send(newUser);
 
    } catch(err) {
-    return res.status(400).send("Error: Missing email, password or name");
+    return res.status(400).send("Error: Missing email, password or name" + err);
    }
 }
 

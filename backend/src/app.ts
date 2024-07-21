@@ -26,7 +26,7 @@ export const initApp = (): Promise<Express> => {
     mongoose.connect(url!).then(() => {
       console.log('Connected to MongoDB');
       const app = express();
-      // app.use(cors());
+      app.use(cors());
       app.use(bodyParser.urlencoded({ extended: true }));
       app.use(bodyParser.json());
       // app.use((req, res, next) => {

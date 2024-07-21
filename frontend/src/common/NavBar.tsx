@@ -26,9 +26,9 @@ export const NavBar = () => {
 	}, []);
 
 	const handleLogOut = () => {
-		setUserId(null)
-		handleClose("register")
-	}
+		setUserId(null);
+		handleClose("register");
+	};
 
 	return (
 		<AppBar position="sticky">
@@ -66,6 +66,7 @@ export const NavBar = () => {
 						Week Reflection
 					</MenuItem>
 					<MenuItem onClick={() => handleClose("register")}>Register</MenuItem>
+					<MenuItem onClick={() => handleClose("login")}>Login</MenuItem>
 					<MenuItem onClick={() => handleLogOut()}>Log out</MenuItem>
 				</Menu>
 			</Toolbar>

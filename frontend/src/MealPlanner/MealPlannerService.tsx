@@ -1,15 +1,17 @@
 import { endpoints } from "../api/endpoints";
-import { get } from "../api/requests";
+import { get, post } from "../api/requests";
 
-export const MealTypes = ["Breakfast", "Lunch", "Dinner"];
-export type IMeal = { meal: string; meal_id: string };
+export const MealTypes = ["Breakfast", "Lunch", "Workout", "Dinner"];
+export type IMeal = { name: string, ingredients?: string[], instructions: string[], _id: string};
 export type IMealPlanner = Record<
 	string,
 	Record<(typeof MealTypes)[number], IMeal>
 >;
 
-export const changeMeal = async (mealId: string, reason: string) => {
-	console.log(`change the meal: ${mealId} because ${reason} `);
+export const changeMeal = async (userId: string, meal: string, reason: string, day: string, type: string) => {
+	console.log(`change the meal: ${meal} because ${reason} `);
+	const url = endpoints.MEAL_PLAN.CHANGE_MEAL();
+	return post(url, {user_id: userId, meal: meal, feedback: reason, day: day, type: type})
 };
 
 export const getMealPlan = async (userId: string): Promise<IMealPlanner> => {

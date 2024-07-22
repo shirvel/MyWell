@@ -3,6 +3,7 @@ import axios from 'axios';
 const apiKey = process.env.REACT_APP_OPENAI_ORG_ID;
 
 const sendMessageToChatGPT = async (message) => {
+  console.log(message);
   const newMessage = {
     role: 'user',
     content: message,

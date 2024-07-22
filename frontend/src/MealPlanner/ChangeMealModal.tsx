@@ -7,23 +7,35 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { TextField } from "@mui/material";
 import { useCallback, useState } from "react";
 import { changeMeal } from "./MealPlannerService";
+import { useUserContext } from "../providers/UserContextProvider";
+import { useNavigate } from "react-router-dom";
 
 export const ChangeMealModal = ({
-	mealId,
+	meal,
+	type,
+	day,
 	isOpen,
 	closeModal,
 }: {
-	mealId: string;
+	meal: string;
+	type: string;
+	day: string;
 	isOpen: boolean;
 	closeModal: VoidFunction;
 }) => {
 	const [changeReason, setChangeReason] = useState<string>("");
+	const { userId, setUserId } = useUserContext();
+	const navigate = useNavigate();
 
 	const sendChangeRequest = useCallback(() => {
-		console.log(mealId, changeReason);
-		changeMeal(mealId, changeReason);
+		console.log(meal, changeReason);
+		changeMeal(userId!!, meal, changeReason, day, type).then((result) => {
+			if (result.status == 500) {
+				navigate(0);
+			}
+		});
 		closeModal();
-	}, [changeReason, mealId]);
+	}, [changeReason, meal]);
 
 	return (
 		<>
@@ -39,7 +51,6 @@ export const ChangeMealModal = ({
 						variant="outlined"
 						value={changeReason}
 						onChange={(event) => {
-							console.log(event.target.value);
 							setChangeReason(event.target.value);
 						}}
 					/>

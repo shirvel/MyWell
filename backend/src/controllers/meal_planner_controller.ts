@@ -1,54 +1,38 @@
 import { Request, Response } from 'express';
 import Planner from '../models/meal_planner';
 import { log } from 'console';
-
-// Create a new planner
-export const createPlanner = async (req: Request, res: Response) => {
-  console.log('Received request body:', req.body); // Debug statement
-  const planner = new Planner(req.body);
-  try {
-    await planner.save();
-    console.log('Saved planner:', planner); // Debug statement
-    res.status(201).json(planner);
-  } catch (err) {
-    res.status(500).json({ error: "fail: " + (err as Error).message });
-  }
-};
+import { createMealPlanner, getStartAndEndDates } from '../common/planner_utils';
+import sendMessageToChatGPT from '../ai/chat_gpt_sender';
+import { buildPromptForWeek } from '../ai/prompt_builder';
+import meal_planner from '../models/meal_planner';
 
 // Get a planner by user ID
 export const getPlanner = async (req: Request, res: Response) => {
+  const { startDate, endDate } = getStartAndEndDates();
+  const userId = req.params.user_id;
+
   try {
-    const planner = await Planner.findOne({ user_id: req.params.user_id }).lean();
+    let planner = await Planner.findOne({
+      user_id: userId,
+      startDate: startDate,
+      endDate: endDate,
+    }).lean();
+    
     if (!planner) {
-      return res.status(404).json({ error: 'Planner not found' });
+      const plannerJson = await sendMessageToChatGPT(await buildPromptForWeek(userId));
+      const newPlanner = new Planner(createMealPlanner(plannerJson, userId, startDate, endDate));
+      console.log(newPlanner.toJSON());
+      planner = await newPlanner.save();
     }
 
-    console.log('Retrieved planner:', planner); // Debug statement
+    console.log('Retrieved or created planner:', planner); // Debug statement
 
-    // Transform data to the correct format
-    const transformMeals = (meals) => {
-      return {
-        Breakfast: meals.breakfast.length > 0 ? { meal: meals.breakfast[0], meal_id: "unique_id" } : { meal: "", meal_id: "" },
-        Lunch: meals.lunch.length > 0 ? { meal: meals.lunch[0], meal_id: "unique_id" } : { meal: "", meal_id: "" },
-        Dinner: meals.dinner.length > 0 ? { meal: meals.dinner[0], meal_id: "unique_id" } : { meal: "", meal_id: "" },
-      };
-    };
-
-    const transformedPlanner = {};
-    for (const [day, meals] of Object.entries(planner)) {
-      if (day !== "_id" && day !== "user_id" && day !== "__v") {
-        transformedPlanner[day.charAt(0).toUpperCase() + day.slice(1)] = transformMeals(meals);
-      } else {
-        transformedPlanner[day] = meals;
-      }
-    }
-
-    console.log('Transformed planner:', transformedPlanner); // Debug statement
-    res.status(200).json(transformedPlanner);
+    res.status(200).json(planner);
   } catch (err) {
     res.status(500).json({ error: 'An error occurred while fetching planner' });
   }
 };
+
 // Update a specific meal for a specific day
 export const updateMeal = async (req: Request, res: Response) => {
   const { userId, day, meal } = req.params;
@@ -75,4 +59,4 @@ export const updateMeal = async (req: Request, res: Response) => {
   }
 };
 
-export default { createPlanner, getPlanner, updateMeal };
+export default { getPlanner, updateMeal };

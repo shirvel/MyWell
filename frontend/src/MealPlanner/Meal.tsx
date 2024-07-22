@@ -11,6 +11,7 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import EditIcon from "@mui/icons-material/Edit";
 import LunchDiningIcon from "@mui/icons-material/LunchDining";
 import RamenDiningIcon from "@mui/icons-material/RamenDining";
+import WorkoutIcon from "@mui/icons-material/FitnessCenter";
 import { MealTypes } from "./MealPlannerService";
 import { useState } from "react";
 import { ChangeMealModal } from "./ChangeMealModal";
@@ -18,16 +19,19 @@ import { ChangeMealModal } from "./ChangeMealModal";
 const icons: Record<(typeof MealTypes)[number], JSX.Element> = {
 	Breakfast: <FreeBreakfastIcon />,
 	Lunch: <LunchDiningIcon />,
+	Workout: <WorkoutIcon/>,
 	Dinner: <RamenDiningIcon />,
 };
 export const Meal = ({
 	mealKind,
 	mealContent,
 	mealId,
+	day
 }: {
 	mealKind: (typeof MealTypes)[number];
 	mealContent: string;
 	mealId: string;
+	day: string;
 }) => {
 	const [open, setOpen] = useState(false);
 
@@ -53,7 +57,9 @@ export const Meal = ({
 				</CardActions>
 			</Card>
 			<ChangeMealModal
-				mealId={mealId}
+				meal={mealContent}
+				type={mealKind}
+				day={day}
 				isOpen={open}
 				closeModal={() => {
 					setOpen(false);

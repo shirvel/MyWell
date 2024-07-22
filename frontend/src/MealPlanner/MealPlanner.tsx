@@ -46,7 +46,7 @@ import { useNavigate } from "react-router-dom";
 	  return <div>{error}</div>;
 	}
   
-	const dayColumns = Object.keys(mealPlan || {}).filter(day => day !== "_id" && day !== "user_id" && day !== "__v");
+	const dayColumns = Object.keys(mealPlan || {}).filter(day => day !== "_id" && day !== "user_id" && day !== "__v" && day != "startDate" && day != "endDate");
   
 	return (
 	  <div className="w-full py-8 px-2">
@@ -67,10 +67,11 @@ import { useNavigate } from "react-router-dom";
 				  <TableCell key={`${mealType}-${day}`} align="center">
 					{mealPlan && mealPlan[day][mealType] && (
 					  <Meal
-						key={mealPlan[day][mealType].meal_id}
+						key={mealPlan[day][mealType]._id}
 						mealKind={mealType}
-						mealContent={mealPlan[day][mealType].meal}
-						mealId={mealPlan[day][mealType].meal_id}
+						mealContent={mealPlan[day][mealType].name}
+						mealId={mealPlan[day][mealType]._id}
+						day={day}
 					  />
 					)}
 				  </TableCell>

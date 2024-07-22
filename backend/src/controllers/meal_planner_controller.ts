@@ -6,10 +6,20 @@ import sendMessageToChatGPT from '../ai/chat_gpt_sender';
 import { buildPromptForWeek } from '../ai/prompt_builder';
 import meal_planner from '../models/meal_planner';
 
+const plannerRequestInProgress: { [key: string]: boolean } = {};
+
 // Get a planner by user ID
 export const getPlanner = async (req: Request, res: Response) => {
   const { startDate, endDate } = getStartAndEndDates();
   const userId = req.params.user_id;
+
+  // Check if a request is already in progress for this user
+  if (plannerRequestInProgress[userId]) {
+    return res.status(429).json({ error: 'A planner request is already in progress for this user.' });
+  }
+
+  // Set the flag to indicate a request is in progress
+  plannerRequestInProgress[userId] = true;
 
   try {
     let planner = await Planner.findOne({

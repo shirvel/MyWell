@@ -15,6 +15,7 @@ import { endpoints } from "../api/endpoints";
 import { post } from "../api/requests";
 import { useUserContext } from "../providers/UserContextProvider";
 import { useNavigate } from "react-router-dom";
+import { FormData, Errors } from "./types";
 
 const steps = [
 	"Getting To Know you",
@@ -28,7 +29,7 @@ export const RegisterPage = () => {
 	const { userId, setUserId } = useUserContext();
 	const navigate = useNavigate();
 	const [activeStep, setActiveStep] = useState(0);
-	const [formData, setFormData] = useState({
+	const [formData, setFormData] = useState<FormData>({
 		name: "",
 		birthday: "",
 		gender: "",
@@ -39,9 +40,20 @@ export const RegisterPage = () => {
 		email: "",
 		password: "",
 	});
+	const [errors, setErrors] = useState<Errors>({
+		name: "",
+		birthday: "",
+		gender: "",
+		mainGoal: "",
+		specialDiets: "",
+		email: "",
+		password: "",
+	  });
 
 	const handleNext = () => {
-		setActiveStep((prevActiveStep) => prevActiveStep + 1);
+		if (validateCurrentStep()) {
+			setActiveStep((prevActiveStep) => prevActiveStep + 1);
+		}
 	};
 
 	const handleBack = () => {
@@ -61,36 +73,78 @@ export const RegisterPage = () => {
 			email: "",
 			password: "",
 		});
+		setErrors({
+			name: "",
+			birthday: "",
+			gender: "",
+			mainGoal: "",
+			specialDiets: "",
+			email: "",
+			password: "",
+		});
 	};
 
-	const handleChange = (field, value) => {
+	const handleChange = (field: string, value: string) => {
 		setFormData((prev) => ({
 			...prev,
 			[field]: value,
 		}));
+		setErrors((prev) => ({
+			...prev,
+			[field]: "",
+		}));
 	};
 
 	const handleSubmit = async () => {
-		try {
-			const url = endpoints.AUTH.CREATE_USER();
-			const response = await post(url, formData);
-			if (response.status == 201) {
-				setUserId(response.data._id);
-				handleReset();
-				navigate("/");
+		if (validateCurrentStep()) {
+			try {
+				const url = endpoints.AUTH.CREATE_USER();
+				const response = await post(url, formData);
+				if (response.status == 201) {
+					setUserId(response.data._id);
+					handleReset();
+					navigate("/");
+				}
+			} catch (error) {
+				console.error("There was an error submitting the form!", error);
 			}
-		} catch (error) {
-			console.error("There was an error submitting the form!", error);
 		}
 	};
 
+	const validateEmail = (email: string) => {
+		const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		return re.test(String(email).toLowerCase());
+	};
+
+	const validateCurrentStep = () => {
+		let newErrors = { ...errors };
+	
+		if (activeStep === 0) {
+			if (!formData.name) newErrors.name = "Name is required";
+			if (!formData.birthday) newErrors.birthday = "Birthday is required";
+		  	if (!formData.gender) newErrors.gender = "Gender is required";
+		} else if (activeStep === 1) {
+		  	if (!formData.mainGoal) newErrors.mainGoal = "At least one goal is required";
+		} else if (activeStep === 2) {
+		  	if (!formData.specialDiets) newErrors.specialDiets = "Diet selection is required";
+		} else if (activeStep === 4) {
+		  	if (!formData.email) newErrors.email = "Email is required";
+		  	else if (!validateEmail(formData.email)) newErrors.email = "Invalid email format";
+		 	if (!formData.password) newErrors.password = "Password is required";
+		}
+	
+		setErrors(newErrors);
+	
+		return !Object.values(newErrors).some((error) => error);
+	};
+
 	const components = [
-		<FirstStage formData={formData} handleChange={handleChange} />,
-		<SecondStage formData={formData} handleChange={handleChange} />,
-		<ThirdStage formData={formData} handleChange={handleChange} />,
+		<FirstStage formData={formData} handleChange={handleChange} errors={errors} />,
+		<SecondStage formData={formData} handleChange={handleChange} errors={errors} />,
+		<ThirdStage formData={formData} handleChange={handleChange} errors={errors} />,
 		<FourthStage formData={formData} handleChange={handleChange} />,
-		<FifthStage formData={formData} handleChange={handleChange} />,
-	];
+		<FifthStage formData={formData} handleChange={handleChange} errors={errors} />,
+	  ];
 
 	return (
 		<div className="flex items-center justify-center">

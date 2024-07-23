@@ -1,14 +1,20 @@
 import React, { useState } from 'react';
 import { Radio, RadioGroup, FormControlLabel, Card, CardContent, Typography } from "@mui/material";
+import { FormData, Errors } from "../types";
 
 const dietOptions = [
     { label: "No specific diet", description: "I don't have any dietary restrictions" },
     { label: "Vegetarian", description: "I abstain from meat, fish, and poultry products" },
-    { label: "Gluten-free", description: "I avoid wheat, barley, rye or other grains" },
-    { label: "Vegan", description: "I avoid all animal-based products" }
+    { label: "Gluten-free", description: "I avoid wheat, barley, rye or other grains" }
 ];
 
-export const ThirdStage = ({ formData, handleChange }) => {
+interface ThirdStageProps {
+    formData: FormData;
+    handleChange: (field: string, value: any) => void;
+    errors: Errors;
+}
+
+export const ThirdStage: React.FC<ThirdStageProps> = ({ formData, handleChange, errors }) => {
     const [selectedDiet, setSelectedDiet] = useState(formData.specialDiets);
 
     const handleDietChange = (event) => {
@@ -38,6 +44,7 @@ export const ThirdStage = ({ formData, handleChange }) => {
                     ))}
                 </RadioGroup>
             </div>
+            {errors.specialDiets && <Typography color="error">{errors.specialDiets}</Typography>}
         </div>
     );
 };

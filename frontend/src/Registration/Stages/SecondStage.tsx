@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Typography, Checkbox, FormControlLabel, FormGroup, Card, CardContent } from "@mui/material";
+import { FormData, Errors } from "../types";
 
 const goalOptions = [
     { label: "Reduce Stress", emoji: "😅" },
@@ -7,7 +8,13 @@ const goalOptions = [
     { label: "Improve Sleep", emoji: "😴" }
 ];
 
-export const SecondStage = ({ formData, handleChange }) => {
+interface SecondStageProps {
+    formData: FormData;
+    handleChange: (field: string, value: any) => void;
+    errors: Errors;
+}
+  
+export const SecondStage: React.FC<SecondStageProps> = ({ formData, handleChange, errors }) => {
     const [selectedGoals, setSelectedGoals] = useState(formData.mainGoal.split(' & '));
 
     const handleGoalChange = (event) => {
@@ -44,6 +51,7 @@ export const SecondStage = ({ formData, handleChange }) => {
                     </Card>
                 ))}
             </FormGroup>
+            {errors.mainGoal && <Typography color="error">{errors.mainGoal}</Typography>}
         </div>
     );
 };

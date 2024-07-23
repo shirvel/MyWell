@@ -5,7 +5,7 @@ import {
 	TableRow,
 	TableCell,
   } from "@mui/material";
-  import { useEffect, useState } from "react";
+  import { useEffect, useRef, useState } from "react";
   import { IMealPlanner, MealTypes, getMealPlan } from "./MealPlannerService";
   import { Meal } from "./Meal";
 import { useUserContext } from "../providers/UserContextProvider";
@@ -17,17 +17,25 @@ import { useNavigate } from "react-router-dom";
 	const [mealPlan, setMealPlan] = useState<IMealPlanner | null>(null);
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);
+	const requestInProgress = useRef<boolean>(false);
   
 	useEffect(() => {  
 	  const loadMealPlan = async () => {
 		if (userId != null) {
+			if (requestInProgress.current) {
+				return; // Exit if a request is already in progress
+			}
+
+			requestInProgress.current = true;
+
 			try {
-			const response = await getMealPlan(userId);
-			setMealPlan(response);
+				const response = await getMealPlan(userId);
+				setMealPlan(response);
 			} catch (err) {
-			setError("Failed to load meal plan");
+				setError("Failed to load meal plan");
 			} finally {
-			setLoading(false);
+				setLoading(false);
+				requestInProgress.current = false;
 			}
 		}
 		else {

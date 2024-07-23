@@ -1,6 +1,12 @@
 import { TextField } from "@mui/material";
+import { FormData, Errors } from "../types";
 
-export const FourthStage = ({ formData, handleChange }) => {
+interface FourthStageProps {
+    formData: FormData;
+    handleChange: (field: string, value: any) => void;
+}
+
+export const FourthStage: React.FC<FourthStageProps> = ({ formData, handleChange }) => {
     return (
         <div className="space-y-4 p-4">
             <TextField

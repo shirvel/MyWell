@@ -30,7 +30,7 @@ export const ChangeMealModal = ({
 	const sendChangeRequest = useCallback(() => {
 		console.log(meal, changeReason);
 		changeMeal(userId!!, meal, changeReason, day, type).then((result) => {
-			if (result.status == 500) {
+			if (result.status == 201) {
 				navigate(0);
 			}
 		});

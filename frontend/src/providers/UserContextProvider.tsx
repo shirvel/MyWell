@@ -12,13 +12,19 @@ const UserContext = createContext<UserContextType>({
 
 export const useUserContext = () => useContext(UserContext);
 
-export const UserProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
-  const [user, setUser] = useState<string | null>(null);
+export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [user, setUser] = useState<string | null>(localStorage.getItem('userId'));
 
   useEffect(() => {
     console.log('Current userId:', user); // Log whenever userId changes
+  }, [user]);
+
+  useEffect(() => {
+    if (user) {
+      localStorage.setItem('userId', user);
+    } else {
+      localStorage.removeItem('userId');
+    }
   }, [user]);
 
   const handleSetUserId = (id: string | null) => {

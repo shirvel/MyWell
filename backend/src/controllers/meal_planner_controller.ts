@@ -38,8 +38,10 @@ export const getPlanner = async (req: Request, res: Response) => {
     console.log('Retrieved or created planner:', planner); // Debug statement
 
     res.status(200).json(planner);
+    plannerRequestInProgress[userId] = false;
   } catch (err) {
     res.status(500).json({ error: 'An error occurred while fetching planner' });
+    plannerRequestInProgress[userId] = false;
   }
 };
 

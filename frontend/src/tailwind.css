@@ -596,6 +596,10 @@ video {
   margin: 0px;
 }
 
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
 .flex {
   display: flex;
 }
@@ -610,6 +614,14 @@ video {
 
 .flex-grow {
   flex-grow: 1;
+}
+
+.flex-col {
+  flex-direction: column;
+}
+
+.content-center {
+  align-content: center;
 }
 
 .items-center {

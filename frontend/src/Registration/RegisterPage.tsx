@@ -15,6 +15,20 @@ import { endpoints } from "../api/endpoints";
 import { post } from "../api/requests";
 import { useUserContext } from "../providers/UserContextProvider";
 import { useNavigate } from "react-router-dom";
+import { uploadImage } from "./image_requests";
+
+type FieldsToSend = {
+	name: string;
+	birthday: string;
+	gender: string;
+	mainGoal: string;
+	specialDiets: string;
+	healthConditions: string;
+	comment: string;
+	email: string;
+	password: string;
+	image: File | undefined;
+};
 
 const steps = [
 	"Getting To Know you",
@@ -28,7 +42,7 @@ export const RegisterPage = () => {
 	const { userId, setUserId } = useUserContext();
 	const navigate = useNavigate();
 	const [activeStep, setActiveStep] = useState(0);
-	const [formData, setFormData] = useState({
+	const [formData, setFormData] = useState<FieldsToSend>({
 		name: "",
 		birthday: "",
 		gender: "",
@@ -38,6 +52,7 @@ export const RegisterPage = () => {
 		comment: "",
 		email: "",
 		password: "",
+		image: undefined,
 	});
 
 	const handleNext = () => {
@@ -60,6 +75,7 @@ export const RegisterPage = () => {
 			comment: "",
 			email: "",
 			password: "",
+			image: undefined,
 		});
 	};
 
@@ -72,8 +88,10 @@ export const RegisterPage = () => {
 
 	const handleSubmit = async () => {
 		try {
+			const image_url = await uploadImage(formData.image);
+			console.log("the image is..", image_url);
 			const url = endpoints.AUTH.CREATE_USER();
-			const response = await post(url, formData);
+			const response = await post(url, { ...formData, image: image_url });
 			if (response.status == 201) {
 				setUserId(response.data._id);
 				handleReset();

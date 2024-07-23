@@ -18,7 +18,7 @@ const register = async (req: Request, res: Response) => {
 
     const healthConditions = req.body.healthConditions;
     const comment = req.body.comment;
-    const imageUrl = req.body.imageUrl;
+    const imageUrl = req.body.image;
 
     if (email == null || password == null || name == null || birthday == null || gender == null || mainGoal == null || specialDiets == null) {
         return res.status(400).send("Missing email, password, name, birthday, gender, main goal or special diets!!!");

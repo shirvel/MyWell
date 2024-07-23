@@ -1,5 +1,5 @@
-import axios from "axios";
 import { endpoints } from "../api/endpoints";
+import { post } from "../api/requests";
 
 export type ILoginData = {
 	email: string;
@@ -8,7 +8,7 @@ export type ILoginData = {
 
 export const login = async (loginData: ILoginData) => {
 	try {
-		const response = await axios.post(endpoints.AUTH.LOGIN, loginData);
+		const response = await post(endpoints.AUTH.LOGIN, loginData);
 		console.log("Response from server:", response.data);
 		return response.data;
 	} catch (error) {

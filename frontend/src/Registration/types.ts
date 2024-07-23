@@ -8,6 +8,7 @@ export interface FormData {
     comment: string;
     email: string;
     password: string;
+    image: File | undefined;
 }
 
 export interface Errors {

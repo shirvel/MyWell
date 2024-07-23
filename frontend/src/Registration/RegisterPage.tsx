@@ -16,6 +16,7 @@ import { post } from "../api/requests";
 import { useUserContext } from "../providers/UserContextProvider";
 import { useNavigate } from "react-router-dom";
 import { FormData, Errors } from "./types";
+import { uploadImage } from "./image_requests";
 
 const steps = [
 	"Getting To Know you",
@@ -39,6 +40,7 @@ export const RegisterPage = () => {
 		comment: "",
 		email: "",
 		password: "",
+		image: undefined,
 	});
 	const [errors, setErrors] = useState<Errors>({
 		name: "",
@@ -48,7 +50,7 @@ export const RegisterPage = () => {
 		specialDiets: "",
 		email: "",
 		password: "",
-	  });
+	});
 
 	const handleNext = () => {
 		if (validateCurrentStep()) {
@@ -72,6 +74,7 @@ export const RegisterPage = () => {
 			comment: "",
 			email: "",
 			password: "",
+			image: undefined,
 		});
 		setErrors({
 			name: "",
@@ -98,8 +101,9 @@ export const RegisterPage = () => {
 	const handleSubmit = async () => {
 		if (validateCurrentStep()) {
 			try {
+				const image_url = await uploadImage(formData.image);
 				const url = endpoints.AUTH.CREATE_USER();
-				const response = await post(url, formData);
+				const response = await post(url, { ...formData, image: image_url });
 				if (response.status == 201) {
 					setUserId(response.data._id);
 					handleReset();
@@ -118,33 +122,52 @@ export const RegisterPage = () => {
 
 	const validateCurrentStep = () => {
 		let newErrors = { ...errors };
-	
+
 		if (activeStep === 0) {
 			if (!formData.name) newErrors.name = "Name is required";
 			if (!formData.birthday) newErrors.birthday = "Birthday is required";
-		  	if (!formData.gender) newErrors.gender = "Gender is required";
+			if (!formData.gender) newErrors.gender = "Gender is required";
 		} else if (activeStep === 1) {
-		  	if (!formData.mainGoal) newErrors.mainGoal = "At least one goal is required";
+			if (!formData.mainGoal)
+				newErrors.mainGoal = "At least one goal is required";
 		} else if (activeStep === 2) {
-		  	if (!formData.specialDiets) newErrors.specialDiets = "Diet selection is required";
+			if (!formData.specialDiets)
+				newErrors.specialDiets = "Diet selection is required";
 		} else if (activeStep === 4) {
-		  	if (!formData.email) newErrors.email = "Email is required";
-		  	else if (!validateEmail(formData.email)) newErrors.email = "Invalid email format";
-		 	if (!formData.password) newErrors.password = "Password is required";
+			if (!formData.email) newErrors.email = "Email is required";
+			else if (!validateEmail(formData.email))
+				newErrors.email = "Invalid email format";
+			if (!formData.password) newErrors.password = "Password is required";
 		}
-	
+
 		setErrors(newErrors);
-	
+
 		return !Object.values(newErrors).some((error) => error);
 	};
 
 	const components = [
-		<FirstStage formData={formData} handleChange={handleChange} errors={errors} />,
-		<SecondStage formData={formData} handleChange={handleChange} errors={errors} />,
-		<ThirdStage formData={formData} handleChange={handleChange} errors={errors} />,
+		<FirstStage
+			formData={formData}
+			handleChange={handleChange}
+			errors={errors}
+		/>,
+		<SecondStage
+			formData={formData}
+			handleChange={handleChange}
+			errors={errors}
+		/>,
+		<ThirdStage
+			formData={formData}
+			handleChange={handleChange}
+			errors={errors}
+		/>,
 		<FourthStage formData={formData} handleChange={handleChange} />,
-		<FifthStage formData={formData} handleChange={handleChange} errors={errors} />,
-	  ];
+		<FifthStage
+			formData={formData}
+			handleChange={handleChange}
+			errors={errors}
+		/>,
+	];
 
 	return (
 		<div className="flex items-center justify-center">

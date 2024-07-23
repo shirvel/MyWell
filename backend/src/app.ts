@@ -11,6 +11,8 @@ env.config();
 import weekly_reflection_routers from "./routes/weekly_reflection_routers";
 import planner_routers from "./routes/meal_planner_route";
 import userRoute from "./routes/user_routes";
+import image_route from "./routes/image_route";
+import path from "path";
 import meal_feedback_routes from "./routes/meal_feedback_routers";
 
 export const initApp = (): Promise<Express> => {
@@ -49,7 +51,8 @@ export const initApp = (): Promise<Express> => {
       app.use("/meal_feedback", meal_feedback_routes);
       app.use("/user", userRoute);
       app.use("/auth", authRoute);
-
+      app.use("/image", image_route);
+      app.use("/uploads", express.static('uploads'))
       resolve(app);
     });
   });

@@ -16,4 +16,7 @@ export const endpoints = {
 	WEEKLY_REFLECTION: {
 		CREATE_FEEDBACK: () => base + "api/weekly_reflection/",
 	},
+	IMAGE: {
+		UPLOAD_IMAGE: base + "image/upload/",
+	},
 };

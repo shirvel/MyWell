@@ -35,12 +35,14 @@ export const initApp = (): Promise<Express> => {
       //   console.log('Middleware Request Body:', req.body);
       //   next();
       // });
-      // app.use((req, res, next) => {
-      //   res.header("Access-Control-Allow-Origin", "*");
-      //   res.header("Access-Control-Allow-Methods", "*");
-      //   res.header("Access-Control-Allow-Headers", "*");
-      //   next();
-      // });
+      app.use((req, res, next) => {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Methods", "*");
+        res.header("Access-Control-Allow-Headers", "*");
+        res.header("Access-Control-Allow-Credentials", "true");
+        next();
+      })
+
       app.use(bodyParser.json());
       app.use("/api/weekly_reflection", weekly_reflection_routers);
       app.use("/api/planner", planner_routers);

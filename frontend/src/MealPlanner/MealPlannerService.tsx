@@ -10,7 +10,7 @@ export type IMealPlanner = Record<
 
 export const changeMeal = async (userId: string, meal: string, reason: string, day: string, type: string) => {
 	console.log(`change the meal: ${meal} because ${reason} `);
-	const url = endpoints.MEAL_PLAN.CHANGE_MEAL();
+	const url = endpoints.MEAL_PLAN.CHANGE_MEAL;
 	return post(url, {user_id: userId, meal: meal, feedback: reason, day: day, type: type})
 };
 

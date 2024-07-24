@@ -12,7 +12,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import LunchDiningIcon from "@mui/icons-material/LunchDining";
 import RamenDiningIcon from "@mui/icons-material/RamenDining";
 import WorkoutIcon from "@mui/icons-material/FitnessCenter";
-import { MealTypes } from "./MealPlannerService";
+import { IMeal, MealTypes } from "./MealPlannerService";
 import { useState } from "react";
 import { ChangeMealModal } from "./ChangeMealModal";
 
@@ -24,13 +24,11 @@ const icons: Record<(typeof MealTypes)[number], JSX.Element> = {
 };
 export const Meal = ({
 	mealKind,
-	mealContent,
-	mealId,
+	meal,
 	day
 }: {
 	mealKind: (typeof MealTypes)[number];
-	mealContent: string;
-	mealId: string;
+	meal: IMeal;
 	day: string;
 }) => {
 	const [open, setOpen] = useState(false);
@@ -46,7 +44,7 @@ export const Meal = ({
 					title={mealKind}
 				/>
 
-				<CardContent>{mealContent}</CardContent>
+				<CardContent>{meal.name}</CardContent>
 				<CardActions disableSpacing>
 					<IconButton aria-label="Like">
 						<FavoriteIcon />
@@ -57,7 +55,7 @@ export const Meal = ({
 				</CardActions>
 			</Card>
 			<ChangeMealModal
-				meal={mealContent}
+				meal={meal}
 				type={mealKind}
 				day={day}
 				isOpen={open}

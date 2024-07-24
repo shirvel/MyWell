@@ -77,8 +77,7 @@ import { useNavigate } from "react-router-dom";
 					  <Meal
 						key={mealPlan[day][mealType]._id}
 						mealKind={mealType}
-						mealContent={mealPlan[day][mealType].name}
-						mealId={mealPlan[day][mealType]._id}
+						meal={mealPlan[day][mealType]}
 						day={day}
 					  />
 					)}

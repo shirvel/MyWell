@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Radio, RadioGroup, FormControlLabel, Card, CardContent, Typography } from "@mui/material";
+import { Card, CardContent, Typography } from "@mui/material";
 import { FormData, Errors } from "../types";
 
 const dietOptions = [
@@ -17,33 +17,38 @@ interface ThirdStageProps {
 export const ThirdStage: React.FC<ThirdStageProps> = ({ formData, handleChange, errors }) => {
     const [selectedDiet, setSelectedDiet] = useState(formData.specialDiets);
 
-    const handleDietChange = (event) => {
-        setSelectedDiet(event.target.value);
-        handleChange('specialDiets', event.target.value);
+    const handleCardClick = (diet: string) => {
+        setSelectedDiet(diet);
+        handleChange('specialDiets', diet);
     };
 
     return (
         <div className="space-y-4 p-4">
-            <div>
-                <RadioGroup name="diets" value={selectedDiet} onChange={handleDietChange}>
-                    {dietOptions.map(option => (
-                        <Card key={option.label} variant="outlined" style={{ marginBottom: '10px' }}>
-                            <CardContent>
-                                <FormControlLabel
-                                    value={option.label}
-                                    control={<Radio />}
-                                    label={
-                                        <div>
-                                            <Typography variant="h6">{option.label}</Typography>
-                                            <Typography variant="body2" color="textSecondary">{option.description}</Typography>
-                                        </div>
-                                    }
-                                />
-                            </CardContent>
-                        </Card>
-                    ))}
-                </RadioGroup>
-            </div>
+            {dietOptions.map(option => (
+                <Card
+                    key={option.label}
+                    variant="outlined"
+                    style={{
+                        marginBottom: '10px',
+                        cursor: 'pointer',
+                        border: selectedDiet === option.label ? '2px solid #1976d2' : '1px solid #ccc',
+                        transition: 'border-color 0.3s',
+                    }}
+                    onClick={() => handleCardClick(option.label)}
+                >
+                    <CardContent>
+                        <Typography
+                            variant="h6"
+                            style={{ fontWeight: selectedDiet === option.label ? 'bold' : 'normal' }}
+                        >
+                            {option.label}
+                        </Typography>
+                        <Typography variant="body2" color="textSecondary">
+                            {option.description}
+                        </Typography>
+                    </CardContent>
+                </Card>
+            ))}
             {errors.specialDiets && <Typography color="error">{errors.specialDiets}</Typography>}
         </div>
     );

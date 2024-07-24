@@ -4,11 +4,14 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { TextField, CircularProgress } from "@mui/material";
+import { TextField, CircularProgress, IconButton } from "@mui/material";
+import ThumbUpIcon from '@mui/icons-material/ThumbUp';
+import ThumbDownIcon from '@mui/icons-material/ThumbDown';
 import { useCallback, useState } from "react";
-import { changeMeal } from "./MealPlannerService";
+import { IMeal } from "./MealPlannerService";
 import { useUserContext } from "../providers/UserContextProvider";
 import { useNavigate } from "react-router-dom";
+import { commentMeal } from "./ChangeMealService";
 
 export const ChangeMealModal = ({
 	meal,
@@ -17,58 +20,112 @@ export const ChangeMealModal = ({
 	isOpen,
 	closeModal,
 }: {
-	meal: string;
+	meal: IMeal;
 	type: string;
 	day: string;
 	isOpen: boolean;
 	closeModal: VoidFunction;
 }) => {
-	const [changeReason, setChangeReason] = useState<string>("");
-	const [loading, setLoading] = useState<boolean>(false); // Add loading state
+	const [preferences, setPreferences] = useState<{ [key: string]: 'like' | 'dislike' | '' }>({});
+	const [comment, setComment] = useState<string>("");
+	const [loading, setLoading] = useState<boolean>(false);
 	const { userId } = useUserContext();
 	const navigate = useNavigate();
 
+	const handlePreferenceChange = (ingredient: string, value: 'like' | 'dislike') => {
+		setPreferences((prev) => {
+			const currentPreference = prev[ingredient];
+			let newPreference: 'like' | 'dislike' | '' = '';
+			
+			if (currentPreference === value) {
+				newPreference = '';
+			} else {
+				newPreference = value;
+			}
+			
+			return {
+				...prev,
+				[ingredient]: newPreference,
+			};
+		});
+	};
+	
 	const sendChangeRequest = useCallback(async () => {
 		if (!userId) {
 			return;
 		}
 
-		setLoading(true); // Set loading to true when request starts
-		try {
-			const result = await changeMeal(userId, meal, changeReason, day, type);
-			if (result.status === 201) {
+		const likeIngredients = Object.keys(preferences).filter((ingredient) => preferences[ingredient] === 'like');
+		const dislikeIngredients = Object.keys(preferences).filter((ingredient) => preferences[ingredient] === 'dislike');
+
+		let summary = '';
+		if (likeIngredients.length > 0) {
+			summary += `The user likes: ${likeIngredients.join(", ")}.\n`;
+		}
+		if (dislikeIngredients.length > 0) {
+			summary += `The user doesn't like: ${dislikeIngredients.join(", ")}.\n`;
+		}
+		if (comment.trim()) {
+			summary += `The user also said: ${comment}`;
+		}
+
+		setLoading(true);
+		await commentMeal(userId, meal.name, summary, day, type).then((response) => {
+			if (response != null) {
 				navigate(0); // Refresh the page
 			}
-		} catch (error) {
-			console.error("Error changing meal:", error);
-		} finally {
-			setLoading(false); // Set loading to false when request finishes
-			closeModal(); // Close the modal
-		}
-	}, [changeReason, meal, day, type, userId, navigate, closeModal]);
+
+			setLoading(false);
+			closeModal();
+		});
+	}, [preferences, comment, meal.name, day, type, userId, navigate, closeModal]);
 
 	return (
-		<Dialog open={isOpen} onClose={closeModal}>
-			<DialogTitle>Would you like to change the current meal?</DialogTitle>
+		<Dialog open={isOpen} onClose={closeModal} fullWidth maxWidth="sm">
+			<DialogTitle>{`Provide Feedback for ${meal.name}`}</DialogTitle>
 			<DialogContent>
 				<DialogContentText>
-					If you want to change this meal we will be happy to do so! We only
-					want to know the reason so we could be better next time!
+					If you want to change this meal, please indicate your preferences for the ingredients and leave any additional comments.
 				</DialogContentText>
+				{meal.ingredients?.map((ingredient) => (
+					<div key={ingredient} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+						<span>{ingredient}</span>
+						<div>
+							<IconButton
+								color={preferences[ingredient] === 'like' ? 'primary' : 'default'}
+								onClick={() => handlePreferenceChange(ingredient, 'like')}
+								aria-label={`like ${ingredient}`}
+							>
+								<ThumbUpIcon />
+							</IconButton>
+							<IconButton
+								color={preferences[ingredient] === 'dislike' ? 'error' : 'default'}
+								onClick={() => handlePreferenceChange(ingredient, 'dislike')}
+								aria-label={`dislike ${ingredient}`}
+							>
+								<ThumbDownIcon />
+							</IconButton>
+						</div>
+					</div>
+				))}
 				<TextField
-					label="Reason"
+					label="Additional comments"
 					variant="outlined"
-					value={changeReason}
-					onChange={(event) => {
-						setChangeReason(event.target.value);
-					}}
+					value={comment}
+					onChange={(event) => setComment(event.target.value)}
 					fullWidth
+					multiline
+					rows={3}
+					margin="normal"
 				/>
-				{loading && <CircularProgress />}
+				{loading && <CircularProgress sx={{ display: 'block', mx: 'auto', my: 2 }} />}
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={sendChangeRequest} disabled={loading}>
+				<Button onClick={sendChangeRequest} disabled={loading} variant="contained">
 					{loading ? "Saving..." : "Save"}
+				</Button>
+				<Button onClick={closeModal} disabled={loading} color="inherit">
+					Cancel
 				</Button>
 			</DialogActions>
 		</Dialog>

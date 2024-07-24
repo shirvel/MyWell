@@ -11,12 +11,10 @@ import { SecondStage } from "./Stages/SecondStage";
 import { ThirdStage } from "./Stages/ThirdStage";
 import { FourthStage } from "./Stages/FourthStage";
 import { FifthStage } from "./Stages/FifthStage";
-import { endpoints } from "../api/endpoints";
-import { post } from "../api/requests";
 import { useUserContext } from "../providers/UserContextProvider";
 import { useNavigate } from "react-router-dom";
 import { FormData, Errors } from "./types";
-import { uploadImage } from "./image_requests";
+import { checkEmailExists, register } from "./RegisterService";
 
 const steps = [
 	"Getting To Know you",
@@ -100,17 +98,20 @@ export const RegisterPage = () => {
 
 	const handleSubmit = async () => {
 		if (validateCurrentStep()) {
-			try {
-				const image_url = await uploadImage(formData.image);
-				const url = endpoints.AUTH.CREATE_USER();
-				const response = await post(url, { ...formData, image: image_url });
-				if (response.status == 201) {
-					setUserId(response.data._id);
-					handleReset();
-					navigate("/");
-				}
-			} catch (error) {
-				console.error("There was an error submitting the form!", error);
+			const exists = await checkEmailExists(formData.email);
+			if (exists) {
+				let newErrors = { ...errors };
+				newErrors.email = "Email already exists";
+				setErrors(newErrors);
+			}
+			else {
+				register(formData).then((response) => {
+					if (response != null) {
+						setUserId(response._id);
+						handleReset();
+						navigate("/");
+					}
+				})
 			}
 		}
 	};

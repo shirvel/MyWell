@@ -5,16 +5,17 @@ const base = URL;
 export const endpoints = {
 	BASE: URL,
 	AUTH: {
-		CREATE_USER: () => base + "auth/register/",
+		REGISTER: base + "auth/register/",
 		LOGIN: base + "auth/login/",
+		CHECK_EMAIL: (email: string) => base + `auth/check_email/${email}/`
 	},
 	MEAL_PLAN: {
 		GET_USER_MEAL_PLAN: (user_id: string) =>
 			base + "api/planner/" + user_id + "/",
-		CHANGE_MEAL: () => base + "meal_feedback/",
+		CHANGE_MEAL: base + "meal_feedback/",
 	},
 	WEEKLY_REFLECTION: {
-		CREATE_FEEDBACK: () => base + "api/weekly_reflection/",
+		CREATE_FEEDBACK: base + "api/weekly_reflection/",
 	},
 	IMAGE: {
 		UPLOAD_IMAGE: base + "image/upload/",

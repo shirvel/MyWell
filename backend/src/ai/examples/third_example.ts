@@ -6,11 +6,11 @@ The result planner:
         "Breakfast": {
             "name": "Gluten-Free Oatmeal with Berries",
             "ingredients": [
-                "1/2 cup gluten-free rolled oats",
-                "1 cup almond milk",
-                "1/2 cup mixed berries",
-                "1 tablespoon flaxseeds",
-                "1 tablespoon honey (optional)"
+                {"name": "gluten-free oats", "quantity": "1/2 cup", comments: "rolled"},
+                {"name": "almond milk", "quantity": "1 cup"},
+                {"name": "mixed berries", "quantity": "1/2 cup"},
+                {"name": "flaxseeds", "quantity": "1 tablespoon"},
+                {"name": "honey", "quantity": "1 tablespoon", "comments": "optional"}
             ],
             "instructions": [
                 "Combine oats and almond milk in a pot.",
@@ -22,12 +22,12 @@ The result planner:
         "Lunch": {
             "name": "Quinoa Salad with Roasted Vegetables",
             "ingredients": [
-                "1 cup cooked quinoa",
-                "1/2 cup roasted bell peppers",
-                "1/2 cup roasted zucchini",
-                "1/4 cup chopped fresh parsley",
-                "2 tablespoons olive oil",
-                "1 tablespoon lemon juice"
+                {"name": "quinoa", "quantity": "1 cup", comments: "cooked"},
+                {"name": "bell peppers", "quantity": "1/2 cup", comments: "roasted"},
+                {"name": "zucchini", "quantity": "1/2 cup", comments: "roasted"},
+                {"name": "parsley", "quantity": "1/4 cup", "comments": "fresh, chopped"},
+                {"name": "olive oil", "quantity": "2 tablespoons"},
+                {"name": "lemon juice", "quantity": "1 tablespoon"}
             ],
             "instructions": [
                 "Combine quinoa, roasted vegetables, and parsley in a bowl.",
@@ -38,11 +38,11 @@ The result planner:
         "Dinner": {
             "name": "Baked Salmon with Steamed Broccoli",
             "ingredients": [
-                "1 salmon fillet",
-                "1 tablespoon olive oil",
-                "1 teaspoon dried dill",
-                "1 lemon, sliced",
-                "1 cup broccoli florets"
+                {"name": "salmon fillet", "quantity": "1"},
+                {"name": "olive oil", "quantity": "1 tablespoon"},
+                {"name": "dill", "quantity": "1 teaspoon", comments: "dried"},
+                {"name": "lemon", "quantity": "1", "comments": "sliced"},
+                {"name": "broccoli florets", "quantity": "1 cup"}
             ],
             "instructions": [
                 "Preheat oven to 375°F (190°C).",
@@ -66,10 +66,10 @@ The result planner:
         "Breakfast": {
             "name": "Chia Seed Pudding",
             "ingredients": [
-                "1/4 cup chia seeds",
-                "1 cup almond milk",
-                "1 tablespoon maple syrup",
-                "Fresh fruit for topping"
+                {"name": "chia seeds", "quantity": "1/4 cup"},
+                {"name": "almond milk", "quantity": "1 cup"},
+                {"name": "maple syrup", "quantity": "1 tablespoon"},
+                {"name": "fruit", "quantity": "for topping", comments: "fresh"}
             ],
             "instructions": [
                 "Mix chia seeds, almond milk, and maple syrup in a bowl.",
@@ -80,12 +80,12 @@ The result planner:
         "Lunch": {
             "name": "Stuffed Bell Peppers",
             "ingredients": [
-                "2 bell peppers",
-                "1 cup cooked quinoa",
-                "1/2 cup black beans",
-                "1/2 cup corn",
-                "1/2 cup diced tomatoes",
-                "1/4 cup chopped cilantro"
+                {"name": "bell peppers", "quantity": "2"},
+                {"name": "quinoa", "quantity": "1 cup", comments: "cooked"},
+                {"name": "black beans", "quantity": "1/2 cup"},
+                {"name": "corn", "quantity": "1/2 cup"},
+                {"name": "tomatoes", "quantity": "1/2 cup", comments: "diced"},
+                {"name": "cilantro", "quantity": "1/4 cup", comments: "chopped"}
             ],
             "instructions": [
                 "Preheat oven to 375°F (190°C).",
@@ -98,12 +98,12 @@ The result planner:
         "Dinner": {
             "name": "Sweet Potato and Kale Stew",
             "ingredients": [
-                "1 large sweet potato, peeled and cubed",
-                "1 cup kale, chopped",
-                "1 onion, chopped",
-                "2 garlic cloves, minced",
-                "4 cups vegetable broth",
-                "1 teaspoon thyme"
+                {"name": "sweet potato", "quantity": "1 large", "comments": "peeled and cubed"},
+                {"name": "kale", "quantity": "1 cup", "comments": "chopped"},
+                {"name": "onion", "quantity": "1", "comments": "chopped"},
+                {"name": "garlic cloves", "quantity": "2", "comments": "minced"},
+                {"name": "vegetable broth", "quantity": "4 cups"},
+                {"name": "thyme", "quantity": "1 teaspoon"}
             ],
             "instructions": [
                 "Sauté onion and garlic in a pot with a little olive oil until soft.",
@@ -117,11 +117,11 @@ The result planner:
         "Breakfast": {
             "name": "Apple Cinnamon Smoothie",
             "ingredients": [
-                "1 apple, cored and sliced",
-                "1/2 banana",
-                "1 cup almond milk",
-                "1 tablespoon cinnamon",
-                "1 tablespoon chia seeds"
+                {"name": "apple", "quantity": "1", "comments": "cored and sliced"},
+                {"name": "banana", "quantity": "1/2"},
+                {"name": "almond milk", "quantity": "1 cup"},
+                {"name": "cinnamon", "quantity": "1 tablespoon"},
+                {"name": "chia seeds", "quantity": "1 tablespoon"}
             ],
             "instructions": [
                 "Blend all ingredients until smooth.",
@@ -131,12 +131,12 @@ The result planner:
         "Lunch": {
             "name": "Vegan Lentil Soup",
             "ingredients": [
-                "1 cup lentils",
-                "1 onion, chopped",
-                "2 carrots, diced",
-                "2 celery stalks, diced",
-                "4 cups vegetable broth",
-                "1 teaspoon cumin"
+                {"name": "lentils", "quantity": "1 cup"},
+                {"name": "onion", "quantity": "1", "comments": "chopped"},
+                {"name": "carrots", "quantity": "2", "comments": "diced"},
+                {"name": "celery stalks", "quantity": "2", "comments": "diced"},
+                {"name": "vegetable broth", "quantity": "4 cups"},
+                {"name": "cumin", "quantity": "1 teaspoon"}
             ],
             "instructions": [
                 "Sauté onion, carrots, and celery in a pot with a little olive oil until soft.",
@@ -155,10 +155,10 @@ The result planner:
         "Dinner": {
             "name": "Baked Tofu with Steamed Green Beans",
             "ingredients": [
-                "1 block firm tofu, cubed",
-                "2 tablespoons soy sauce",
-                "1 tablespoon olive oil",
-                "1 cup green beans, trimmed"
+                {"name": "firm tofu", "quantity": "1 block", "comments": "cubed"},
+                {"name": "soy sauce", "quantity": "2 tablespoons"},
+                {"name": "olive oil", "quantity": "1 tablespoon"},
+                {"name": "green beans", "quantity": "1 cup", "comments": "trimmed"}
             ],
             "instructions": [
                 "Preheat oven to 375°F (190°C).",
@@ -172,10 +172,10 @@ The result planner:
         "Breakfast": {
             "name": "Berry Quinoa Breakfast Bowl",
             "ingredients": [
-                "1/2 cup cooked quinoa",
-                "1/2 cup mixed berries",
-                "1 tablespoon hemp seeds",
-                "1 tablespoon agave syrup"
+                {"name": "quinoa", "quantity": "1/2 cup", comments: "cooked"},
+                {"name": "mixed berries", "quantity": "1/2 cup"},
+                {"name": "hemp seeds", "quantity": "1 tablespoon"},
+                {"name": "agave syrup", "quantity": "1 tablespoon"}
             ],
             "instructions": [
                 "Combine quinoa, berries, and hemp seeds in a bowl.",
@@ -185,10 +185,10 @@ The result planner:
         "Lunch": {
             "name": "Roasted Veggie and Avocado Salad",
             "ingredients": [
-                "1 cup roasted vegetables (e.g., bell peppers, zucchini)",
-                "1/2 avocado, sliced",
-                "2 cups mixed greens",
-                "2 tablespoons balsamic vinaigrette"
+                {"name": "vegetables", "quantity": "1 cup", "comments": "roasted, e.g., bell peppers, zucchini"},
+                {"name": "avocado", "quantity": "1/2", "comments": "sliced"},
+                {"name": "mixed greens", "quantity": "2 cups"},
+                {"name": "balsamic vinaigrette", "quantity": "2 tablespoons"}
             ],
             "instructions": [
                 "Combine roasted vegetables, avocado, and mixed greens in a bowl.",
@@ -198,11 +198,11 @@ The result planner:
         "Dinner": {
             "name": "Stuffed Acorn Squash",
             "ingredients": [
-                "1 acorn squash, halved and seeded",
-                "1 cup cooked quinoa",
-                "1/2 cup dried cranberries",
-                "1/4 cup chopped walnuts",
-                "1 tablespoon olive oil"
+                {"name": "acorn squash", "quantity": "1", "comments": "halved and seeded"},
+                {"name": "quinoa", "quantity": "1 cup", comments: "cooked"},
+                {"name": "cranberries", "quantity": "1/2 cup", comments: "dried"},
+                {"name": "walnuts", "quantity": "1/4 cup", comments: "chopped"},
+                {"name": "olive oil", "quantity": "1 tablespoon"}
             ],
             "instructions": [
                 "Preheat oven to 375°F (190°C).",
@@ -217,10 +217,10 @@ The result planner:
         "Breakfast": {
             "name": "Banana Almond Butter Toast",
             "ingredients": [
-                "1 slice gluten-free bread",
-                "1 tablespoon almond butter",
-                "1/2 banana, sliced",
-                "1/2 teaspoon cinnamon"
+                {"name": "gluten-free bread", "quantity": "1 slice"},
+                {"name": "almond butter", "quantity": "1 tablespoon"},
+                {"name": "banana", "quantity": "1/2", "comments": "sliced"},
+                {"name": "cinnamon", "quantity": "1/2 teaspoon"}
             ],
             "instructions": [
                 "Toast the bread.",
@@ -240,12 +240,12 @@ The result planner:
         "Lunch": {
             "name": "Vegan Mediterranean Salad",
             "ingredients": [
-                "1 cup mixed greens",
-                "1/2 cup cherry tomatoes, halved",
-                "1/4 cup olives, sliced",
-                "1/4 cup cucumber, diced",
-                "2 tablespoons red wine vinegar",
-                "1 tablespoon olive oil"
+                {"name": "mixed greens", "quantity": "1 cup"},
+                {"name": "cherry tomatoes", "quantity": "1/2 cup", "comments": "halved"},
+                {"name": "olives", "quantity": "1/4 cup", "comments": "sliced"},
+                {"name": "cucumber", "quantity": "1/4 cup", "comments": "diced"},
+                {"name": "red wine vinegar", "quantity": "2 tablespoons"},
+                {"name": "olive oil", "quantity": "1 tablespoon"}
             ],
             "instructions": [
                 "Combine mixed greens, cherry tomatoes, olives, and cucumber in a bowl.",
@@ -256,10 +256,10 @@ The result planner:
         "Dinner": {
             "name": "Spaghetti Squash with Marinara Sauce",
             "ingredients": [
-                "1 spaghetti squash",
-                "1 cup marinara sauce",
-                "1 tablespoon olive oil",
-                "1/4 cup grated nutritional yeast"
+                {"name": "spaghetti squash", "quantity": "1"},
+                {"name": "marinara sauce", "quantity": "1 cup"},
+                {"name": "olive oil", "quantity": "1 tablespoon"},
+                {"name": "nutritional yeast", "quantity": "1/4 cup", "comments": "grated"}
             ],
             "instructions": [
                 "Preheat oven to 375°F (190°C).",
@@ -274,11 +274,11 @@ The result planner:
         "Breakfast": {
             "name": "Pumpkin Spice Smoothie",
             "ingredients": [
-                "1/2 cup canned pumpkin",
-                "1 banana",
-                "1 cup almond milk",
-                "1/2 teaspoon pumpkin spice",
-                "1 tablespoon maple syrup"
+                {"name": "pumpkin", "quantity": "1/2 cup", comments: "canned"},
+                {"name": "banana", "quantity": "1"},
+                {"name": "almond milk", "quantity": "1 cup"},
+                {"name": "pumpkin spice", "quantity": "1/2 teaspoon"},
+                {"name": "maple syrup", "quantity": "1 tablespoon"}
             ],
             "instructions": [
                 "Blend all ingredients until smooth.",
@@ -288,11 +288,11 @@ The result planner:
         "Lunch": {
             "name": "Sweet Potato and Black Bean Salad",
             "ingredients": [
-                "1 cup roasted sweet potatoes",
-                "1/2 cup black beans",
-                "1/4 cup corn",
-                "1/4 cup chopped cilantro",
-                "2 tablespoons lime juice"
+                {"name": "sweet potatoes", "quantity": "1 cup", comments: "roasted"},
+                {"name": "black beans", "quantity": "1/2 cup"},
+                {"name": "corn", "quantity": "1/4 cup"},
+                {"name": "cilantro", "quantity": "1/4 cup", comments: "chopped"},
+                {"name": "lime juice", "quantity": "2 tablespoons"}
             ],
             "instructions": [
                 "Combine sweet potatoes, black beans, corn, and cilantro in a bowl.",
@@ -302,11 +302,11 @@ The result planner:
         "Dinner": {
             "name": "Stuffed Bell Peppers",
             "ingredients": [
-                "2 bell peppers",
-                "1 cup cooked quinoa",
-                "1/2 cup corn",
-                "1/4 cup black beans",
-                "1/4 cup diced tomatoes"
+                {"name": "bell peppers", "quantity": "2"},
+                {"name": "quinoa", "quantity": "1 cup", comments: "cooked"},
+                {"name": "corn", "quantity": "1/2 cup"},
+                {"name": "black beans", "quantity": "1/4 cup"},
+                {"name": "tomatoes", "quantity": "1/4 cup", comments: "diced"}
             ],
             "instructions": [
                 "Preheat oven to 375°F (190°C).",
@@ -321,10 +321,10 @@ The result planner:
         "Breakfast": {
             "name": "Almond Butter and Berry Smoothie",
             "ingredients": [
-                "1/2 cup mixed berries",
-                "1 tablespoon almond butter",
-                "1 cup almond milk",
-                "1 tablespoon chia seeds"
+                {"name": "mixed berries", "quantity": "1/2 cup"},
+                {"name": "almond butter", "quantity": "1 tablespoon"},
+                {"name": "almond milk", "quantity": "1 cup"},
+                {"name": "chia seeds", "quantity": "1 tablespoon"}
             ],
             "instructions": [
                 "Blend all ingredients until smooth.",
@@ -334,11 +334,11 @@ The result planner:
         "Lunch": {
             "name": "Vegan Buddha Bowl",
             "ingredients": [
-                "1/2 cup cooked quinoa",
-                "1/2 cup roasted chickpeas",
-                "1/4 cup shredded carrots",
-                "1/4 cup sliced cucumbers",
-                "2 tablespoons tahini dressing"
+                {"name": "quinoa", "quantity": "1/2 cup", comments: "cooked"},
+                {"name": "chickpeas", "quantity": "1/2 cup", comments: "roasted"},
+                {"name": "carrots", "quantity": "1/4 cup", comments: "shredded"},
+                {"name": "cucumbers", "quantity": "1/4 cup", comments: "sliced"},
+                {"name": "tahini dressing", "quantity": "2 tablespoons"}
             ],
             "instructions": [
                 "Arrange quinoa, roasted chickpeas, carrots, and cucumbers in a bowl.",
@@ -357,10 +357,10 @@ The result planner:
         "Dinner": {
             "name": "Cauliflower Rice Stir-Fry",
             "ingredients": [
-                "1 head cauliflower, grated into rice-like pieces",
-                "1 cup mixed vegetables (e.g., bell peppers, peas)",
-                "2 tablespoons gluten-free soy sauce",
-                "1 tablespoon sesame oil"
+                {"name": "cauliflower", "quantity": "1 head", "comments": "grated into rice-like pieces"},
+                {"name": "mixed vegetables", "quantity": "1 cup", "comments": "e.g., bell peppers, peas"},
+                {"name": "gluten-free soy sauce", "quantity": "2 tablespoons"},
+                {"name": "sesame oil", "quantity": "1 tablespoon"}
             ],
             "instructions": [
                 "Heat sesame oil in a pan over medium heat.",

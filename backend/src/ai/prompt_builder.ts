@@ -6,10 +6,77 @@ import { differenceInYears, parseISO } from 'date-fns';
 import { firstExample } from './examples/first_example';
 import { secondExample } from './examples/second_example';
 import { thirdExample } from './examples/third_example';
+import { daysOfWeek, mealTypes } from '../common/planner_utils';
+
+const format = `The needed format for the result planner:\n` +
+`{
+    <day>: {
+        Breakfast: {
+            name: string,
+            ingredients: [
+                {
+                    name: string,
+                    quantity: string (optional),
+                    comments: string (optinal, Comments for preparation or additional info)
+                }
+            ],
+            instructions: []
+        },
+        Lunch: {
+            name: string,
+            ingredients: [
+                {
+                    name: string,
+                    quantity: string (optional),
+                    comments: string (optinal, Comments for preparation or additional info)
+                }
+            ],
+            instructions: [],
+        },
+        Workout (optional): {
+            name: string,
+            instructions: [],
+        },
+        Dinner: {
+            name: string,
+            ingredients: [
+                {
+                    name: string,
+                    quantity: string (optional),
+                    comments: string (optinal, Comments for preparation or additional info)
+                }
+            ],
+            instructions: [],
+        }
+    }
+}\n`
+
+const temperature = `temperature: 0.6, for moderate creativity and variety in the responses.\n`
+
+const role = `Your rule is: nutritionist and fitness trainer.\n`
+
+const examples = `A few examples to learn from:\n${firstExample}\n\n${secondExample}\n`
 
 export const buildPromptForWeek = async(userId: string): Promise<string> => {
     try {
-        return `${await buildPrompt(userId)}\n` +
+        // Build the prompt
+        const steps = `Steps to create a detailed meal and workout plan:\n` +
+        `1. Check the user's details (age, plan goals, dietary restrictions and preferences).\n` +
+        `2. Check the user's feedbacks on previous meals, to identify what the user doesn't like.\n` +
+        `3. Check the user's previous weekly reflections, to understand the user's preferences.\n` +
+        `4. Start the week at sunday until saturday.\n` +
+        `For each day of the week, Create a details list of meals (breakfast, lunch and dinner):\n` +
+        `For each meal, provide:\n` +
+        `\t- a list of ingredients.\n` +
+        `\t- step-by-step cooking instructions.\n` +
+        `5. Not all days must have a workout. According to the user's goal, invlove a few exercises during the week.\n` +
+        `For each workout, provide:\n` +
+        `\t- a specific routine with detailed instructions on how to perform each exercise,` + 
+        ` including sets, reps, and any necessary equipment.\n` +
+        `At the end, make sure none of the results violate the user's needs.\n`
+            
+        return `${steps}\n${format}\n${temperature}\n${role}\n${examples}\n\n` + 
+        `${await formatUserHistory(userId)}` +
         `Create a detailed planner for the current user *in the given format* based on:\n` +
         `\t- Your rule.\n` +
         `\t- the user's details and history.\n` +
@@ -21,68 +88,45 @@ export const buildPromptForWeek = async(userId: string): Promise<string> => {
     }
 }
 
-const buildPrompt = async (userId: string): Promise<string> => {
+export const buildPromptAfterFeedback = async(userId: string, day: string, mealType: string): Promise<string> => {
     try {
-        // Fetch user details
-        const user = await User.findById(userId);
-        if (!user) throw new Error('User not found');
+        const possibleMealsToReplace = await getMealsFromDayAndMealType(userId, day, mealType);
 
         // Build the prompt
-        const steps = `Steps to create a detailed meal and workout plan:\n` +
+        const steps = `Steps to replace problametic meals in a plan:\n` +
         `1. Check the user's details (age, plan goals, dietary restrictions and preferences).\n` +
         `2. Check the user's feedbacks on previous meals, to identify what the user doesn't like.\n` +
         `3. Check the user's previous weekly reflections, to understand the user's preferences.\n` +
-        `4. Start the week at sunday.\n` +
-        `For each day of the week, Create a details list of meals (breakfast, lunch and dinner):\n` +
+        `4. Go through the received meals.\n` +
+        `For each meal, check if the meal invades the user's preferences, and if so, replace the meal.\n` +
         `For each meal, provide:\n` +
         `\t- a list of ingredients.\n` +
         `\t- step-by-step cooking instructions.\n` +
-        `5. Not all days must have a workout. According to the user's goal, invlove a few exercises during the week.\n` +
-        `For each workout, provide:\n` +
-        `\t- a specific routine with detailed instructions on how to perform each exercise,` + 
-        ` including sets, reps, and any necessary equipment.\n` +
         `At the end, make sure none of the results violate the user's needs.\n`
-
-        const format = `The needed format for the result planner:\n` +
-        `{
-            <day>: {
-                Breakfast: {
-                    name: string,
-                    ingredients: [],
-                    instructions: []
-                },
-                Lunch: {
-                    name: string,
-                    ingredients: [],
-                    instructions: [],
-                },
-                Workout (optional): {
-                    name: string,
-                    instructions: [],
-                },
-                Dinner: {
-                    name: string,
-                    ingredients: [],
-                    instructions: [],
-                }
-            }
-        }\n`
-
-        const temperature = `temperature: 0.6, for moderate creativity and variety in the responses.\n`
-
-        const role = `Your rule is: nutritionist and fitness trainer.\n`
-
-        const examples = `A few examples to learn from:\n${firstExample}\n\n${secondExample}\n\n${thirdExample}`
             
-        const prompt = `${steps}\n${format}\n${temperature}\n${role}\n${examples}\n\n` + 
-        `Current user details:\n${formatUserDetails(user)}\n\n` +
-        `Current user's feedbacks on previous meals':\n${await formatMealFeedbacks(userId)}\n\n` +
-        `Current user's weekly reflections':\n${await formatWeeklyReflections(userId)}\n\n`
-        return prompt;
+        return `${steps}\n${format}\n${temperature}\n${role}\n\n` + 
+        `${await formatUserHistory(userId)}` +
+        `Here are the meals you need to check: ${possibleMealsToReplace}\n\n` +
+        `Replace only the problematic meals for the current user. Return only the new meals. Base your answer on:\n` +
+        `\t- The given format.\n` +
+        `\t- Your rule.\n` +
+        `\t- the user's details and history.\n` +
+        `\t- the given steps.\n` +
+        `\t- the given examples.`
     } catch (error) {
         console.error('Error building prompt:', error);
         throw new Error('Failed to build prompt');
     }
+}
+
+const formatUserHistory = async (userId: string) => {
+    // Fetch user details
+    const user = await User.findById(userId);
+    if (user == null) throw new Error('User not found');
+
+    return `Current user details:\n${formatUserDetails(user)}\n\n` +
+        `Current user's feedbacks on previous meals':\n${await formatMealFeedbacks(userId)}\n\n` +
+        `Current user's weekly reflections':\n${await formatWeeklyReflections(userId)}\n\n`
 }
 
 const formatUserDetails = (user: IUser) => {
@@ -119,7 +163,7 @@ const formatMealFeedbacks = async (userId: string) => {
     }
     else {
         feedbacks = mealFeedbacks.map(feedback => (
-            `* The meal: ${feedback.meal}. The user's comment: ${feedback.feedback}.`
+            `* ${feedback.feedback}`
         )).join('\n');
     }
 
@@ -169,7 +213,6 @@ const formatWeeklyReflections = async (userId: string) => {
 }
 
 const formatMealPlan = (mealPlan: any): string => {
-    const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     return daysOfWeek.map(day => {
         if (!mealPlan || !mealPlan[day]) return '';
         const meals = mealPlan[day];
@@ -177,3 +220,46 @@ const formatMealPlan = (mealPlan: any): string => {
         return `${day}: Breakfast: ${meals.Breakfast.name}, Lunch: ${meals.Lunch.name}${workout}, Dinner: ${meals.Dinner.name}`;
     }).join('\n');
 }
+
+const getMealsFromDayAndMealType = async (userId, startDay, startMealType) => {
+    try {
+      const planner = await Planner.findOne({ user_id: userId }).exec();
+      if (!planner) throw new Error('Planner not found');
+  
+      // Find the index of the start day and start meal type
+      const startDayIndex = daysOfWeek.indexOf(startDay);
+      const startMealIndex = mealTypes.indexOf(startMealType);
+  
+      if (startDayIndex === -1 || startMealIndex === -1) throw new Error('Invalid day or meal type');
+  
+      // Extract meals from the planner starting from the specified day and meal type
+      const mealsOnly = {};
+      let dayReached = false;
+      let mealReached = false;
+  
+      for (const day of daysOfWeek) {
+        if (day === startDay) {
+          dayReached = true;
+        }
+  
+        if (dayReached) {
+          mealsOnly[day] = {};
+  
+          for (const mealType of mealTypes) {
+            if (day === startDay && mealType === startMealType) {
+              mealReached = true;
+            }
+  
+            if (mealReached) {
+              mealsOnly[day][mealType] = planner[day][mealType];
+            }
+          }
+        }
+      }
+  
+      return JSON.stringify(mealsOnly, null, 2); // Pretty-print JSON with 2 spaces
+    } catch (error) {
+      console.error('Error fetching meals:', error);
+      throw error;
+    }
+};  

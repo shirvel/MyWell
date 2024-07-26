@@ -6,11 +6,11 @@ The result planner:
         "Breakfast": {
             "name": "Berry Almond Smoothie",
             "ingredients": [
-                "1 cup frozen mixed berries",
-                "1 banana",
-                "1 cup almond milk",
-                "1 tablespoon almond butter",
-                "1 tablespoon chia seeds"
+                { "name": "mixed berries", "quantity": "1 cup", "comments": "frozen" },
+                { "name": "Banana", "quantity": "1", "comments": "peeled" },
+                { "name": "Almond milk", "quantity": "1 cup" },
+                { "name": "Almond butter", "quantity": "1 tablespoon" },
+                { "name": "Chia seeds", "quantity": "1 tablespoon" }
             ],
             "instructions": [
                 "Blend all ingredients until smooth.",
@@ -20,14 +20,14 @@ The result planner:
         "Lunch": {
             "name": "Quinoa and Black Bean Salad",
             "ingredients": [
-                "1 cup cooked quinoa",
-                "1/2 cup black beans",
-                "1/2 cup corn",
-                "1/2 cup cherry tomatoes, halved",
-                "1/4 cup red onion, diced",
-                "2 tablespoons lime juice",
-                "1 tablespoon olive oil",
-                "Salt and pepper to taste"
+                { "name": "quinoa", "quantity": "1 cup", "comments": "cooked" },
+                { "name": "Black beans", "quantity": "1/2 cup" },
+                { "name": "Corn", "quantity": "1/2 cup" },
+                { "name": "Cherry tomatoes", "quantity": "1/2 cup", "comments": "halved" },
+                { "name": "Red onion", "quantity": "1/4 cup", "comments": "diced" },
+                { "name": "Lime juice", "quantity": "2 tablespoons" },
+                { "name": "Olive oil", "quantity": "1 tablespoon" },
+                { "name": "Salt and pepper", "comments": "to taste" }
             ],
             "instructions": [
                 "Combine quinoa, black beans, corn, cherry tomatoes, and red onion in a bowl.",
@@ -38,11 +38,11 @@ The result planner:
         "Dinner": {
             "name": "Stuffed Bell Peppers",
             "ingredients": [
-                "2 bell peppers",
-                "1 cup cooked rice",
-                "1/2 cup corn",
-                "1/2 cup diced tomatoes",
-                "1/2 cup vegan cheese (optional)"
+                { "name": "Bell peppers", "quantity": "2", "comments": "tops cut off and seeds removed" },
+                { "name": "rice", "quantity": "1 cup", "comments": "cooked" },
+                { "name": "Corn", "quantity": "1/2 cup" },
+                { "name": "tomatoes", "quantity": "1/2 cup", "comments": "diced" },
+                { "name": "Vegan cheese", "quantity": "1/2 cup", "comments": "optional" }
             ],
             "instructions": [
                 "Preheat oven to 375°F (190°C).",
@@ -57,7 +57,7 @@ The result planner:
             "instructions": [
                 "Cat-Cow Stretch: 1 minute.",
                 "Downward Dog: 1 minute.",
-                "Childs Pose: 2 minutes.",
+                "Child's Pose: 2 minutes.",
                 "Seated Forward Bend: 1 minute."
             ]
         }
@@ -66,10 +66,10 @@ The result planner:
         "Breakfast": {
             "name": "Chia Seed Pudding",
             "ingredients": [
-                "1/4 cup chia seeds",
-                "1 cup almond milk",
-                "1 tablespoon maple syrup",
-                "Fresh fruit for topping"
+                { "name": "Chia seeds", "quantity": "1/4 cup" },
+                { "name": "Almond milk", "quantity": "1 cup" },
+                { "name": "Maple syrup", "quantity": "1 tablespoon" },
+                { "name": "fruit", "quantity": "as desired", "comments": "fresh, for topping" }
             ],
             "instructions": [
                 "Mix chia seeds, almond milk, and maple syrup in a bowl.",
@@ -80,12 +80,12 @@ The result planner:
         "Lunch": {
             "name": "Vegan Buddha Bowl",
             "ingredients": [
-                "1/2 cup cooked brown rice",
-                "1/2 cup chickpeas",
-                "1/2 cup steamed broccoli",
-                "1/2 avocado, sliced",
-                "1/4 cup shredded carrots",
-                "2 tablespoons tahini dressing"
+                { "name": "brown rice", "quantity": "1/2 cup", "comments": "cooked" },
+                { "name": "Chickpeas", "quantity": "1/2 cup" },
+                { "name": "broccoli", "quantity": "1/2 cup", "comments": "steamed" },
+                { "name": "Avocado", "quantity": "1/2", "comments": "sliced" },
+                { "name": "carrots", "quantity": "1/4 cup", "comments": "shredded" },
+                { "name": "Tahini dressing", "quantity": "2 tablespoons" }
             ],
             "instructions": [
                 "Layer brown rice, chickpeas, broccoli, avocado, and carrots in a bowl.",
@@ -95,11 +95,11 @@ The result planner:
         "Dinner": {
             "name": "Sweet Potato and Kale Stir-Fry",
             "ingredients": [
-                "1 large sweet potato, diced",
-                "1 cup kale, chopped",
-                "1 red bell pepper, sliced",
-                "2 tablespoons soy sauce",
-                "1 tablespoon olive oil"
+                { "name": "Sweet potato", "quantity": "1 large", "comments": "diced" },
+                { "name": "Kale", "quantity": "1 cup", "comments": "chopped" },
+                { "name": "Red bell pepper", "quantity": "1", "comments": "sliced" },
+                { "name": "Soy sauce", "quantity": "2 tablespoons" },
+                { "name": "Olive oil", "quantity": "1 tablespoon" }
             ],
             "instructions": [
                 "Heat olive oil in a pan over medium heat.",
@@ -113,11 +113,11 @@ The result planner:
         "Breakfast": {
             "name": "Green Smoothie",
             "ingredients": [
-                "1 cup spinach",
-                "1/2 banana",
-                "1/2 cup pineapple chunks",
-                "1 cup coconut water",
-                "1 tablespoon flaxseeds"
+                { "name": "Spinach", "quantity": "1 cup" },
+                { "name": "Banana", "quantity": "1/2", "comments": "peeled" },
+                { "name": "Pineapple", "quantity": "1/2 cup", "comments": "chunks" },
+                { "name": "Coconut water", "quantity": "1 cup" },
+                { "name": "Flaxseeds", "quantity": "1 tablespoon" }
             ],
             "instructions": [
                 "Blend all ingredients until smooth.",
@@ -127,13 +127,13 @@ The result planner:
         "Lunch": {
             "name": "Lentil and Vegetable Soup",
             "ingredients": [
-                "1 cup lentils",
-                "1 onion, chopped",
-                "2 carrots, diced",
-                "2 celery stalks, diced",
-                "4 cups vegetable broth",
-                "1 teaspoon cumin",
-                "1 teaspoon paprika"
+                { "name": "Lentils", "quantity": "1 cup" },
+                { "name": "Onion", "quantity": "1", "comments": "chopped" },
+                { "name": "Carrots", "quantity": "2", "comments": "diced" },
+                { "name": "Celery stalks", "quantity": "2", "comments": "diced" },
+                { "name": "Vegetable broth", "quantity": "4 cups" },
+                { "name": "Cumin", "quantity": "1 teaspoon" },
+                { "name": "Paprika", "quantity": "1 teaspoon" }
             ],
             "instructions": [
                 "Sauté onion, carrots, and celery in a pot with a little olive oil until soft.",
@@ -153,11 +153,11 @@ The result planner:
         "Dinner": {
             "name": "Stuffed Zucchini",
             "ingredients": [
-                "2 zucchinis",
-                "1/2 cup quinoa",
-                "1/2 cup diced tomatoes",
-                "1/4 cup nutritional yeast",
-                "1 tablespoon olive oil"
+                { "name": "Zucchinis", "quantity": "2", "comments": "cut in half lengthwise and scooped out" },
+                { "name": "Quinoa", "quantity": "1/2 cup", "comments": "cooked" },
+                { "name": "tomatoes", "quantity": "1/2 cup", "comments": "diced" },
+                { "name": "Nutritional yeast", "quantity": "1/4 cup" },
+                { "name": "Olive oil", "quantity": "1 tablespoon" }
             ],
             "instructions": [
                 "Preheat oven to 375°F (190°C).",
@@ -172,11 +172,11 @@ The result planner:
         "Breakfast": {
             "name": "Overnight Oats",
             "ingredients": [
-                "1/2 cup rolled oats",
-                "1 cup almond milk",
-                "1 tablespoon chia seeds",
-                "1/2 apple, diced",
-                "1 teaspoon cinnamon"
+                { "name": "oats", "quantity": "1/2 cup", "comments": "rolled" },
+                { "name": "Almond milk", "quantity": "1 cup" },
+                { "name": "Chia seeds", "quantity": "1 tablespoon" },
+                { "name": "Apple", "quantity": "1/2", "comments": "diced" },
+                { "name": "Cinnamon", "quantity": "1 teaspoon" }
             ],
             "instructions": [
                 "Combine oats, almond milk, chia seeds, apple, and cinnamon in a jar.",
@@ -187,11 +187,11 @@ The result planner:
         "Lunch": {
             "name": "Vegan Wrap",
             "ingredients": [
-                "1 whole-wheat tortilla",
-                "1/4 cup hummus",
-                "1/2 avocado, sliced",
-                "1/2 cup spinach",
-                "1/4 cup shredded carrots"
+                { "name": "Whole-wheat tortilla", "quantity": "1" },
+                { "name": "Hummus", "quantity": "1/4 cup" },
+                { "name": "Avocado", "quantity": "1/2", "comments": "sliced" },
+                { "name": "Spinach", "quantity": "1/2 cup" },
+                { "name": "carrots", "quantity": "1/4 cup", "comments": "shredded" }
             ],
             "instructions": [
                 "Spread hummus over the tortilla.",
@@ -206,15 +206,15 @@ The result planner:
                 "Burpees: 3 sets of 10 repetitions.",
                 "High Knees: 3 sets of 1 minute."
             ]
-        }
+        },
         "Dinner": {
             "name": "Vegan Stir-Fried Tofu with Vegetables",
             "ingredients": [
-                "1 block firm tofu, cubed",
-                "1 cup bell peppers, sliced",
-                "1 cup snap peas",
-                "1 tablespoon soy sauce",
-                "1 tablespoon olive oil"
+                { "name": "Firm tofu", "quantity": "1 block", "comments": "cubed" },
+                { "name": "Bell peppers", "quantity": "1 cup", "comments": "sliced" },
+                { "name": "Snap peas", "quantity": "1 cup" },
+                { "name": "Soy sauce", "quantity": "1 tablespoon" },
+                { "name": "Olive oil", "quantity": "1 tablespoon" }
             ],
             "instructions": [
                 "Heat olive oil in a pan over medium heat.",
@@ -228,9 +228,9 @@ The result planner:
         "Breakfast": {
             "name": "Fruit Salad",
             "ingredients": [
-                "1 cup mixed fruit (e.g., berries, apple, kiwi)",
-                "1 tablespoon chia seeds",
-                "1 tablespoon agave syrup"
+                { "name": "Mixed fruit", "quantity": "1 cup", "comments": "e.g., berries, apple, kiwi" },
+                { "name": "Chia seeds", "quantity": "1 tablespoon" },
+                { "name": "Agave syrup", "quantity": "1 tablespoon" }
             ],
             "instructions": [
                 "Combine fruit in a bowl.",
@@ -241,12 +241,12 @@ The result planner:
         "Lunch": {
             "name": "Vegan Taco Salad",
             "ingredients": [
-                "1 cup mixed greens",
-                "1/2 cup black beans",
-                "1/2 cup corn",
-                "1/4 cup diced tomatoes",
-                "1/4 cup avocado, diced",
-                "2 tablespoons salsa"
+                { "name": "Mixed greens", "quantity": "1 cup" },
+                { "name": "Black beans", "quantity": "1/2 cup" },
+                { "name": "Corn", "quantity": "1/2 cup" },
+                { "name": "tomatoes", "quantity": "1/4 cup", "comments": "diced" },
+                { "name": "Avocado", "quantity": "1/4 cup", "comments": "diced" },
+                { "name": "Salsa", "quantity": "2 tablespoons" }
             ],
             "instructions": [
                 "Combine mixed greens, black beans, corn, tomatoes, and avocado in a bowl.",
@@ -256,12 +256,12 @@ The result planner:
         "Dinner": {
             "name": "Butternut Squash Soup",
             "ingredients": [
-                "1 butternut squash, peeled and cubed",
-                "1 onion, chopped",
-                "2 garlic cloves, minced",
-                "4 cups vegetable broth",
-                "1 teaspoon cumin",
-                "1 teaspoon paprika"
+                { "name": "Butternut squash", "quantity": "1", "comments": "peeled and cubed" },
+                { "name": "Onion", "quantity": "1", "comments": "chopped" },
+                { "name": "Garlic cloves", "quantity": "2", "comments": "minced" },
+                { "name": "Vegetable broth", "quantity": "4 cups" },
+                { "name": "Cumin", "quantity": "1 teaspoon" },
+                { "name": "Paprika", "quantity": "1 teaspoon" }
             ],
             "instructions": [
                 "Sauté onion and garlic in a pot with a little olive oil until soft.",
@@ -275,10 +275,10 @@ The result planner:
         "Breakfast": {
             "name": "Avocado Toast",
             "ingredients": [
-                "1 slice whole-grain bread",
-                "1/2 avocado, mashed",
-                "1 tablespoon lemon juice",
-                "Salt and pepper to taste"
+                { "name": "Whole-grain bread", "quantity": "1 slice" },
+                { "name": "Avocado", "quantity": "1/2", "comments": "mashed" },
+                { "name": "Lemon juice", "quantity": "1 tablespoon" },
+                { "name": "Salt and pepper", "comments": "to taste" }
             ],
             "instructions": [
                 "Toast the bread.",
@@ -289,12 +289,12 @@ The result planner:
         "Lunch": {
             "name": "Vegan Pasta Salad",
             "ingredients": [
-                "1 cup cooked pasta",
-                "1/2 cup cherry tomatoes, halved",
-                "1/4 cup black olives, sliced",
-                "1/4 cup cucumber, diced",
-                "2 tablespoons olive oil",
-                "1 tablespoon red wine vinegar"
+                { "name": "pasta", "quantity": "1 cup", "comments": "cooked" },
+                { "name": "Cherry tomatoes", "quantity": "1/2 cup", "comments": "halved" },
+                { "name": "Black olives", "quantity": "1/4 cup", "comments": "sliced" },
+                { "name": "Cucumber", "quantity": "1/4 cup", "comments": "diced" },
+                { "name": "Olive oil", "quantity": "2 tablespoons" },
+                { "name": "Red wine vinegar", "quantity": "1 tablespoon" }
             ],
             "instructions": [
                 "Combine cooked pasta, cherry tomatoes, olives, and cucumber in a bowl.",
@@ -314,11 +314,11 @@ The result planner:
         "Dinner": {
             "name": "Chickpea and Spinach Curry",
             "ingredients": [
-                "1 can chickpeas, drained",
-                "1 cup spinach",
-                "1 cup coconut milk",
-                "1 tablespoon curry powder",
-                "1 tablespoon olive oil"
+                { "name": "Chickpeas", "quantity": "1 can", "comments": "drained" },
+                { "name": "Spinach", "quantity": "1 cup" },
+                { "name": "Coconut milk", "quantity": "1 cup" },
+                { "name": "Curry powder", "quantity": "1 tablespoon" },
+                { "name": "Olive oil", "quantity": "1 tablespoon" }
             ],
             "instructions": [
                 "Heat olive oil in a pan over medium heat.",
@@ -332,11 +332,11 @@ The result planner:
         "Breakfast": {
             "name": "Apple Cinnamon Oatmeal",
             "ingredients": [
-                "1/2 cup rolled oats",
-                "1 cup almond milk",
-                "1 apple, diced",
-                "1 teaspoon cinnamon",
-                "1 tablespoon maple syrup"
+                { "name": "oats", "quantity": "1/2 cup", "comments": "rolled" },
+                { "name": "Almond milk", "quantity": "1 cup" },
+                { "name": "Apple", "quantity": "1", "comments": "diced" },
+                { "name": "Cinnamon", "quantity": "1 teaspoon" },
+                { "name": "Maple syrup", "quantity": "1 tablespoon" }
             ],
             "instructions": [
                 "Combine oats, almond milk, apple, and cinnamon in a pot.",
@@ -356,10 +356,10 @@ The result planner:
         "Lunch": {
             "name": "Roasted Veggie and Hummus Wrap",
             "ingredients": [
-                "1 whole-wheat tortilla",
-                "1/4 cup hummus",
-                "1/2 cup roasted vegetables (e.g., bell peppers, zucchini)",
-                "1/4 cup spinach"
+                { "name": "Whole-wheat tortilla", "quantity": "1" },
+                { "name": "Hummus", "quantity": "1/4 cup" },
+                { "name": "vegetables", "quantity": "1/2 cup", "comments": "roasted, e.g., bell peppers, zucchini" },
+                { "name": "Spinach", "quantity": "1/4 cup" }
             ],
             "instructions": [
                 "Spread hummus over the tortilla.",
@@ -370,12 +370,12 @@ The result planner:
         "Dinner": {
             "name": "Vegan Chili",
             "ingredients": [
-                "1 can kidney beans, drained",
-                "1 can diced tomatoes",
-                "1 onion, chopped",
-                "1 bell pepper, diced",
-                "2 tablespoons chili powder",
-                "1 cup vegetable broth"
+                { "name": "Kidney beans", "quantity": "1 can", "comments": "drained" },
+                { "name": "tomatoes", "quantity": "1 can", "comments": "diced" },
+                { "name": "Onion", "quantity": "1", "comments": "chopped" },
+                { "name": "Bell pepper", "quantity": "1", "comments": "diced" },
+                { "name": "Chili powder", "quantity": "2 tablespoons" },
+                { "name": "Vegetable broth", "quantity": "1 cup" }
             ],
             "instructions": [
                 "Sauté onion and bell pepper in a pot with a little olive oil.",

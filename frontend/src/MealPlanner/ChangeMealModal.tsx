@@ -63,10 +63,10 @@ export const ChangeMealModal = ({
 			summary += `The user likes: ${likeIngredients.join(", ")}.\n`;
 		}
 		if (dislikeIngredients.length > 0) {
-			summary += `The user doesn't like: ${dislikeIngredients.join(", ")}.\n`;
+			summary += `The user dislike: ${dislikeIngredients.join(", ")}.\n`;
 		}
 		if (comment.trim()) {
-			summary += `The user also said: ${comment}`;
+			summary += `The user's comment on ${meal.name}': ${comment}`;
 		}
 
 		setLoading(true);
@@ -88,20 +88,20 @@ export const ChangeMealModal = ({
 					If you want to change this meal, please indicate your preferences for the ingredients and leave any additional comments.
 				</DialogContentText>
 				{meal.ingredients?.map((ingredient) => (
-					<div key={ingredient} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
-						<span>{ingredient}</span>
+					<div key={ingredient.name} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+						<span>{ingredient.name}</span>
 						<div>
 							<IconButton
-								color={preferences[ingredient] === 'like' ? 'primary' : 'default'}
-								onClick={() => handlePreferenceChange(ingredient, 'like')}
-								aria-label={`like ${ingredient}`}
+								color={preferences[ingredient.name] === 'like' ? 'primary' : 'default'}
+								onClick={() => handlePreferenceChange(ingredient.name, 'like')}
+								aria-label={`like ${ingredient.name}`}
 							>
 								<ThumbUpIcon />
 							</IconButton>
 							<IconButton
-								color={preferences[ingredient] === 'dislike' ? 'error' : 'default'}
-								onClick={() => handlePreferenceChange(ingredient, 'dislike')}
-								aria-label={`dislike ${ingredient}`}
+								color={preferences[ingredient.name] === 'dislike' ? 'error' : 'default'}
+								onClick={() => handlePreferenceChange(ingredient.name, 'dislike')}
+								aria-label={`dislike ${ingredient.name}`}
 							>
 								<ThumbDownIcon />
 							</IconButton>

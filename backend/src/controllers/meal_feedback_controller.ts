@@ -1,11 +1,8 @@
-//import User from '../models/user_model';
 import mealFeedback from '../models/meal_feedback';
-import mongoose from "mongoose";
 import { Request, Response } from 'express';
-import { Console } from 'console';
 import sendMessageToChatGPT from '../ai/chat_gpt_sender';
-import { buildPromptForWeek } from '../ai/prompt_builder';
-import { createMealPlanner, daysOrder, getStartAndEndDates, mealTypesOrder } from '../common/planner_utils';
+import { buildPromptAfterFeedback } from '../ai/prompt_builder';
+import { getStartAndEndDates } from '../common/planner_utils';
 import Planner from '../models/meal_planner';
 
 export interface IFeedbackSummery {
@@ -17,9 +14,9 @@ export interface IFeedbackSummery {
 
 const createfeedback = async (req: Request, res: Response) => {
   console.log('Request Headers:', req.headers);
-  console.log('Request Body:', req.body); // Add this log to check the request body
-  const { user_id, meal, feedback, day, type } = req.body; // Ensure these fields are provided in the request body
-  const meal_feedback = new mealFeedback({ user_id, meal, feedback });
+  console.log('Request Body:', req.body);
+  const { user_id, feedback, day, type } = req.body;
+  const meal_feedback = new mealFeedback({ user_id, feedback });
 
   try {
     await meal_feedback.save();
@@ -28,7 +25,6 @@ const createfeedback = async (req: Request, res: Response) => {
     // udpate the current meal planner
     const { startDate, endDate } = getStartAndEndDates();
 
-    console.log(`${startDate} - ${endDate}, ${user_id}`);
     let currentPlanner = await Planner.findOne({
       user_id: user_id,
       startDate: startDate,
@@ -36,31 +32,17 @@ const createfeedback = async (req: Request, res: Response) => {
     }).lean();
 
     if (currentPlanner != null) {
-      const plannerJson = await sendMessageToChatGPT(await buildPromptForWeek(user_id));
-      const newPlanner = new Planner(createMealPlanner(plannerJson, user_id, startDate, endDate));
-      
-      let dayToUpdate = false;
-      let mealToUpdate = false;
+      const mealsJson = await sendMessageToChatGPT(await buildPromptAfterFeedback(user_id, day, type));
 
-      for (const currentDay of daysOrder) {
-        // If we have reached or passed the specified day, start updating
-        if (dayToUpdate || currentDay == day) {
-          dayToUpdate = true;
-          
-          for (const currentMealType of mealTypesOrder) {
-            // If we have reached or passed the specified meal type, start updating
-            if (mealToUpdate || currentMealType == type) {
-              mealToUpdate = true;
+      console.log("Planner json: " + mealsJson);
+      const newMeals = JSON.parse(mealsJson);
 
-              // Log the update for each meal type and day
-              console.log(`${currentDay} - ${currentMealType}`);
-            
-              // Update the meal in the current planner
-              currentPlanner[currentDay][currentMealType] = newPlanner[currentDay][currentMealType];
-            }
-          }
-        }
-      }
+      Object.keys(newMeals).forEach(day => {
+        currentPlanner[day] = {
+          ...currentPlanner[day], // Keep existing data for the day
+          ...newMeals[day] // Update with new meals
+        };
+      });
 
       await Planner.updateOne({ _id: currentPlanner._id }, currentPlanner);
       console.log('Updated planner:', currentPlanner);

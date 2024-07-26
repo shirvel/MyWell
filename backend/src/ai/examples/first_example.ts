@@ -6,10 +6,10 @@ The result planner:
         "Breakfast": {
             "name": "Greek Yogurt with Berries and Honey",
             "ingredients": [
-                "1 cup Greek yogurt",
-                "1/2 cup mixed berries",
-                "1 tablespoon honey",
-                "1 tablespoon chia seeds (optional)"
+                { "name": "Greek yogurt", "quantity": "1 cup" },
+                { "name": "Mixed berries", "quantity": "1/2 cup" },
+                { "name": "Honey", "quantity": "1 tablespoon" },
+                { "name": "Chia seeds", "quantity": "1 tablespoon", "comments": "optional" }
             ],
             "instructions": [
                 "Scoop Greek yogurt into a bowl.",
@@ -30,14 +30,14 @@ The result planner:
         "Lunch": {
             "name": "Quinoa Salad with Grilled Chicken",
             "ingredients": [
-                "1 cup cooked quinoa",
-                "1 grilled chicken breast, sliced",
-                "1/2 cup cherry tomatoes, halved",
-                "1/4 cup cucumber, diced",
-                "2 tablespoons feta cheese",
-                "1 tablespoon olive oil",
-                "1 tablespoon lemon juice",
-                "Salt and pepper to taste"
+                { "name": "Quinoa", "quantity": "1 cup", "comments": "cooked" },
+                { "name": "chicken breast", "quantity": "1", "comments": "grilled, sliced" },
+                { "name": "Cherry tomatoes", "quantity": "1/2 cup", "comments": "halved" },
+                { "name": "Cucumber", "quantity": "1/4 cup", "comments": "diced" },
+                { "name": "Feta cheese", "quantity": "2 tablespoons" },
+                { "name": "Olive oil", "quantity": "1 tablespoon" },
+                { "name": "Lemon juice", "quantity": "1 tablespoon" },
+                { "name": "Salt and pepper", "comments": "to taste" }
             ],
             "instructions": [
                 "In a large bowl, combine cooked quinoa, cherry tomatoes, cucumber, and feta cheese.",
@@ -50,12 +50,12 @@ The result planner:
         "Dinner": {
             "name": "Baked Salmon with Steamed Broccoli",
             "ingredients": [
-                "1 salmon fillet",
-                "1 tablespoon olive oil",
-                "1 teaspoon lemon juice",
-                "1 teaspoon dried dill",
-                "Salt and pepper to taste",
-                "1 cup broccoli florets"
+                { "name": "Salmon fillet", "quantity": "1" },
+                { "name": "Olive oil", "quantity": "1 tablespoon" },
+                { "name": "Lemon juice", "quantity": "1 teaspoon" },
+                { "name": "dill", "quantity": "1 teaspoon", "comments": "dried" },
+                { "name": "Salt and pepper", "comments": "to taste" },
+                { "name": "Broccoli florets", "quantity": "1 cup" }
             ],
             "instructions": [
                 "Preheat oven to 375°F (190°C).",
@@ -71,11 +71,11 @@ The result planner:
         "Breakfast": {
             "name": "Smoothie Bowl",
             "ingredients": [
-                "1 banana",
-                "1/2 cup frozen berries",
-                "1/2 cup almond milk",
-                "1 tablespoon honey",
-                "1/4 cup granola"
+                { "name": "Banana", "quantity": "1" },
+                { "name": "berries", "quantity": "1/2 cup", "comments": "frozen" },
+                { "name": "Almond milk", "quantity": "1/2 cup" },
+                { "name": "Honey", "quantity": "1 tablespoon" },
+                { "name": "Granola", "quantity": "1/4 cup" }
             ],
             "instructions": [
                 "Blend banana, frozen berries, almond milk, and honey until smooth.",
@@ -86,12 +86,12 @@ The result planner:
         "Lunch": {
             "name": "Chicken and Veggie Stir-Fry",
             "ingredients": [
-                "1 chicken breast, cubed",
-                "1 bell pepper, sliced",
-                "1 cup snap peas",
-                "1/2 cup carrots, sliced",
-                "2 tablespoons soy sauce",
-                "1 tablespoon olive oil"
+                { "name": "Chicken breast", "quantity": "1", "comments": "cubed" },
+                { "name": "Bell pepper", "quantity": "1", "comments": "sliced" },
+                { "name": "Snap peas", "quantity": "1 cup" },
+                { "name": "Carrots", "quantity": "1/2 cup", "comments": "sliced" },
+                { "name": "Soy sauce", "quantity": "2 tablespoons" },
+                { "name": "Olive oil", "quantity": "1 tablespoon" }
             ],
             "instructions": [
                 "Heat olive oil in a pan over medium heat.",
@@ -103,13 +103,13 @@ The result planner:
         "Dinner": {
             "name": "Turkey Meatballs with Spaghetti Squash",
             "ingredients": [
-                "1 pound ground turkey",
-                "1 egg",
-                "1/4 cup breadcrumbs",
-                "1/4 cup grated Parmesan cheese",
-                "1 teaspoon dried oregano",
-                "1 spaghetti squash",
-                "1 cup marinara sauce"
+                { "name": "turkey", "quantity": "1 pound", "comments": "ground" },
+                { "name": "Egg", "quantity": "1" },
+                { "name": "Breadcrumbs", "quantity": "1/4 cup" },
+                { "name": "Parmesan cheese", "quantity": "1/4 cup", "comments": "grated" },
+                { "name": "oregano", "quantity": "1 teaspoon", "comments": "dried" },
+                { "name": "Spaghetti squash", "quantity": "1" },
+                { "name": "Marinara sauce", "quantity": "1 cup" }
             ],
             "instructions": [
                 "Preheat oven to 375°F (190°C).",
@@ -124,11 +124,11 @@ The result planner:
         "Breakfast": {
             "name": "Avocado Toast",
             "ingredients": [
-                "1 slice whole-grain bread",
-                "1/2 avocado",
-                "1 teaspoon lemon juice",
-                "Salt and pepper to taste",
-                "Red pepper flakes (optional)"
+                { "name": "Whole-grain bread", "quantity": "1 slice" },
+                { "name": "Avocado", "quantity": "1/2", "comments": "mashed" },
+                { "name": "Lemon juice", "quantity": "1 teaspoon" },
+                { "name": "Salt and pepper", "comments": "to taste" },
+                { "name": "Red pepper flakes", "quantity": "to taste", "comments": "optional" }
             ],
             "instructions": [
                 "Toast the bread.",
@@ -140,13 +140,13 @@ The result planner:
         "Lunch": {
             "name": "Lentil Soup",
             "ingredients": [
-                "1 cup lentils",
-                "1 onion, chopped",
-                "2 carrots, diced",
-                "2 celery stalks, diced",
-                "4 cups vegetable broth",
-                "1 teaspoon cumin",
-                "1 teaspoon paprika"
+                { "name": "Lentils", "quantity": "1 cup" },
+                { "name": "Onion", "quantity": "1", "comments": "chopped" },
+                { "name": "Carrots", "quantity": "2", "comments": "diced" },
+                { "name": "Celery stalks", "quantity": "2", "comments": "diced" },
+                { "name": "Vegetable broth", "quantity": "4 cups" },
+                { "name": "Cumin", "quantity": "1 teaspoon" },
+                { "name": "Paprika", "quantity": "1 teaspoon" }
             ],
             "instructions": [
                 "Sauté onion, carrots, and celery in a pot with a little olive oil until soft.",
@@ -157,11 +157,11 @@ The result planner:
         "Dinner": {
             "name": "Chicken Caesar Salad",
             "ingredients": [
-                "1 grilled chicken breast, sliced",
-                "2 cups romaine lettuce, chopped",
-                "1/4 cup Caesar dressing",
-                "2 tablespoons Parmesan cheese",
-                "Croutons (optional)"
+                { "name": "chicken breast", "quantity": "1", "comments": "grilled, sliced" },
+                { "name": "Romaine lettuce", "quantity": "2 cups", "comments": "chopped" },
+                { "name": "Caesar dressing", "quantity": "1/4 cup" },
+                { "name": "Parmesan cheese", "quantity": "2 tablespoons" },
+                { "name": "Croutons", "quantity": "to taste", "comments": "optional" }
             ],
             "instructions": [
                 "Toss lettuce with Caesar dressing.",
@@ -174,11 +174,11 @@ The result planner:
         "Breakfast": {
             "name": "Oatmeal with Fresh Fruit",
             "ingredients": [
-                "1/2 cup rolled oats",
-                "1 cup almond milk",
-                "1/2 apple, diced",
-                "1/2 teaspoon cinnamon",
-                "1 tablespoon maple syrup"
+                { "name": "oats", "quantity": "1/2 cup", "comments": "rolled" },
+                { "name": "Almond milk", "quantity": "1 cup" },
+                { "name": "Apple", "quantity": "1/2", "comments": "diced" },
+                { "name": "Cinnamon", "quantity": "1/2 teaspoon" },
+                { "name": "Maple syrup", "quantity": "1 tablespoon" }
             ],
             "instructions": [
                 "Combine oats and almond milk in a pot and cook over medium heat until thickened.",
@@ -188,11 +188,11 @@ The result planner:
         "Lunch": {
             "name": "Veggie Wrap",
             "ingredients": [
-                "1 whole-wheat tortilla",
-                "1/4 cup hummus",
-                "1/2 avocado, sliced",
-                "1/2 cup shredded carrots",
-                "1/2 cup spinach leaves"
+                { "name": "Whole-wheat tortilla", "quantity": "1" },
+                { "name": "Hummus", "quantity": "1/4 cup" },
+                { "name": "Avocado", "quantity": "1/2", "comments": "sliced" },
+                { "name": "carrots", "quantity": "1/2 cup", "comments": "shredded" },
+                { "name": "Spinach leaves", "quantity": "1/2 cup" }
             ],
             "instructions": [
                 "Spread hummus over the tortilla.",
@@ -211,11 +211,11 @@ The result planner:
         "Dinner": {
             "name": "Stuffed Bell Peppers",
             "ingredients": [
-                "2 bell peppers",
-                "1 cup cooked brown rice",
-                "1/2 cup black beans",
-                "1/2 cup corn",
-                "1/2 cup shredded cheese"
+                { "name": "Bell peppers", "quantity": "2", "comments": "tops cut off and seeds removed" },
+                { "name": "Brown rice", "quantity": "1 cup", "comments": "cooked" },
+                { "name": "Black beans", "quantity": "1/2 cup" },
+                { "name": "Corn", "quantity": "1/2 cup" },
+                { "name": "cheese", "quantity": "1/2 cup", "comments": "shredded" }
             ],
             "instructions": [
                 "Preheat oven to 375°F (190°C).",
@@ -230,10 +230,10 @@ The result planner:
         "Breakfast": {
             "name": "Chia Seed Pudding",
             "ingredients": [
-                "1/4 cup chia seeds",
-                "1 cup almond milk",
-                "1 tablespoon maple syrup",
-                "Fresh fruit for topping"
+                { "name": "Chia seeds", "quantity": "1/4 cup" },
+                { "name": "Almond milk", "quantity": "1 cup" },
+                { "name": "Maple syrup", "quantity": "1 tablespoon" },
+                { "name": "fruit", "quantity": "as desired", "comments": "fresh, for topping" }
             ],
             "instructions": [
                 "Mix chia seeds, almond milk, and maple syrup in a bowl.",
@@ -244,11 +244,11 @@ The result planner:
         "Lunch": {
             "name": "Turkey and Avocado Salad",
             "ingredients": [
-                "1 cup mixed greens",
-                "1/2 avocado, sliced",
-                "1/2 cup sliced turkey breast",
-                "1/4 cup cherry tomatoes, halved",
-                "1 tablespoon balsamic vinaigrette"
+                { "name": "Mixed greens", "quantity": "1 cup" },
+                { "name": "Avocado", "quantity": "1/2", "comments": "sliced" },
+                { "name": "Turkey breast", "quantity": "1/2 cup", "comments": "sliced" },
+                { "name": "Cherry tomatoes", "quantity": "1/4 cup", "comments": "halved" },
+                { "name": "Balsamic vinaigrette", "quantity": "1 tablespoon" }
             ],
             "instructions": [
                 "Toss mixed greens with balsamic vinaigrette.",
@@ -258,11 +258,11 @@ The result planner:
         "Dinner": {
             "name": "Baked Tilapia with Asparagus",
             "ingredients": [
-                "1 tilapia fillet",
-                "1 tablespoon olive oil",
-                "1 lemon, sliced",
-                "1 teaspoon dried thyme",
-                "1 cup asparagus spears"
+                { "name": "Tilapia fillet", "quantity": "1" },
+                { "name": "Olive oil", "quantity": "1 tablespoon" },
+                { "name": "Lemon", "quantity": "1", "comments": "sliced" },
+                { "name": "thyme", "quantity": "1 teaspoon", "comments": "dried" },
+                { "name": "Asparagus spears", "quantity": "1 cup" }
             ],
             "instructions": [
                 "Preheat oven to 375°F (190°C).",
@@ -277,11 +277,11 @@ The result planner:
         "Breakfast": {
             "name": "Berry Smoothie",
             "ingredients": [
-                "1/2 cup frozen mixed berries",
-                "1/2 banana",
-                "1 cup spinach",
-                "1 cup almond milk",
-                "1 tablespoon flaxseeds"
+                { "name": "mixed berries", "quantity": "1/2 cup", "comments": "frozen" },
+                { "name": "Banana", "quantity": "1/2" },
+                { "name": "Spinach", "quantity": "1 cup" },
+                { "name": "Almond milk", "quantity": "1 cup" },
+                { "name": "Flaxseeds", "quantity": "1 tablespoon" }
             ],
             "instructions": [
                 "Blend all ingredients until smooth."
@@ -290,10 +290,10 @@ The result planner:
         "Lunch": {
             "name": "Grilled Veggie Sandwich",
             "ingredients": [
-                "2 slices whole-grain bread",
-                "1/4 cup hummus",
-                "1/2 cup grilled zucchini and bell peppers",
-                "1/4 cup shredded mozzarella cheese"
+                { "name": "Whole-grain bread", "quantity": "2 slices" },
+                { "name": "Hummus", "quantity": "1/4 cup" },
+                { "name": "zucchini and bell peppers", "quantity": "1/2 cup", "comments": "grilled" },
+                { "name": "mozzarella cheese", "quantity": "1/4 cup", "comments": "shredded" }
             ],
             "instructions": [
                 "Spread hummus on bread slices.",
@@ -304,13 +304,13 @@ The result planner:
         "Dinner": {
             "name": "Chicken and Vegetable Skewers",
             "ingredients": [
-                "1 pound chicken breast, cubed",
-                "1 red bell pepper, cut into chunks",
-                "1 green bell pepper, cut into chunks",
-                "1 cup cherry tomatoes",
-                "2 tablespoons olive oil",
-                "1 teaspoon dried basil",
-                "Salt and pepper to taste"
+                { "name": "Chicken breast", "quantity": "1 pound", "comments": "cubed" },
+                { "name": "Red bell pepper", "quantity": "1", "comments": "cut into chunks" },
+                { "name": "Green bell pepper", "quantity": "1", "comments": "cut into chunks" },
+                { "name": "Cherry tomatoes", "quantity": "1 cup" },
+                { "name": "Olive oil", "quantity": "2 tablespoons" },
+                { "name": "basil", "quantity": "1 teaspoon", "comments": "dried" },
+                { "name": "Salt and pepper", "comments": "to taste" }
             ],
             "instructions": [
                 "Preheat grill to medium-high heat.",
@@ -318,18 +318,18 @@ The result planner:
                 "Brush with olive oil and season with basil, salt, and pepper.",
                 "Grill for 10-15 minutes, turning occasionally."
             ]
-        },
+        }
     },
     "Saturday": {
         "Breakfast": {
             "name": "Banana Pancakes",
             "ingredients": [
-                "1 banana",
-                "1 egg",
-                "1/4 cup flour",
-                "1/4 teaspoon baking powder",
-                "1/4 teaspoon vanilla extract",
-                "1 tablespoon oil for cooking"
+                { "name": "Banana", "quantity": "1" },
+                { "name": "Egg", "quantity": "1" },
+                { "name": "Flour", "quantity": "1/4 cup" },
+                { "name": "Baking powder", "quantity": "1/4 teaspoon" },
+                { "name": "Vanilla extract", "quantity": "1/4 teaspoon" },
+                { "name": "Oil", "quantity": "1 tablespoon", "comments": "for cooking" }
             ],
             "instructions": [
                 "Mash banana and mix with egg, flour, baking powder, and vanilla.",
@@ -341,11 +341,11 @@ The result planner:
         "Lunch": {
             "name": "Spinach and Feta Stuffed Chicken",
             "ingredients": [
-                "1 chicken breast",
-                "1/2 cup spinach",
-                "1/4 cup feta cheese",
-                "1 tablespoon olive oil",
-                "Salt and pepper to taste"
+                { "name": "Chicken breast", "quantity": "1" },
+                { "name": "Spinach", "quantity": "1/2 cup" },
+                { "name": "Feta cheese", "quantity": "1/4 cup" },
+                { "name": "Olive oil", "quantity": "1 tablespoon" },
+                { "name": "Salt and pepper", "comments": "to taste" }
             ],
             "instructions": [
                 "Preheat oven to 375°F (190°C).",
@@ -358,10 +358,10 @@ The result planner:
         "Dinner": {
             "name": "Zucchini Noodles with Tomato Sauce",
             "ingredients": [
-                "2 zucchinis, spiralized",
-                "1 cup marinara sauce",
-                "1 tablespoon olive oil",
-                "1/4 cup grated Parmesan cheese"
+                { "name": "Zucchinis", "quantity": "2", "comments": "spiralized" },
+                { "name": "Marinara sauce", "quantity": "1 cup" },
+                { "name": "Olive oil", "quantity": "1 tablespoon" },
+                { "name": "Parmesan cheese", "quantity": "1/4 cup", "comments": "grated" }
             ],
             "instructions": [
                 "Heat olive oil in a pan and sauté zucchini noodles for 3-4 minutes.",

@@ -1,5 +1,5 @@
-export const daysOrder = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-export const mealTypesOrder = ['Breakfast', 'Lunch', 'Workout', 'Dinner'];
+export const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+export const mealTypes = ['Breakfast', 'Lunch', 'Workout', 'Dinner'];
 
 // Function to get the upcoming Sunday and Saturday
 export const getStartAndEndDates = () => {

@@ -1,12 +1,27 @@
 import mongoose from 'mongoose';
 
+const ingredientSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  quantity: {
+    type: String,
+    required: false,
+  },
+  comments: {
+    type: String,
+    required: false,
+  },
+});
+
 const mealDetailSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
   },
   ingredients: {
-    type: [String],
+    type: [ingredientSchema],
     required: true,
   },
   instructions: {

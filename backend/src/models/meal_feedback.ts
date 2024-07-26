@@ -5,10 +5,6 @@ const mealFeedbackSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    meal: {
-      type: String,
-      required: true
-    },
     feedback: {
       type: String,
       required: true,

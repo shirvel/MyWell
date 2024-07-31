@@ -1,9 +1,10 @@
 import axios from "axios";
 
 const getRequestConfig = (headers?: any) => {
-	// To when we will want to use tokens
+	const token = localStorage.getItem("accessToken");
 	return {
 		headers: {
+			Authorization: "JWT " + token,
 			...headers,
 		},
 	};

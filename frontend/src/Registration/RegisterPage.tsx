@@ -25,7 +25,7 @@ const steps = [
 ];
 
 export const RegisterPage = () => {
-	const { userId, setUserId } = useUserContext();
+	const { setUserId } = useUserContext();
 	const navigate = useNavigate();
 	const [activeStep, setActiveStep] = useState(0);
 	const [formData, setFormData] = useState<FormData>({
@@ -103,15 +103,14 @@ export const RegisterPage = () => {
 				let newErrors = { ...errors };
 				newErrors.email = "Email already exists";
 				setErrors(newErrors);
-			}
-			else {
+			} else {
 				register(formData).then((response) => {
 					if (response != null) {
 						setUserId(response._id);
 						handleReset();
 						navigate("/");
 					}
-				})
+				});
 			}
 		}
 	};

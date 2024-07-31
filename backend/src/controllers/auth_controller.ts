@@ -47,7 +47,7 @@ const login = async (req: Request, res: Response) => {
     console.log("Login");
     const email = req.body.email;
     const password = req.body.password;
-
+    console.log(email, password);
     if (email == null || password == null) {
         return res.status(400).send("Error: Missing email or password");
     }
@@ -76,10 +76,12 @@ const login = async (req: Request, res: Response) => {
 
         res.status(200).send({
             'accessToken': accessToken,
-            'refreshToken': refreshToken
+            'refreshToken': refreshToken,
+            'userId':user._id
         });
     } catch(err) {
-        return res.status(400).send("Error -  missing email or password"); 
+        
+        return res.status(400).send("Error - " + err.message); 
     }
 }
 

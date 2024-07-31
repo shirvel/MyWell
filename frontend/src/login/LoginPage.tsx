@@ -2,15 +2,30 @@ import { Grid, TextField, Button } from "@mui/material";
 import { useCallback, useState } from "react";
 import { login } from "./LoginService";
 import { useNavigate } from "react-router-dom";
+import { useUserContext } from "../providers/UserContextProvider";
+
+export const addInfoToLocalStorage = (userInfo: {
+	accessToken: string;
+	refreshToken: string;
+	userId: string;
+}) => {
+	localStorage.setItem("accessToken", userInfo.accessToken);
+	localStorage.setItem("refreshToken", userInfo.refreshToken);
+	localStorage.setItem("userId", userInfo.userId);
+};
 
 export const LoginPage = () => {
+	const { setUserId } = useUserContext();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const navigate = useNavigate();
-	const onLogin = useCallback(() => {
+	const onLogin = useCallback(async () => {
 		console.log(email, password);
-		login({ email, password });
-	}, []);
+		const tokens = await login({ email, password });
+		setUserId(tokens.userId);
+		addInfoToLocalStorage(tokens);
+		navigate("/");
+	}, [email, password]);
 
 	const onRegister = useCallback(() => {
 		navigate({

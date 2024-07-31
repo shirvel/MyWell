@@ -17,14 +17,25 @@ export const register = async (formData: FormData) => {
 };
 
 export const checkEmailExists = async (email: string) => {
-  try {
-	const url = endpoints.AUTH.CHECK_EMAIL(email);
-	const response = await get(url);
-	console.log("Response from server:", response.exists);
+	try {
+		const url = endpoints.AUTH.CHECK_EMAIL(email);
+		const response = await get(url);
+		console.log("Response from server:", response.exists);
 
-    return response.exists;
-  } catch (error) {
-    console.error('Error checking email:', error);
-    return false;
-  }
+		return response.exists;
+	} catch (error) {
+		console.error("Error checking email:", error);
+		return false;
+	}
+};
+
+export const getUserName = async (userId: string) => {
+	try {
+		const url = endpoints.AUTH.GET_USER_BY_ID(userId);
+		const response = await get(url);
+		return response.name;
+	} catch (error) {
+		console.error("Error", error);
+		return "";
+	}
 };

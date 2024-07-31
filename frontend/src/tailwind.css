@@ -613,6 +613,10 @@ video {
   display: flex;
 }
 
+.h-full {
+  height: 100%;
+}
+
 .w-1\/2 {
   width: 50%;
 }

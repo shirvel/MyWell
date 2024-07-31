@@ -15,17 +15,18 @@ import WorkoutIcon from "@mui/icons-material/FitnessCenter";
 import { IMeal, MealTypes } from "./MealPlannerService";
 import { useState } from "react";
 import { ChangeMealModal } from "./ChangeMealModal";
+import { isDayPassed } from "./MealPlanner";
 
 const icons: Record<(typeof MealTypes)[number], JSX.Element> = {
 	Breakfast: <FreeBreakfastIcon />,
 	Lunch: <LunchDiningIcon />,
-	Workout: <WorkoutIcon/>,
+	Workout: <WorkoutIcon />,
 	Dinner: <RamenDiningIcon />,
 };
 export const Meal = ({
 	mealKind,
 	meal,
-	day
+	day,
 }: {
 	mealKind: (typeof MealTypes)[number];
 	meal: IMeal;
@@ -36,6 +37,16 @@ export const Meal = ({
 	return (
 		<>
 			<Card
+				className="h-full"
+				sx={
+					isDayPassed(day)
+						? {
+								backgroundColor: "#DCDCDC",
+								border: "none",
+								boxShadow: "none",
+						  }
+						: {}
+				}
 				onClick={() => {
 					setOpen(true);
 				}}>

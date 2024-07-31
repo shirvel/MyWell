@@ -3,11 +3,11 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
-import { IconButton, Menu, MenuItem } from "@mui/material";
+import { Avatar, IconButton, Menu, MenuItem } from "@mui/material";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../providers/UserContextProvider";
-import { getUserName } from "../Registration/RegisterService";
+import { getUserNameAndImage } from "../Registration/RegisterService";
 
 export const NavBar = () => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -18,12 +18,16 @@ export const NavBar = () => {
 	const navigate = useNavigate();
 	const { userId, setUserId } = useUserContext();
 	const [username, setUsername] = useState<string>();
+	const [imageUrl, setImageUrl] = useState<string>();
 
 	useEffect(() => {
 		const getUser = async () => {
 			if (userId) {
-				const res = await getUserName(userId);
-				if (res) setUsername(res);
+				const res = await getUserNameAndImage(userId);
+				if (res) {
+					setUsername(res.name);
+					setImageUrl(res.image);
+				}
 			}
 		};
 		getUser();
@@ -60,16 +64,21 @@ export const NavBar = () => {
 						}}>
 						My Well
 					</Typography>
-					<Typography
-						noWrap
-						sx={{
-							display: { xs: "none", md: "flex" },
-							fontFamily: "monospace",
-							fontWeight: 700,
-							color: "white",
-						}}>
-						{username && <div>Hello, {username}</div>}
-					</Typography>
+					{username && (
+						<div className="flex flex-row items-center space-x-4">
+							<Avatar className="my-2" src={imageUrl} alt={username}></Avatar>
+							<Typography
+								noWrap
+								sx={{
+									display: { xs: "none", md: "flex" },
+									fontFamily: "monospace",
+									fontWeight: 700,
+									color: "white",
+								}}>
+								<div>Hello, {username}</div>
+							</Typography>
+						</div>
+					)}
 				</div>
 
 				<IconButton onClick={handleClick}>

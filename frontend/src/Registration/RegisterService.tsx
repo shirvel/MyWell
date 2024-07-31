@@ -29,11 +29,11 @@ export const checkEmailExists = async (email: string) => {
 	}
 };
 
-export const getUserName = async (userId: string) => {
+export const getUserNameAndImage = async (userId: string) => {
 	try {
 		const url = endpoints.AUTH.GET_USER_BY_ID(userId);
 		const response = await get(url);
-		return response.name;
+		return { name: response.name, image: response.imageUrl };
 	} catch (error) {
 		console.error("Error", error);
 		return "";

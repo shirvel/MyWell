@@ -1,10 +1,6 @@
 import { Request, Response } from 'express';
 import Planner from '../models/meal_planner';
-import { log } from 'console';
 import { createMealPlanner, getStartAndEndDates } from '../common/planner_utils';
-import sendMessageToChatGPT from '../ai/chat_gpt_sender';
-import { buildPromptForWeek } from '../ai/prompt_builder';
-import meal_planner from '../models/meal_planner';
 
 const plannerRequestInProgress: { [key: string]: boolean } = {};
 
@@ -29,9 +25,10 @@ export const getPlanner = async (req: Request, res: Response) => {
     }).lean();
     
     if (!planner) {
-      const plannerJson = await sendMessageToChatGPT(await buildPromptForWeek(userId));
-      const newPlanner = new Planner(createMealPlanner(plannerJson, userId, startDate, endDate));
+      const combinedResponse = await createMealPlanner(userId, startDate, endDate);
+      const newPlanner = new Planner(combinedResponse);
       console.log(newPlanner.toJSON());
+
       planner = await newPlanner.save();
     }
 

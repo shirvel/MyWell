@@ -51,13 +51,17 @@ export const isValidResponse = (response) => {
 
 export const getValidResponse = async (prompt, maxRetries = 3) => {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
-    console.log(`requesting attempt ${attempt}`)
-    const responseJson = await sendMessageToChatGPT(prompt);
-    const responseObject = isValidResponse(responseJson)
-    
-    if (responseObject != null) {
-      // console.log(responseJson)
-      return responseObject;
+    try {
+      console.log(`requesting attempt ${attempt}`)
+      const responseJson = await sendMessageToChatGPT(prompt);
+      const responseObject = isValidResponse(responseJson)
+      
+      if (responseObject != null) {
+        return responseObject;
+      }
+    }
+    catch {
+      console.log("maximum tries.");
     }
     
     console.log(`Invalid response received (attempt ${attempt}), retrying...`);

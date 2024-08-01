@@ -3,7 +3,6 @@ import axios from 'axios';
 const apiKey = process.env.REACT_APP_OPENAI_ORG_ID;
 
 const sendMessageToChatGPT = async (message) => {
-  console.log(message);
   const newMessage = {
     role: 'user',
     content: message,
@@ -27,6 +26,7 @@ const makeRequestWithRetry = async (messages, retries = 5) => {
         'https://api.openai.com/v1/chat/completions',
         {
           model: 'gpt-3.5-turbo',
+          temperature: 0.6,
           messages,
         },
         {

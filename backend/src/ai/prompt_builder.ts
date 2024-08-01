@@ -51,37 +51,45 @@ const format = `The needed format for the result planner:\n` +
     }
 }\n`
 
-const temperature = `temperature: 0.6, for moderate creativity and variety in the responses.\n`
-
 const role = `Your rule is: nutritionist and fitness trainer.\n`
 
 const examples = `A few examples to learn from:\n${firstExample}\n\n${secondExample}\n`
 
-export const buildPromptForWeek = async(userId: string): Promise<string> => {
-    try {
-        // Build the prompt
-        const steps = `Steps to create a detailed meal and workout plan:\n` +
+const buildPromptForDays = (userHistory: string, day: string): string => {
+    const steps = `Steps to create a detailed meal and workout plan:\n` +
         `1. Check the user's details (age, plan goals, dietary restrictions and preferences).\n` +
-        `2. Check the user's feedbacks on previous meals, to identify what the user doesn't like.\n` +
+        `2. Check the user's feedback on previous meals, to identify what the user doesn't like.\n` +
         `3. Check the user's previous weekly reflections, to understand the user's preferences.\n` +
-        `4. Start the week at sunday until saturday.\n` +
-        `For each day of the week, Create a details list of meals (breakfast, lunch and dinner):\n` +
+        `4. For each day, create a detailed list of meals. All meals (breakfast, lunch, and dinner) needs to be included:\n` +
         `For each meal, provide:\n` +
         `\t- a list of ingredients.\n` +
         `\t- step-by-step cooking instructions.\n` +
-        `5. Not all days must have a workout. According to the user's goal, invlove a few exercises during the week.\n` +
+        `5. Not all days must have a workout. According to the user's goal, involve a few exercises during the week.\n` +
         `For each workout, provide:\n` +
         `\t- a specific routine with detailed instructions on how to perform each exercise,` + 
         ` including sets, reps, and any necessary equipment.\n` +
-        `At the end, make sure none of the results violate the user's needs.\n`
-            
-        return `${steps}\n${format}\n${temperature}\n${role}\n${examples}\n\n` + 
-        `${await formatUserHistory(userId)}` +
-        `Create a detailed planner for the current user *in the given format* based on:\n` +
-        `\t- Your rule.\n` +
-        `\t- the user's details and history.\n` +
-        `\t- the given steps.\n` +
-        `\t- the given examples.`
+        `At the end, make sure none of the results violate the user's needs.\n`;
+
+    return `${steps}\n${format}\n${role}\n${examples}\n\n${userHistory}` +
+    `Create a detailed planner for ${day} for the current user *in the given format* based on:\n` +
+    `\t- Your role.\n` +
+    `\t- the user's details and history.\n` +
+    `\t- the given steps.\n` +
+    `\t- the given examples.\n` +
+    `return only the result in the format, no extra chars before or after.`;
+}
+
+export const buildPromptForWeek = async (userId: string): Promise<string[]> => {
+    try {
+        // Fetch and format user history once
+        const userHistory = await formatUserHistory(userId);
+
+        // Build prompts for each day range
+        const prompts = daysOfWeek.map(day => 
+            buildPromptForDays(userHistory, day)
+        );
+
+        return prompts;
     } catch (error) {
         console.error('Error building prompt:', error);
         throw new Error('Failed to build prompt');
@@ -98,13 +106,13 @@ export const buildPromptAfterFeedback = async(userId: string, day: string, mealT
         `2. Check the user's feedbacks on previous meals, to identify what the user doesn't like.\n` +
         `3. Check the user's previous weekly reflections, to understand the user's preferences.\n` +
         `4. Go through the received meals.\n` +
-        `For each meal, check if the meal invades the user's preferences, and if so, replace the meal.\n` +
+        `For each meal, check if the meal invades the user's preferences or contains ingredients that the user dislikes, and if so, replace the meal.\n` +
         `For each meal, provide:\n` +
         `\t- a list of ingredients.\n` +
         `\t- step-by-step cooking instructions.\n` +
-        `At the end, make sure none of the results violate the user's needs.\n`
+        `At the end, make sure again none of the results violate the user's needs.\n`
             
-        return `${steps}\n${format}\n${temperature}\n${role}\n\n` + 
+        return `${steps}\n${format}\n${role}\n\n` + 
         `${await formatUserHistory(userId)}` +
         `Here are the meals you need to check: ${possibleMealsToReplace}\n\n` +
         `Replace only the problematic meals for the current user. Return only the new meals. Base your answer on:\n` +
@@ -164,7 +172,7 @@ const formatMealFeedbacks = async (userId: string) => {
     else {
         feedbacks = mealFeedbacks.map(feedback => (
             `* ${feedback.feedback}`
-        )).join('\n');
+        )).join('');
     }
 
     return feedbacks

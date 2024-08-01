@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-const apiKey = process.env.REACT_APP_OPENAI_ORG_ID;
-
 const sendMessageToChatGPT = async (message) => {
   const newMessage = {
     role: 'user',
@@ -18,6 +16,8 @@ const sendMessageToChatGPT = async (message) => {
 };
 
 const makeRequestWithRetry = async (messages, retries = 5) => {
+  const apiKey = process.env.REACT_APP_OPENAI_ORG_ID;
+
   let delay = 1000; // initial delay of 1 second
   for (let attempt = 0; attempt < retries; attempt++) {
     try {

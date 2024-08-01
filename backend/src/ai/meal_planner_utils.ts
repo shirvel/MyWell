@@ -1,41 +1,16 @@
-import sendMessageToChatGPT from "../ai/chat_gpt_sender";
-import { buildPromptForWeek } from "../ai/prompt_builder";
+import sendMessageToChatGPT from "./chat_gpt_sender";
+import { buildPromptAfterMealFeedback, buildPromptForMealsPlanner } from "./prompt/meal_prompt_builder";
 
-export const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-export const mealTypes = ['Breakfast', 'Lunch', 'Workout', 'Dinner'];
+export const mealTypes = ['Breakfast', 'Lunch', 'Dinner'];
 
-// Function to get the upcoming Sunday and Saturday
-export const getStartAndEndDates = () => {
-    const today = new Date();
-    const dayOfWeek = today.getDay(); // 0 (Sunday) to 6 (Saturday)
-    const startDate = new Date(today);
-    const endDate = new Date(today);
-  
-    // Set the start date to the most recent Sunday
-    // If today is Sunday, it should be set to today
-    startDate.setDate(today.getDate() - dayOfWeek);
-    
-    // Set the end date to the upcoming Saturday
-    endDate.setDate(startDate.getDate() + 6);
-  
-    return {
-        startDate: startDate.toISOString().split('T')[0], // 'YYYY-MM-DD'
-        endDate: endDate.toISOString().split('T')[0],     // 'YYYY-MM-DD'
-    };
-};
-
-export const isValidResponse = (response) => {
+const isValidResponse = (response) => {
   try {
-    console.log(response)
     const parsedResponse = JSON.parse(`${response}`);
-
-    console.log(parsedResponse)
     
     // Check that each day has the required meal keys
-    const requiredMeals = ['Breakfast', 'Lunch', 'Dinner'];
     for (const day in parsedResponse) {
       const meals = parsedResponse[day];
-      for (const meal of requiredMeals) {
+      for (const meal of mealTypes) {
         if (!meals[meal]) {
           return null;
         }
@@ -49,7 +24,7 @@ export const isValidResponse = (response) => {
   }
 };
 
-export const getValidResponse = async (prompt, maxRetries = 3) => {
+const getValidResponse = async (prompt, maxRetries = 3) => {
   for (let attempt = 1; attempt <= maxRetries; attempt++) {
     try {
       console.log(`requesting attempt ${attempt}`)
@@ -72,7 +47,7 @@ export const getValidResponse = async (prompt, maxRetries = 3) => {
 
 export const createMealPlanner = async(userId: string, startDate: string, endDate: string) => {
   // Build prompts for each day of the week
-  const prompts: string[] = await buildPromptForWeek(userId)
+  const prompts: string[] = await buildPromptForMealsPlanner(userId)
 
   let combinedResponse = {
     user_id: userId,
@@ -87,5 +62,21 @@ export const createMealPlanner = async(userId: string, startDate: string, endDat
     combinedResponse = { ...combinedResponse, ...response };
   }
 
-  return combinedResponse
+  return combinedResponse;
+}
+
+export const updateMealPlanner = async (currentPlanner: any, userId: string, day: string, type: string) => {
+  const mealsJson = await sendMessageToChatGPT(await buildPromptAfterMealFeedback(userId, day, type));
+
+  console.log("Planner json: " + mealsJson);
+  const newMeals = JSON.parse(mealsJson);
+
+  Object.keys(newMeals).forEach(day => {
+    currentPlanner[day] = {
+      ...currentPlanner[day], // Keep existing data for the day
+      ...newMeals[day] // Update with new meals
+    };
+  });
+
+  return currentPlanner;
 }

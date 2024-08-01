@@ -6,14 +6,15 @@ import bodyParser from 'body-parser';
 import cors from "cors";
 import authRoute from "./routes/auth_route";
 
-env.config();
-
 import weekly_reflection_routers from "./routes/weekly_reflection_routers";
-import planner_routers from "./routes/meal_planner_route";
+import meal_planner_routes from "./routes/meal_planner_route";
+import workout_planner_routes from "./routes/workout_planner_route";
 import userRoute from "./routes/user_routes";
 import image_route from "./routes/image_route";
-import path from "path";
 import meal_feedback_routes from "./routes/meal_feedback_routers";
+import workout_feedback_routes from "./routes/workout_feedback_routers";
+
+env.config();
 
 export const initApp = (): Promise<Express> => {
   const promise = new Promise<Express>((resolve) => {
@@ -47,8 +48,10 @@ export const initApp = (): Promise<Express> => {
 
       app.use(bodyParser.json());
       app.use("/api/weekly_reflection", weekly_reflection_routers);
-      app.use("/api/planner", planner_routers);
+      app.use("/api/meal-planner", meal_planner_routes);
+      app.use("/api/workout-planner", workout_planner_routes);
       app.use("/meal_feedback", meal_feedback_routes);
+      app.use("/workout_feedback", workout_feedback_routes);
       app.use("/user", userRoute);
       app.use("/auth", authRoute);
       app.use("/image", image_route);

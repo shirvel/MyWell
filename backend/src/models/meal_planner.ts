@@ -60,7 +60,7 @@ const dailyPlanSchema = new mongoose.Schema({
   }
 });
 
-const plannerSchema = new mongoose.Schema({
+const mealPlannerSchema = new mongoose.Schema({
   Sunday: dailyPlanSchema,
   Monday: dailyPlanSchema,
   Tuesday: dailyPlanSchema,
@@ -82,4 +82,4 @@ const plannerSchema = new mongoose.Schema({
   },
 });
 
-export default mongoose.model('Planner', plannerSchema);
+export default mongoose.model('MealPlanner', mealPlannerSchema);

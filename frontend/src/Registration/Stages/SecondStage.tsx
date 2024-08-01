@@ -15,7 +15,7 @@ interface SecondStageProps {
 }
 
 export const SecondStage: React.FC<SecondStageProps> = ({ formData, handleChange, errors }) => {
-    const [selectedGoals, setSelectedGoals] = useState(formData.mainGoal.split(' & '));
+    const [selectedGoals, setSelectedGoals] = useState(formData.mainGoal ? formData.mainGoal.split(' & ') : []);
 
     const handleCardClick = (value: string) => {
         const newSelectedGoals = selectedGoals.includes(value)

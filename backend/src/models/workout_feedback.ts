@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const mealFeedbackSchema = new mongoose.Schema({
+const workoutFeedbackSchema = new mongoose.Schema({
     user_id: {
         type: String,
         required: true
@@ -11,4 +11,4 @@ const mealFeedbackSchema = new mongoose.Schema({
     }
   });
 
-export default mongoose.model('MealFeedback', mealFeedbackSchema);
+export default mongoose.model('workoutFeedback', workoutFeedbackSchema);

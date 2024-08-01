@@ -1,18 +1,12 @@
 import mealFeedback from '../models/meal_feedback';
 import { Request, Response } from 'express';
 import sendMessageToChatGPT from '../ai/chat_gpt_sender';
-import { buildPromptAfterFeedback } from '../ai/prompt_builder';
-import { getStartAndEndDates } from '../common/planner_utils';
+import { buildPromptAfterMealFeedback } from '../ai/prompt/meal_prompt_builder';
+import { getStartAndEndDates } from '../common/date_utils';
 import Planner from '../models/meal_planner';
+import { updateMealPlanner } from '../ai/meal_planner_utils';
 
-export interface IFeedbackSummery {
-  user_id: string; 
-  meal: string;
-  feedback: string;
-  _id?: string;
-};
-
-const createfeedback = async (req: Request, res: Response) => {
+const createMealfeedback = async (req: Request, res: Response) => {
   console.log('Request Headers:', req.headers);
   console.log('Request Body:', req.body);
   const { user_id, feedback, day, type } = req.body;
@@ -32,17 +26,7 @@ const createfeedback = async (req: Request, res: Response) => {
     }).lean();
 
     if (currentPlanner != null) {
-      const mealsJson = await sendMessageToChatGPT(await buildPromptAfterFeedback(user_id, day, type));
-
-      console.log("Planner json: " + mealsJson);
-      const newMeals = JSON.parse(mealsJson);
-
-      Object.keys(newMeals).forEach(day => {
-        currentPlanner[day] = {
-          ...currentPlanner[day], // Keep existing data for the day
-          ...newMeals[day] // Update with new meals
-        };
-      });
+      currentPlanner = await updateMealPlanner(currentPlanner, user_id, day, type);
 
       await Planner.updateOne({ _id: currentPlanner._id }, currentPlanner);
       console.log('Updated planner:', currentPlanner);
@@ -58,7 +42,7 @@ const createfeedback = async (req: Request, res: Response) => {
   }
 };
 
-const getAllfeedback = async (req: Request, res: Response) => {
+const getAllMealfeedback = async (req: Request, res: Response) => {
   try {
     const meal_feedbacks = await mealFeedback.find();
     res.status(200).json(meal_feedbacks);
@@ -68,4 +52,4 @@ const getAllfeedback = async (req: Request, res: Response) => {
   }
 };
 
-  export default {createfeedback, getAllfeedback}
+  export default { createMealfeedback, getAllMealfeedback }

@@ -26,7 +26,7 @@ const makeRequestWithRetry = async (messages, retries = 5) => {
         'https://api.openai.com/v1/chat/completions',
         {
           model: 'gpt-3.5-turbo',
-          temperature: 0.6,
+          temperature: 0.7,
           messages,
         },
         {

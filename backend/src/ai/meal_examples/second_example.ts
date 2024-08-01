@@ -51,15 +51,6 @@ The result planner:
                 "Stuff peppers with the mixture and top with vegan cheese if using.",
                 "Bake for 25-30 minutes."
             ]
-        },
-        "Workout": {
-            "name": "Gentle Yoga",
-            "instructions": [
-                "Cat-Cow Stretch: 1 minute.",
-                "Downward Dog: 1 minute.",
-                "Child's Pose: 2 minutes.",
-                "Seated Forward Bend: 1 minute."
-            ]
         }
     },
     "Monday": {
@@ -141,15 +132,6 @@ The result planner:
                 "Bring to a boil, then simmer for 30 minutes until lentils are tender."
             ]
         },
-        "Workout": {
-            "name": "Cardio and Core",
-            "instructions": [
-                "Jumping Jacks: 3 sets of 1 minute.",
-                "High Knees: 3 sets of 1 minute.",
-                "Plank: Hold for 1 minute.",
-                "Bicycle Crunches: 3 sets of 20 repetitions."
-            ]
-        },
         "Dinner": {
             "name": "Stuffed Zucchini",
             "ingredients": [
@@ -197,14 +179,6 @@ The result planner:
                 "Spread hummus over the tortilla.",
                 "Layer with avocado, spinach, and carrots.",
                 "Roll up tightly and cut in half."
-            ]
-        },
-        "Workout": {
-            "name": "Cardio Blast",
-            "instructions": [
-                "Jump Rope: 3 sets of 2 minutes.",
-                "Burpees: 3 sets of 10 repetitions.",
-                "High Knees: 3 sets of 1 minute."
             ]
         },
         "Dinner": {
@@ -302,15 +276,6 @@ The result planner:
                 "Toss to combine."
             ]
         },
-        "Workout": {
-            "name": "Bodyweight Circuit",
-            "instructions": [
-                "Squats: 3 sets of 15 repetitions.",
-                "Push-Ups: 3 sets of 12 repetitions.",
-                "Lunges: 3 sets of 10 repetitions per leg.",
-                "Plank: Hold for 1 minute."
-            ]
-        },
         "Dinner": {
             "name": "Chickpea and Spinach Curry",
             "ingredients": [
@@ -342,15 +307,6 @@ The result planner:
                 "Combine oats, almond milk, apple, and cinnamon in a pot.",
                 "Cook over medium heat until oats are tender and liquid is absorbed.",
                 "Stir in maple syrup before serving."
-            ]
-        },
-        "Workout": {
-            "name": "Gentle Yoga",
-            "instructions": [
-                "Cat-Cow Stretch: 1 minute.",
-                "Downward Dog: 1 minute.",
-                "Child's Pose: 2 minutes.",
-                "Seated Forward Bend: 1 minute."
             ]
         },
         "Lunch": {

@@ -2,8 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'Product Sans';
+  src: url('./fonts/Product-Sans-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Product Sans';
+  src: url('./fonts/Product-Sans-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+* {
+  font-family: 'Product Sans';
+  font-style: normal;
+  font-weight: 400;
+}
+
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Product Sans', Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
@@ -19,6 +39,7 @@
 
 a {
   font-weight: 500;
+  font-family: 'Product Sans';
   color: #646cff;
   text-decoration: inherit;
 }
@@ -28,6 +49,7 @@ a:hover {
 
 body {
   margin: 0;
+  font-family: 'Product Sans';
   display: flex;
   place-items: center;
   min-width: 320px;

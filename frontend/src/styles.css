@@ -1,0 +1,84 @@
+.space-y-4.p-4 {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.h5 {
+  font-weight: bold;
+  font-size: 30px;
+  margin-bottom: 10px;
+  font-family: 'Product Sans';
+}
+
+.h6 {
+  font-family: 'Product Sans';
+}
+
+.body2 {
+  font-family: 'Product Sans';
+}
+
+.w-full {
+  width: 100%;
+}
+
+.MuiOutlinedInput-root {
+  border-radius: 25px;
+  height: 80px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.MuiInputLabel-root {
+  font-family: 'Product Sans';
+}
+
+.MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+  border-color: #1976d2 !important; /* Change color on focus */
+}
+
+.MuiSelect-root {
+  font-weight: 500;
+  height: 80px;
+  font-family: 'Product Sans';
+}
+
+.card {
+  border-radius: 25px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  transition: border-color 0.3s, background-color 0.3s;
+  cursor: pointer;
+  margin-bottom: 10px;
+  padding: 8px; /* Adjust this value to reduce padding */
+}
+
+.card-content {
+  text-align: center;
+  font-family: 'Product Sans';
+}
+
+.card.Mui-selected {
+  background-color: #1976d2; /* Selected card background color */
+  border-color: #1976d2; /* Selected card border color */
+}
+
+.card.Mui-selected .h6,
+.card.Mui-selected .body2 {
+  color: white; /* Text color for selected card */
+}
+
+.MuiFormHelperText-root {
+  font-family: 'Product Sans';
+  color: red;
+}
+
+/* Apply Product Sans font to input text */
+.MuiOutlinedInput-input {
+  font-family: 'Product Sans';
+}
+
+/* Prevent background color change on focus */
+.MuiOutlinedInput-root:focus-within {
+  background-color: transparent;
+}

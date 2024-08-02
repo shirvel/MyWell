@@ -28,6 +28,13 @@ export const SecondStage: React.FC<SecondStageProps> = ({ formData, handleChange
 
     return (
         <div className="space-y-4 p-4">
+            <Typography 
+                variant="h5" 
+                gutterBottom
+                style={{ fontWeight: 'bold', marginTop: '10px', fontFamily: 'Product Sans', fontSize: '30px' }}
+            >
+                What are your main goals?
+            </Typography>
             {goalOptions.map(option => (
                 <Card
                     key={option.label}
@@ -35,15 +42,22 @@ export const SecondStage: React.FC<SecondStageProps> = ({ formData, handleChange
                     style={{
                         marginBottom: '10px',
                         cursor: 'pointer',
-                        border: selectedGoals.includes(option.label) ? '2px solid #1976d2' : '1px solid #ccc',
+                        border: selectedGoals.includes(option.label) ? '0px solid #1976d2' : '0px solid #ccc',
                         transition: 'border-color 0.3s',
+                        borderRadius: '25px', // Circular borders
+                        boxShadow: '0px 4px 8px rgba(0,0,0,0.2)', // Shadow
+                        backgroundColor: selectedGoals.includes(option.label) ? '#1976d2' : 'white', // Primary color for selected card
                     }}
                     onClick={() => handleCardClick(option.label)}
                 >
-                    <CardContent>
-                        <Typography
+                <CardContent style={{ textAlign: 'center' }}>
+                    <Typography
                             variant="h6"
-                            style={{ fontWeight: selectedGoals.includes(option.label) ? 'bold' : 'normal' }}
+                            style={{ 
+                                fontFamily: 'Product Sans',
+                                color: selectedGoals.includes(option.label) ? 'white' : 'black', // White text for selected card
+                                padding: '8px',
+                            }}
                         >
                             {option.emoji} {option.label}
                         </Typography>

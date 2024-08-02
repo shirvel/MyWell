@@ -1,0 +1,47 @@
+/* sharedStyles.css */
+.heading {
+    font-weight: bold;
+    margin-top: 10px;
+    font-family: 'Product Sans';
+    font-size: 30px;
+}
+
+.fullWidth {
+    width: 100%;
+}
+
+.inputRoot {
+    border-radius: 25px;
+    border-width: 2px;
+    height: 80px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.inputLabel {
+    font-family: 'Product Sans';
+}
+
+.inputProps {
+    font-family: 'Product Sans';
+    font-weight: 500;
+    padding: 16px;
+}
+
+.card {
+    margin-bottom: 10px;
+    cursor: pointer;
+    border-radius: 25px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, border-color 0.3s;
+    text-align: center;
+}
+
+.cardSelected {
+    background-color: #1976d2;
+    color: white;
+}
+
+.cardUnselected {
+    background-color: white;
+    color: black;
+}

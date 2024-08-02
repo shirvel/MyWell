@@ -18,7 +18,12 @@ const user: Partial<IUser> = {
   specialDiets: "Gluten-free"
 };
 
-const newEmail = "myNewUserEmail@gmail.com"
+const newEmail = "myNewUserEmail@gmail.com";
+const newName = "new-name";
+const newBirthday = "new-birthday";
+const newGender = "new-gender";
+const newMainGoal = "new-goal";
+const newSpecialDiets = "new-diet";
 
 beforeAll(async () => {
   app = await initApp();
@@ -100,6 +105,24 @@ describe("User tests", () => {
     expect(response2.body.length).toBe(1);
     expect(response2.body[0].email).toBe(newEmail);
     expect(response2.body[0].name).toBe(user.name);
+  });
+
+  test("Test update all fields User by Id", async () => {
+    let response = await request(app)
+      .patch(`/user/${userId}`)
+      .set("Authorization", "JWT " + accessToken)
+      .send({ email: newEmail, name: newName, birthday: newBirthday, gender: newGender, mainGoal: newMainGoal, specialDiets: newSpecialDiets});
+    expect(response.statusCode).toBe(204);
+    let response2 = await request(app).get("/user")
+    .set("Authorization", "JWT " + accessToken);
+    expect(response2.body.length).toBe(1);
+    expect(response2.body[0].email).toBe(newEmail);
+    expect(response2.body[0].name).toBe(newName);
+
+    expect(response2.body[0].birthday).toBe(newBirthday);
+    expect(response2.body[0].gender).toBe(newGender);
+    expect(response2.body[0].mainGoal).toBe(newMainGoal);
+    expect(response2.body[0].specialDiets).toBe(newSpecialDiets);
   });
 
   test("Test delete User by Id", async () => {

@@ -96,7 +96,7 @@ export const NavBar = () => {
 				noWrap
 				sx={{
 				display: { xs: "none", md: "flex" },
-				fontFamily: "monospace",
+				fontFamily: "Product Sans",
 				fontWeight: 700,
 				color: "white",
 				}}

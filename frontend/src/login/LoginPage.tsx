@@ -68,14 +68,6 @@ export const LoginPage = () => {
               label="Login"
             />
           </Grid>
-          <Grid item xs={12}>
-            <CustomButton
-              onClick={onRegister}
-              fullWidth
-              size="large"
-              label="Register"
-            />
-          </Grid>
         </Grid>
       </div>
     </div>

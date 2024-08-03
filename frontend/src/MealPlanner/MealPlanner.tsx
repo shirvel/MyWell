@@ -61,7 +61,7 @@ export const MealPlanner = () => {
 					requestInProgress.current = false;
 				}
 			} else {
-				navigate("/register");
+				navigate("/login");
 			}
 		};
 

@@ -1,11 +1,9 @@
-import React from "react";
+import { useState } from "react";
 import Box from "@mui/material/Box";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
 import StepLabel from "@mui/material/StepLabel";
-import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
-import { useState } from "react";
 import { FirstStage } from "./Stages/FirstStage";
 import { SecondStage } from "./Stages/SecondStage";
 import { ThirdStage } from "./Stages/ThirdStage";
@@ -13,16 +11,28 @@ import { FourthStage } from "./Stages/FourthStage";
 import { FifthStage } from "./Stages/FifthStage";
 import { useUserContext } from "../providers/UserContextProvider";
 import { useNavigate } from "react-router-dom";
-import { FormData, Errors } from "./types";
 import { checkEmailExists, register } from "./RegisterService";
+import { FormData, Errors } from "./types";
+import { CustomStepConnector } from "../components/CustomStepConnector";
+import { CustomStepIcon } from "../components/CustomStepIcon";
+import { CustomButton } from "../components/CustomButton";
 
 const steps = [
-	"Getting To Know you",
-	"What is your main goal?",
-	"Diets",
-	"Extra",
-	"Register",
-];
+	"Getting To Know you", 
+	"What is your main goal?", 
+	"Diets", 
+	"Extra", 
+	"Register"];
+
+const RegisterStepper = ({ activeStep }) => (
+  <Stepper activeStep={activeStep} alternativeLabel connector={<CustomStepConnector />}>
+    {steps.map((_, index) => (
+      <Step key={index}>
+        <StepLabel StepIconComponent={CustomStepIcon} />
+      </Step>
+    ))}
+  </Stepper>
+);
 
 export const RegisterPage = () => {
 	const { setUserId } = useUserContext();
@@ -56,7 +66,16 @@ export const RegisterPage = () => {
 		}
 	};
 
-	const handleBack = () => {
+  	const handleBack = () => {
+		setErrors({
+			name: "",
+			birthday: "",
+			gender: "",
+			mainGoal: "",
+			specialDiets: "",
+			email: "",
+			password: "",
+		})
 		setActiveStep((prevActiveStep) => prevActiveStep - 1);
 	};
 
@@ -169,48 +188,39 @@ export const RegisterPage = () => {
 		/>,
 	];
 
-	return (
-		<div className="flex items-center justify-center">
-			<Box className="w-1/2 p-4">
-				<Stepper activeStep={activeStep}>
-					{steps.map((label) => (
-						<Step key={label}>
-							<StepLabel>{label}</StepLabel>
-						</Step>
-					))}
-				</Stepper>
-				{activeStep === steps.length ? (
-					<React.Fragment>
-						<Typography sx={{ mt: 2, mb: 1 }}>
-							All steps completed - you&apos;re finished
-						</Typography>
-						<Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-							<Box sx={{ flex: "1 1 auto" }} />
-							<Button onClick={handleReset}>Reset</Button>
-						</Box>
-					</React.Fragment>
-				) : (
-					<React.Fragment>
-						{components[activeStep]}
-						<Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-							<Button
-								color="inherit"
-								disabled={activeStep === 0}
-								onClick={handleBack}
-								sx={{ mr: 1 }}>
-								Back
-							</Button>
-							<Box sx={{ flex: "1 1 auto" }} />
-							<Button
-								onClick={
-									activeStep === steps.length - 1 ? handleSubmit : handleNext
-								}>
-								{activeStep === steps.length - 1 ? "Finish" : "Next"}
-							</Button>
-						</Box>
-					</React.Fragment>
-				)}
-			</Box>
-		</div>
-	);
+  return (
+    <div className="flex items-center justify-center" style={{ marginTop: "20px" }}>
+      <Box className="w-1/3 p-4">
+        <RegisterStepper activeStep={activeStep} />
+        {activeStep === steps.length ? (
+          <>
+            <Typography sx={{ mt: 2, mb: 1 }}>All steps completed - you&apos;re finished</Typography>
+            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+              <Box sx={{ flex: "1 1 auto" }} />
+              <CustomButton onClick={handleReset} color="secondary">Reset</CustomButton>
+            </Box>
+          </>
+        ) : (
+          <>
+            {components[activeStep]}
+            <Box sx={{ display: "flex", justifyContent: "space-between", pt: 2 }}>
+              <CustomButton
+                color='secondary'
+                disabled={activeStep === 0}
+                onClick={handleBack}
+              >
+                Back
+              </CustomButton>
+              <CustomButton
+                color='primary'
+                onClick={activeStep === steps.length - 1 ? handleSubmit : handleNext}
+              >
+                {activeStep === steps.length - 1 ? "Finish" : "Next"}
+              </CustomButton>
+            </Box>
+          </>
+        )}
+      </Box>
+    </div>
+  );
 };

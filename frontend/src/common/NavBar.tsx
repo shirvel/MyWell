@@ -100,6 +100,7 @@ export const NavBar = () => {
 					</MenuItem>
 					<MenuItem onClick={() => handleClose("register")}>Register</MenuItem>
 					<MenuItem onClick={() => handleClose("login")}>Login</MenuItem>
+					<MenuItem onClick={() => handleClose("update-user-details")}>Update User Details</MenuItem>
 					<MenuItem onClick={() => handleLogOut()}>Log out</MenuItem>
 				</Menu>
 			</Toolbar>

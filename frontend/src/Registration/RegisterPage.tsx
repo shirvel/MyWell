@@ -11,11 +11,12 @@ import { FourthStage } from "./Stages/FourthStage";
 import { FifthStage } from "./Stages/FifthStage";
 import { useUserContext } from "../providers/UserContextProvider";
 import { useNavigate } from "react-router-dom";
-import { checkEmailExists, register } from "./RegisterService";
+import { register } from "./RegisterService";
 import { FormData, Errors } from "./types";
 import { CustomStepConnector } from "../components/CustomStepConnector";
 import { CustomStepIcon } from "../components/CustomStepIcon";
 import { CustomButton } from "../components/CustomButton";
+import { addInfoToLocalStorage } from "../login/LoginPage";
 
 const steps = [
 	"Getting To Know you", 
@@ -117,20 +118,19 @@ export const RegisterPage = () => {
 
 	const handleSubmit = async () => {
 		if (validateCurrentStep()) {
-			const exists = await checkEmailExists(formData.email);
-			if (exists) {
-				let newErrors = { ...errors };
-				newErrors.email = "Email already exists";
-				setErrors(newErrors);
-			} else {
-				register(formData).then((response) => {
-					if (response != null) {
-						setUserId(response._id);
-						handleReset();
-						navigate("/");
-					}
-				});
-			}
+			register(formData).then((response) => {
+				if (response?.status == 201) {
+					setUserId(response.data._id);
+					addInfoToLocalStorage(response.data);
+					handleReset();
+					navigate("/");
+				}
+				else {
+					let newErrors = { ...errors };
+					newErrors.email = response?.data;
+					setErrors(newErrors);
+				}
+			});
 		}
 	};
 

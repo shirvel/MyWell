@@ -1,8 +1,11 @@
-import { Grid, TextField, Button } from "@mui/material";
-import { useCallback, useState } from "react";
+import { useState, useCallback } from "react";
+import { Grid } from "@mui/material";
 import { login } from "./LoginService";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../providers/UserContextProvider";
+import { CustomTextField } from "../components/CustomTextField";
+import { CustomButton } from "../components/CustomButton";
+import { CustomTypography } from "../components/CustomTypography";
 
 export const addInfoToLocalStorage = (userInfo: {
 	accessToken: string;
@@ -33,59 +36,40 @@ export const LoginPage = () => {
 		});
 	}, []);
 
-	return (
-		<div className="flex items-center justify-center">
-			<div className="w-1/2">
-				<Grid container spacing={2} justifyContent="center" alignItems="center">
-					<Grid item xs={12} className="p-4">
-						<TextField
-							fullWidth
-							id="email"
-							label="Email"
-							variant="outlined"
-							margin="normal"
-							onChange={(event) => {
-								setEmail(event.target.value);
-							}}
-							value={email}
-							required
-						/>
-						<TextField
-							fullWidth
-							onChange={(event) => {
-								setPassword(event.target.value);
-							}}
-							value={password}
-							id="password"
-							label="Password"
-							variant="outlined"
-							type="password"
-							margin="normal"
-							required
-						/>
-					</Grid>
-					<Grid item xs={12}>
-						<Button
-							onClick={onLogin}
-							variant="contained"
-							fullWidth
-							size="large"
-							className="w-full">
-							Login
-						</Button>
-					</Grid>
-					<Grid item xs={12}>
-						<Button
-							onClick={onRegister}
-							variant="contained"
-							fullWidth
-							size="large"
-							className="w-full">
-							Register
-						</Button>
-					</Grid>
-				</Grid>
-			</div>
-		</div>
-	);
+  return (
+    <div className="flex items-center justify-center" style={{ marginTop: '20px' }}>
+      <div className="w-1/3 p-4">
+        <CustomTypography style={{ marginBottom: '20px' }}>
+          Login
+        </CustomTypography>
+        <Grid container spacing={2} justifyContent="center" alignItems="center">
+          <Grid item xs={12}>
+            <CustomTextField
+              label="Email"
+              onChange={(event) => setEmail(event.target.value)}
+              value={email}
+              required={true}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <CustomTextField
+              label="Password"
+              type="password"
+              onChange={(event) => setPassword(event.target.value)}
+              value={password}
+              required={true}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <CustomButton
+              onClick={onLogin}
+              fullWidth
+              size="large"
+              label="Login"
+            />
+          </Grid>
+        </Grid>
+      </div>
+    </div>
+  );
 };

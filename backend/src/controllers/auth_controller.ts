@@ -145,15 +145,4 @@ const logout = async (req: Request, res: Response) => {
     });
 }
 
-const checkEmail = async (req: Request, res: Response) => {
-    const email = req.params.email;
-    const user = await User.findOne({ email });
-    
-    if (user) {
-      res.status(200).json({ exists: true });
-    } else {
-      res.status(200).json({ exists: false });
-    }
-}
-
-export default { register, login, refresh, logout, checkEmail };
+export default { register, login, refresh, logout };

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { Card, CardContent, Typography } from "@mui/material";
+import { Typography } from "@mui/material";
 import { FormData, Errors } from "../types";
+import { CustomCard } from '../../components/CustomCard';
+import { CustomTypography } from '../../components/CustomTypography';
 
 const dietOptions = [
     { label: "No specific diet", description: "I don't have any dietary restrictions" },
@@ -24,32 +26,23 @@ export const ThirdStage: React.FC<ThirdStageProps> = ({ formData, handleChange, 
 
     return (
         <div className="space-y-4 p-4">
+            <CustomTypography variant='h5'>
+                What is your diet?
+            </CustomTypography>
             {dietOptions.map(option => (
-                <Card
+                <CustomCard
                     key={option.label}
-                    variant="outlined"
-                    style={{
-                        marginBottom: '10px',
-                        cursor: 'pointer',
-                        border: selectedDiet === option.label ? '2px solid #1976d2' : '1px solid #ccc',
-                        transition: 'border-color 0.3s',
-                    }}
+                    label={option.label}
+                    description={option.description}
+                    selected={selectedDiet === option.label}
                     onClick={() => handleCardClick(option.label)}
-                >
-                    <CardContent>
-                        <Typography
-                            variant="h6"
-                            style={{ fontWeight: selectedDiet === option.label ? 'bold' : 'normal' }}
-                        >
-                            {option.label}
-                        </Typography>
-                        <Typography variant="body2" color="textSecondary">
-                            {option.description}
-                        </Typography>
-                    </CardContent>
-                </Card>
+                />
             ))}
-            {errors.specialDiets && <Typography color="error">{errors.specialDiets}</Typography>}
-        </div>
+            {errors.specialDiets && (
+                <Typography color="error" style={{ fontFamily: 'Product Sans' }}>
+                    {errors.specialDiets}
+                </Typography>
+            )}        
+      </div>
     );
 };

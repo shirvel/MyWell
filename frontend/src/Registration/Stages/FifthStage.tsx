@@ -1,6 +1,10 @@
-import { Avatar, Button, Grid, TextField } from "@mui/material";
-import { useState } from "react";
-import { Errors, FormData } from "../types";
+import { Grid } from '@mui/material';
+import { useState } from 'react';
+import { Errors, FormData } from '../types';
+import { CustomTextField } from '../../components/CustomTextField';
+import { CustomButton } from '../../components/CustomButton';
+import { CustomAvatar } from '../../components/CustomAvatar';
+import { CustomTypography } from '../../components/CustomTypography';
 
 interface FifthStageProps {
 	formData: FormData;
@@ -31,63 +35,60 @@ export const FifthStage = ({
 	const handleRemoveImage = () => {
 		setImage("");
 	};
-	return (
-		<div className="space-y-4 p-4 flex items-center justify-center content-center">
-			<Grid container spacing={2} justifyContent="center" alignItems="center">
-				<Grid item xs={12}>
-					<div className="flex flex-col items-center">
-						<input
-							accept="image/*"
-							type="file"
-							id="image-upload"
-							style={{ display: "none" }}
-							onChange={handleImageChange}
-						/>
-						<label htmlFor="image-upload">
-							<Avatar
-								alt="User Image"
-								src={image.toString()}
-								sx={{ width: 120, height: 120, cursor: "pointer" }}
-							/>
-						</label>
-					</div>
-				</Grid>
-				<Grid item xs={12}>
-					{image && (
-						<Button
-							variant="outlined"
-							color="error"
-							size="small"
-							onClick={handleRemoveImage}
-							className="mb-4">
-							Remove Image
-						</Button>
-					)}
-				</Grid>
-				<Grid item xs={12}>
-					<TextField
-						className="w-full"
-						label="Email"
-						variant="outlined"
-						value={formData.email}
-						onChange={(e) => handleChange("email", e.target.value)}
-						error={!!errors.email}
-						helperText={errors.email}
-					/>
-				</Grid>
-				<Grid item xs={12}>
-					<TextField
-						className="w-full"
-						label="Password"
-						variant="outlined"
-						type="password"
-						value={formData.password}
-						onChange={(e) => handleChange("password", e.target.value)}
-						error={!!errors.password}
-						helperText={errors.password}
-					/>
-				</Grid>
-			</Grid>
-		</div>
-	);
+
+  return (
+    <div className="p-4">
+      <CustomTypography variant='h5' style={{marginBottom: "20px"}}>
+        Register
+      </CustomTypography>
+      <div className="flex flex-col items-center space-y-4">
+        <div className="flex flex-col items-center">
+          <input
+            accept="image/*"
+            type="file"
+            id="image-upload"
+            style={{ display: 'none' }}
+            onChange={handleImageChange}
+          />
+          <label htmlFor="image-upload">
+            <CustomAvatar alt="User Image" src={image.toString()} />
+          </label>
+        </div>
+        <div className="flex flex-col items-center space-y-4">
+          {image && (
+            <CustomButton
+              variant="outlined"
+              color="error"
+              size="small"
+              onClick={handleRemoveImage}
+              label="Remove Image"
+            />
+          )}
+          <Grid container spacing={2} justifyContent="center">
+            <Grid item xs={12}>
+              <CustomTextField
+                label="Email"
+                value={formData.email}
+                onChange={(e) => handleChange('email', e.target.value)}
+                error={!!errors.email}
+                helperText={errors.email}
+				required={true}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <CustomTextField
+                label="Password"
+                type="password"
+                value={formData.password}
+                onChange={(e) => handleChange('password', e.target.value)}
+                error={!!errors.password}
+                helperText={errors.password}
+				required={true}
+              />
+            </Grid>
+          </Grid>
+        </div>
+      </div>
+    </div>
+  );
 };

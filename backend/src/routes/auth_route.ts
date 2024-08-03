@@ -143,6 +143,4 @@ router.post("/logout", Auth.logout);
 
 router.get("/refresh", Auth.refresh)
 
-router.get("/check_email/:email", Auth.checkEmail);
-
 export default router;

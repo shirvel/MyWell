@@ -7,7 +7,6 @@ export const endpoints = {
 	AUTH: {
 		REGISTER: base + "auth/register/",
 		LOGIN: base + "auth/login/",
-		CHECK_EMAIL: (email: string) => base + `auth/check_email/${email}/`,
 		GET_USER_BY_ID: (userId: string) => base + "user/" + userId + "/",
 	},
 	MEAL_PLAN: {

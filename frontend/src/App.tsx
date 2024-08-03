@@ -8,6 +8,7 @@ import { NavBar } from "./common/NavBar";
 import { WeekReflection } from "./WeekReflection/WeekRelection";
 import { RegisterPage } from "./Registration/RegisterPage";
 import { LoginPage } from "./login/LoginPage";
+ import { UpdateUserDetails } from "./UpdateUserDetails/UpdateUserDetails";
 
 export const App = () => {
 	return (
@@ -20,6 +21,7 @@ export const App = () => {
 					<Route path="login" element={<LoginPage />} />
 					<Route path="week-reflection" element={<WeekReflection />} />
 					<Route path="register" element={<RegisterPage />} />
+					<Route path="update-user-details" element={<UpdateUserDetails />} /> 
 					<Route path="*" element={<PageNotFound />} />
 				</Routes>
 			</BrowserRouter>

@@ -20,4 +20,7 @@ export const endpoints = {
 	IMAGE: {
 		UPLOAD_IMAGE: base + "image/upload/",
 	},
+	USER: {
+		UPDATE_USER: (id: string) => base + "user/" + id + "/",
+	}
 };

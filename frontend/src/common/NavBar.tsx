@@ -122,6 +122,7 @@ export const NavBar = () => {
 				<>
 				<MenuItem onClick={() => handleClose("/meal-planner")}>Meal Plan</MenuItem>
 				<MenuItem onClick={() => handleClose("/week-reflection")}>Week Reflection</MenuItem>
+				<MenuItem onClick={() => handleClose("update-user-details")}>Update User Details</MenuItem>
 				<MenuItem onClick={handleLogOut}>Log out</MenuItem>
 				</>
 			) : isLoginPage ? (

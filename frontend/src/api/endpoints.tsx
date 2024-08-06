@@ -14,6 +14,10 @@ export const endpoints = {
 			base + "api/meal-planner/" + user_id + "/",
 		CHANGE_MEAL: base + "meal_feedback/",
 	},
+	WORKOUT_PLANNER: {
+		WORKOUT_PLAN: (user_id: string) =>
+			base + "api/workout-planner/" + user_id + "/",
+	},
 	WEEKLY_REFLECTION: {
 		CREATE_FEEDBACK: base + "api/weekly_reflection/",
 	},
@@ -22,5 +26,5 @@ export const endpoints = {
 	},
 	USER: {
 		UPDATE_USER: (id: string) => base + "user/" + id + "/",
-	}
+	},
 };

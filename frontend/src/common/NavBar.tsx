@@ -20,13 +20,13 @@ export const NavBar = () => {
 
 	useEffect(() => {
 		const getUser = async () => {
-		if (userId) {
-			const res = await getUserNameAndImage(userId);
-			if (res) {
-				setUsername(res.name);
-				setImageUrl(res.image);
+			if (userId) {
+				const res = await getUserNameAndImage(userId);
+				if (res) {
+					setUsername(res.name);
+					setImageUrl(res.image);
+				}
 			}
-		}
 		};
 		getUser();
 	}, [userId]);
@@ -35,12 +35,15 @@ export const NavBar = () => {
 		setAnchorEl(event.currentTarget);
 	};
 
-	const handleClose = useCallback((route?: string) => {
-		if (route) {
-		navigate(route);
-		}
-		setAnchorEl(null);
-	}, [navigate]);
+	const handleClose = useCallback(
+		(route?: string) => {
+			if (route) {
+				navigate(route);
+			}
+			setAnchorEl(null);
+		},
+		[navigate]
+	);
 
 	const handleLogOut = () => {
 		setUserId(null);
@@ -53,85 +56,93 @@ export const NavBar = () => {
 
 	return (
 		<AppBar position="sticky">
-		<Toolbar
-			sx={{
-			display: "flex",
-			justifyContent: "space-between",
-			alignItems: "center",
-			p: 0,
-			}}
-		>
-			{/* Left section: Avatar and username */}
-			<div className="flex items-center space-x-4">
-			{username && (
-				<>
-				<Avatar className="my-2" src={imageUrl} alt={username} />
-				<Typography
-					noWrap
-					sx={{
-					display: { xs: "none", md: "flex" },
-					fontFamily: "monospace",
-					fontWeight: 700,
-					color: "white",
-					}}
-				>
-					Hello, {username}
-				</Typography>
-				</>
-			)}
-			</div>
-
-			{/* Center section: App name */}
-			<div
-			style={{
-				flex: 1,
-				display: 'flex',
-				justifyContent: 'center',
-				alignItems: 'center',
-			}}
-			>
-			<SelfImprovementIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-			<Typography
-				variant="h6"
-				noWrap
+			<Toolbar
 				sx={{
-				display: { xs: "none", md: "flex" },
-				fontFamily: "Product Sans",
-				fontWeight: 700,
-				color: "white",
-				}}
-			>
-				My Well
-			</Typography>
-			</div>
+					display: "flex",
+					justifyContent: "space-between",
+					alignItems: "center",
+					p: 0,
+				}}>
+				{/* Left section: Avatar and username */}
+				<div className="flex items-center space-x-4">
+					{username && (
+						<div>
+							<Avatar className="my-2" src={imageUrl} alt={username} />
+							<Typography
+								noWrap
+								sx={{
+									display: { xs: "none", md: "flex" },
+									fontFamily: "monospace",
+									fontWeight: 700,
+									color: "white",
+								}}>
+								Hello, {username}
+							</Typography>
+						</div>
+					)}
+				</div>
 
-			<IconButton onClick={handleClick}>
-				<MenuIcon className="text-white" />
-			</IconButton>
+				{/* Center section: App name */}
+				<div
+					style={{
+						flex: 1,
+						display: "flex",
+						justifyContent: "center",
+						alignItems: "center",
+					}}>
+					<SelfImprovementIcon
+						sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}
+					/>
+					<Typography
+						variant="h6"
+						noWrap
+						sx={{
+							display: { xs: "none", md: "flex" },
+							fontFamily: "Product Sans",
+							fontWeight: 700,
+							color: "white",
+						}}>
+						My Well
+					</Typography>
+				</div>
 
-			<Menu
-			id="basic-menu"
-			anchorEl={anchorEl}
-			open={open}
-			onClose={() => handleClose()}
-			MenuListProps={{
-				"aria-labelledby": "basic-button",
-			}}
-			>
-			{isAuthenticated ? (
-				<>
-				<MenuItem onClick={() => handleClose("/meal-planner")}>Meal Plan</MenuItem>
-				<MenuItem onClick={() => handleClose("/week-reflection")}>Week Reflection</MenuItem>
-				<MenuItem onClick={() => handleClose("update-user-details")}>Update User Details</MenuItem>
-				<MenuItem onClick={handleLogOut}>Log out</MenuItem>
-				</>
-			) : isLoginPage ? (
-				<MenuItem onClick={() => handleClose("/register")}>Register</MenuItem>
-			) : isRegisterPage ? (
-				<MenuItem onClick={() => handleClose("/login")}>Login</MenuItem>
-			) : null}
-			</Menu>
-		</Toolbar>
+				<IconButton onClick={handleClick}>
+					<MenuIcon className="text-white" />
+				</IconButton>
+
+				<Menu
+					id="basic-menu"
+					anchorEl={anchorEl}
+					open={open}
+					onClose={() => handleClose()}
+					MenuListProps={{
+						"aria-labelledby": "basic-button",
+					}}>
+					{isAuthenticated ? (
+						<div>
+							<MenuItem onClick={() => handleClose("/meal-planner")}>
+								Meal Plan
+							</MenuItem>
+							<MenuItem onClick={() => handleClose("/workout-planner")}>
+								Workout Plan
+							</MenuItem>
+							<MenuItem onClick={() => handleClose("/week-reflection")}>
+								Week Reflection
+							</MenuItem>
+							<MenuItem onClick={() => handleClose("update-user-details")}>
+								Update User Details
+							</MenuItem>
+							<MenuItem onClick={handleLogOut}>Log out</MenuItem>
+						</div>
+					) : isLoginPage ? (
+						<MenuItem onClick={() => handleClose("/register")}>
+							Register
+						</MenuItem>
+					) : isRegisterPage ? (
+						<MenuItem onClick={() => handleClose("/login")}>Login</MenuItem>
+					) : null}
+				</Menu>
+			</Toolbar>
 		</AppBar>
 	);
 };

@@ -1,5 +1,8 @@
+import env  from 'dotenv';
 import { Request, Response } from 'express';
 import multer from 'multer';
+
+env.config();
 
 const base = "http://" + process.env.IP + ":" + process.env.BACKEND_PORT + "/";
 

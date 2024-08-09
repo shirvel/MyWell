@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid } from '@mui/material';
 import UserImageSection from './UserImageSection';
 import UserFormSection from './UserFormSection';
@@ -10,6 +10,7 @@ import { updateUserDetails } from './UpdateUserDetailsService';
 export const UpdateUserDetails: any = () => {
 
     const [userDetails, setUserDetails] = useState<UserDetails>();
+    const [imageFile, setImageFile] = useState<File | undefined>(undefined);
     
     type MultiSelectFields = 'mainGoal' | 'specialDiets';
 
@@ -50,15 +51,16 @@ export const UpdateUserDetails: any = () => {
         } as UserDetails));
     };
 
-    const handleImageChange = (newUrl: string) => {
+    const handleImageChange = (newUrl: string, newFile: File) => {
+        setImageFile(newFile)
         setUserDetails(prevState => ({
             ...prevState,
             imageUrl: newUrl
         } as UserDetails));
     };
 
-    const onSave = () => {
-        updateUserDetails(userDetails);
+    const onSave = async () => {
+        await updateUserDetails(userDetails, imageFile);
         window.location.reload();
     }
 

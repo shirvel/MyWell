@@ -1,4 +1,4 @@
-import React, { useState, useEffect, FC } from 'react';
+import React, { FC } from 'react';
 import { Avatar, Button } from '@mui/material';
 
 interface UserImageSectionProps {
@@ -12,8 +12,9 @@ const UserImageSection: FC<UserImageSectionProps> = ({imageUrl, setUserImage}) =
         const file = e.target.files?.[0];
         if (file) {
             const reader = new FileReader();
-            reader.onloadend = () => {
-                setUserImage(reader.result as string);
+            reader.onload = (event) => {
+                const result = event.target?.result;
+                setUserImage(result ? result : "", file ? file : undefined);
             };
             reader.readAsDataURL(file);
         }

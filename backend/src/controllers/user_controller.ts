@@ -38,30 +38,8 @@ const getUserById = async (req: Request, res: Response) => {
     }
 };
 
-// const putUserById = async (req: Request, res: Response) => {
-//        try {
-//            let user;
-//         if (req.body.email) {
-//              user = await User.findOneAndUpdate({_id: req.params.id}, {"email" :req.body.email, "name": req.body.name});
-        
-//         }
-//         res.status(204).json({"message": user});
-            
-//     } catch (err) {
-//         res.status(500).json( {message: err.message} );
-//     }
-// };
 
     const putUserById = async (req: Request, res: Response) => {
-    //     try {
-    //         let user;
-    //     if (req.body.email) {
-    //         user = await User.findOneAndUpdate({_id: req.params.id}, {"email" :req.body.email, "name": req.body.name});
-        
-    //     }
-    //     res.status(204).json({"message": user});
-            
-    // } 
     try {
         const updateFields: any = {};
 
@@ -73,6 +51,7 @@ const getUserById = async (req: Request, res: Response) => {
         if (req.body.specialDiets) updateFields.specialDiets = req.body.specialDiets;
         if (req.body.healthConditions) updateFields.healthConditions = req.body.healthConditions;
         if (req.body.comment) updateFields.comment = req.body.comment;
+        if (req.body.imageUrl) updateFields.imageUrl = req.body.imageUrl;
 
         const user = await User.findOneAndUpdate({ _id: req.params.id }, updateFields, { new: true });
 

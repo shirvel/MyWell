@@ -39,15 +39,18 @@ export const UpdateUserDetails: any = () => {
 
     const handleMultiSelectChange = (
         e: React.MouseEvent<HTMLButtonElement>,
-        fieldName: MultiSelectFields
+        fieldName: MultiSelectFields,
+        multi: boolean
     ) => {
         const value = e.currentTarget.textContent || '';
     
         setUserDetails(prevState => ({
             ...prevState,
-            [fieldName]: (prevState![fieldName] ?? []).includes(value)
-                ? (prevState![fieldName] ?? []).filter(item => item !== value) 
-                : [...(prevState![fieldName] ?? []), value]
+            [fieldName]: !multi ? 
+                            [value] :
+                            (prevState![fieldName] ?? []).includes(value)
+                            ? (prevState![fieldName] ?? []).filter(item => item !== value) 
+                            : [...(prevState![fieldName] ?? []), value]
         } as UserDetails));
     };
 
@@ -59,8 +62,33 @@ export const UpdateUserDetails: any = () => {
         } as UserDetails));
     };
 
+    const getFormErrors = () => {
+        if (userDetails!.mainGoal.length < 1) {
+            return "Please select at least one goal!"
+        }
+        else if (userDetails!.specialDiets.length !== 1) {
+            return "Please select only one dietery option!"
+        }
+        
+        return null
+    }
+
     const onSave = async () => {
-        await updateUserDetails(userDetails, imageFile);
+        const formErrors = getFormErrors()
+        let message = null
+        let severity = null
+        if (!formErrors) {
+            await updateUserDetails(userDetails, imageFile);
+            severity = "success"
+            message = "Your details have been saved successfully!"
+        }
+        else {
+            severity = "error"
+            message = formErrors
+        }
+
+        localStorage.setItem('popupSeverity', severity)
+        localStorage.setItem('popupMessage', message);
         window.location.reload();
     }
 

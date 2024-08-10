@@ -7,19 +7,26 @@ import {
 	CardContent,
 	TextField,
 } from "@mui/material";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useContext } from "react";
 import { sendWeekReflection } from "./WeekReflectionService";
+import { useNavigate } from "react-router-dom";
+import { GlobalState, GlobalStateContext } from '../context/MyWellGlobalState';
 
 export const WeekReflection = () => {
+	const navigate = useNavigate();
+	const { globalState, setGlobalState } = useContext(GlobalStateContext)!;
 	const [feeling, setFeeling] = useState<string>("");
 	const [pastWeek, setPastWeek] = useState<string>("");
 	const [feedback, setFeedback] = useState<string>("");
 
 	const saveReflection = useCallback(() => {
-		sendWeekReflection("123", { feeling, pastWeek, feedback });
+		const user_id = localStorage.getItem("userId");
+		sendWeekReflection(user_id ?? "" , { feeling, pastWeek, feedback });
+		setGlobalState((prev) => {return {...prev, didWeeklyReflection: true} as GlobalState})
 		setFeeling("");
 		setPastWeek("");
 		setFeedback("");
+		navigate('/meal-planner');
 	}, [feeling, pastWeek, feedback]);
 
 	return (

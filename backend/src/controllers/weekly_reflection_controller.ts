@@ -1,9 +1,9 @@
 //import User from '../models/user_model';
 import weeklyReflection from '../models/weekly_reflection';
+import User from '../models/user_model'
 import mongoose from "mongoose";
 import { Request, Response } from 'express';
 import { Console } from 'console';
-
 export interface IReflectionSummery {
   user_id: string; 
   feeling: string;
@@ -18,6 +18,7 @@ const createfeedback = async (req: Request, res: Response) => {
   const weekly_reflection = new weeklyReflection(req.body);
   try {
     await weekly_reflection.save();
+    await User.findOneAndUpdate({_id: req.body.user_id}, {didWeeklyReflection: true})
     console.log(`Created new weekly_reflection, ID: ${weekly_reflection._id}`);
     res.status(201).json(weekly_reflection);
   } catch (err) {

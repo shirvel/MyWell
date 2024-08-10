@@ -16,11 +16,11 @@ export const register = async (formData: FormData) => {
 	}
 };
 
-export const getUserNameAndImage = async (userId: string) => {
+export const getUserDetails = async (userId: string) => {
 	try {
 		const url = endpoints.AUTH.GET_USER_BY_ID(userId);
 		const response = await get(url);
-		return { name: response.name, image: response.imageUrl };
+		return response;
 	} catch (error) {
 		console.error("Error", error);
 		return "";

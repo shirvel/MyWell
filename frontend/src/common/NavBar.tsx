@@ -3,11 +3,13 @@ import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
+import Badge from "@mui/material/Badge";
 import { Avatar, IconButton, Menu, MenuItem } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserContext } from "../providers/UserContextProvider";
-import { getUserNameAndImage } from "../Registration/RegisterService";
+import { getUserDetails } from "../Registration/RegisterService";
+import { GlobalState, GlobalStateContext } from '../context/MyWellGlobalState';
 
 export const NavBar = () => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -15,16 +17,18 @@ export const NavBar = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
 	const { userId, setUserId } = useUserContext();
+	const { globalState, setGlobalState } = useContext(GlobalStateContext)!;
 	const [username, setUsername] = useState<string | undefined>();
 	const [imageUrl, setImageUrl] = useState<string | undefined>();
 
 	useEffect(() => {
 		const getUser = async () => {
 			if (userId) {
-				const res = await getUserNameAndImage(userId);
+				const res = await getUserDetails(userId);
 				if (res) {
 					setUsername(res.name);
-					setImageUrl(res.image);
+					setImageUrl(res.imageUrl);
+					setGlobalState((prev) => {return {...prev, didWeeklyReflection: res.didWeeklyReflection} as GlobalState})
 				}
 			}
 		};
@@ -47,6 +51,7 @@ export const NavBar = () => {
 
 	const handleLogOut = () => {
 		setUserId(null);
+		setGlobalState({} as GlobalState);
 		handleClose("/register"); // Redirect to Register page after logout
 	};
 
@@ -107,7 +112,17 @@ export const NavBar = () => {
 				</div>
 
 				<IconButton onClick={handleClick}>
-					<MenuIcon className="text-white" />
+					<Badge
+						color="error"
+						variant="dot"
+						invisible={globalState.didWeeklyReflection !== false}
+						anchorOrigin={{
+							vertical: 'top',
+							horizontal: 'right',
+						}}
+					>
+						<MenuIcon className="text-white" />
+					</Badge>
 				</IconButton>
 
 				<Menu
@@ -126,9 +141,24 @@ export const NavBar = () => {
 							<MenuItem onClick={() => handleClose("/workout-planner")}>
 								Workout Plan
 							</MenuItem>
-							<MenuItem onClick={() => handleClose("/week-reflection")}>
-								Week Reflection
-							</MenuItem>
+							<Badge
+								color="error"
+								variant="dot"
+								invisible={globalState.didWeeklyReflection !== false}
+								anchorOrigin={{
+									vertical: 'top',
+									horizontal: 'right',
+								}}
+								sx={{
+									'& .MuiBadge-dot': {
+										top: '50%'
+									},
+								}}
+							>
+								<MenuItem onClick={() => handleClose("/week-reflection")}>
+									Week Reflection
+								</MenuItem>
+							</Badge>
 							<MenuItem onClick={() => handleClose("update-user-details")}>
 								Update User Details
 							</MenuItem>

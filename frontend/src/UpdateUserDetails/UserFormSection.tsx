@@ -1,6 +1,5 @@
-import React, { useState, FC, useEffect } from 'react';
+import { FC } from 'react';
 import { TextField, FormControl, Typography, Button, Grid } from '@mui/material';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 interface UserDetailsForm {
     mainGoal: string[] | undefined; 
@@ -11,45 +10,20 @@ interface UserDetailsForm {
     handleMultiSelectChange?: any;
 }
 
+const dietMap: Record<string, string> = {
+
+        "No Specific Diet": "No specific diet",
+        "Vegetarian": "Vegetarian", 
+        "Gluten Free": "Gluten-free"
+    }
+
+
 const UserFormSection: FC<UserDetailsForm> = ({mainGoal, specialDiets, healthConditions, comment,
                                                 handleInputChange, handleMultiSelectChange}) => {
 
-    
-
-    
-
-
     return (
         <>
-            {/* <TextField
-                label="Name"
-                name="name"
-                value={userDetails.name}
-                onChange={handleInputChange}
-                fullWidth
-                required
-                margin="normal"
-            /> */}
-
-            {/* <DatePicker
-                label="Birthday"
-                // value={userDetails.birthday}
-                value={"20/12/1998"}
-                onChange={handleDateChange}
-            //    renderInput={(params) => <TextField {...params} fullWidth margin="normal" />}
-            /> */}
-
             <FormControl fullWidth margin="normal">
-                {/* <InputLabel>Gender</InputLabel> */}
-                {/* <Select
-                    name="gender"
-                    value={userDetails.gender}
-                    onChange={(e) => handleInputChange(e as React.ChangeEvent<HTMLInputElement>)}
-                >
-                    <MenuItem value={'male'}>Male</MenuItem>
-                    <MenuItem value={'female'}>Female</MenuItem>
-                    <MenuItem value={'other'}>Other</MenuItem>
-                </Select> */}
             </FormControl>
 
             <Typography variant='subtitle1' style={{color: 'gray'}} gutterBottom>Main Goal</Typography>
@@ -57,7 +31,7 @@ const UserFormSection: FC<UserDetailsForm> = ({mainGoal, specialDiets, healthCon
                 {['Reduce Stress', 'Eat Healthy', 'Improve Sleep'].map((goal) => (
                     <Grid item key={goal}>
                         <Button
-                            onClick={(e) => handleMultiSelectChange(e, 'mainGoal')}
+                            onClick={(e) => handleMultiSelectChange(e, 'mainGoal', true)}
                             variant={(mainGoal ?? []).includes(goal) ? 'contained' : 'outlined'}
                             style={{width: '12vw'}}
                         >
@@ -72,11 +46,11 @@ const UserFormSection: FC<UserDetailsForm> = ({mainGoal, specialDiets, healthCon
                 {['No Specific Diet', 'Vegetarian', 'Gluten Free'].map((diet) => (
                     <Grid item key={diet}>
                         <Button
-                            onClick={(e) => handleMultiSelectChange(e, 'specialDiets')}
-                            variant={(specialDiets ?? []).includes(diet) ? 'contained' : 'outlined'}
+                            onClick={(e) => handleMultiSelectChange(e, 'specialDiets', false)}
+                            variant={(specialDiets ?? []).includes(dietMap[diet]) ? 'contained' : 'outlined'}
                             style={{width: '12vw'}}
                         >
-                            {diet}
+                            {dietMap[diet]}
                         </Button>
                     </Grid>
                 ))}

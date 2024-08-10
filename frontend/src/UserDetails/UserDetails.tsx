@@ -6,8 +6,9 @@ export type UserDetails = { mainGoal: string[]; specialDiets: string[]; healthCo
 export const getUserById = async (id: string) => {
 	const response = await get(endpoints.USER.UPDATE_USER(id));
 	const newMainGoal = response.mainGoal.split(' & ');
+	const newSpecialDiets = response.specialDiets.split(' & ');
 	response.mainGoal = newMainGoal;
-	response.specialDiets = [response.specialDiets];
+	response.specialDiets = newSpecialDiets;
 	return response as UserDetails;
 };
 

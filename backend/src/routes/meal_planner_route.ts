@@ -5,5 +5,6 @@ const router = express.Router();
 
 router.get("/:user_id", planner_controller.getMealPlanner); // Existing route for getting a planner
 router.put("/:user_id/:day/:meal", planner_controller.updateMeal); // New route for updating a meal
+router.put("/current_planner/user_id/day/meal", planner_controller.updateMealPlannerForUser);
 
 export default router;

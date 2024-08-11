@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import MealPlanner from '../models/meal_planner';
 import { createMealPlanner } from '../ai/meal_planner_utils';
 import { getStartAndEndDates } from '../common/date_utils';
+import { updateMealPlanner } from '../../src/ai/meal_planner_utils'
 
 const plannerRequestInProgress: { [key: string]: boolean } = {};
 
@@ -70,4 +71,25 @@ export const updateMeal = async (req: Request, res: Response) => {
   }
 };
 
-export default { getMealPlanner, updateMeal };
+// Update the meal planner
+export const updateMealPlannerForUser = async (req: Request, res: Response) => {
+  try {
+    const { currentPlanner, userId, day, type } = req.body;
+
+    // Validate the incoming data
+    if (!currentPlanner || !userId || !day || !type) {
+      return res.status(400).json({ message: 'Missing required fields' });
+    }
+
+    // Call the service function
+    const updatedPlanner = await updateMealPlanner(currentPlanner, userId, day, type);
+
+    // Respond with the updated planner
+    return res.status(200).json(updatedPlanner);
+  } catch (error) {
+    console.error("Error updating meal planner:", error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
+};
+
+export default { getMealPlanner, updateMeal, updateMealPlannerForUser };

@@ -13,6 +13,8 @@ export const endpoints = {
 		GET_USER_MEAL_PLAN: (user_id: string) =>
 			base + "api/meal-planner/" + user_id + "/",
 		CHANGE_MEAL: base + "meal_feedback/",
+		CHANGE_MEAL_PLANNER: (current_planner: any, user_id: string) => base + "api/meal_feedback/" + current_planner + "/" + user_id + "/day/meal", //todo: change the any type
+		///current_planner/user_id/day/meal
 	},
 	WORKOUT_PLANNER: {
 		WORKOUT_PLAN: (user_id: string) =>

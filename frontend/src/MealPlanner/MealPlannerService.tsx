@@ -27,3 +27,18 @@ export const getMealPlan = async (userId: string): Promise<IMealPlanner> => {
 	  throw error;
 	}
   };
+
+  export const changeMealPlanner = async (currentMealPlanned: any, userId: string): Promise<void> => {
+
+
+	// try {
+	// 	const url = endpoints.MEAL_PLAN.CHANGE_MEAL_PLANNER()
+	// 	console.log(`Requesting meal plan from: ${url}`);
+	// 	const data: IMealPlanner = await get(url);
+	// 	console.log('Received meal plan data:', data);
+	// 	return data;
+	//   }
+
+	
+};
+

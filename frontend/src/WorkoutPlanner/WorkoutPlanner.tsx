@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react";
-import { useUserContext } from "../providers/UserContextProvider";
+import { useEffect, useMemo, useState } from "react";
 import { getWorkoutPlan, IWorkoutPlanner } from "./WorkoutPlannerService";
 import {
 	Table,
@@ -12,7 +11,7 @@ import { dayColumns, isDayPassed } from "../MealPlanner/MealPlanner";
 import { Workout } from "./Workout";
 
 export const WorkoutPlanner = () => {
-	const { userId } = useUserContext();
+	const userId = useMemo(() => localStorage.getItem("userId"), []);
 	const [workoutPlan, setWorkoutPlan] = useState<IWorkoutPlanner>();
 	useEffect(() => {
 		const loadWorkoutPlan = async () => {

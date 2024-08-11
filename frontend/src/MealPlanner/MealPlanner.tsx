@@ -5,10 +5,9 @@ import {
 	TableRow,
 	TableCell,
 } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { IMealPlanner, MealTypes, getMealPlan } from "./MealPlannerService";
 import { Meal } from "./Meal";
-import { useUserContext } from "../providers/UserContextProvider";
 import { useNavigate } from "react-router-dom";
 import { format } from "date-fns";
 
@@ -36,7 +35,7 @@ export const isDayPassed = (day: string) => {
 
 export const MealPlanner = () => {
 	const navigate = useNavigate();
-	const { userId } = useUserContext();
+	const userId = useMemo(() => localStorage.getItem("userId"), []);
 	const [mealPlan, setMealPlan] = useState<IMealPlanner | null>(null);
 	const [loading, setLoading] = useState<boolean>(true);
 	const [error, setError] = useState<string | null>(null);

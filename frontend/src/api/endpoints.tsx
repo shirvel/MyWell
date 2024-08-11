@@ -11,15 +11,15 @@ export const endpoints = {
 	},
 	MEAL_PLAN: {
 		GET_USER_MEAL_PLAN: (user_id: string) =>
-			base + "api/meal-planner/" + user_id + "/",
+			base + "meal-planner/" + user_id + "/",
 		CHANGE_MEAL: base + "meal_feedback/",
 	},
 	WORKOUT_PLANNER: {
 		WORKOUT_PLAN: (user_id: string) =>
-			base + "api/workout-planner/" + user_id + "/",
+			base + "workout-planner/" + user_id + "/",
 	},
 	WEEKLY_REFLECTION: {
-		CREATE_FEEDBACK: base + "api/weekly_reflection/",
+		CREATE_FEEDBACK: base + "weekly_reflection/",
 	},
 	IMAGE: {
 		UPLOAD_IMAGE: base + "image/upload/",

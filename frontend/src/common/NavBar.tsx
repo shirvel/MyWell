@@ -4,9 +4,9 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import MenuIcon from "@mui/icons-material/Menu";
 import { Avatar, IconButton, Menu, MenuItem } from "@mui/material";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { useUserContext } from "../providers/UserContextProvider";
+
 import { getUserNameAndImage } from "../Registration/RegisterService";
 
 export const NavBar = () => {
@@ -14,12 +14,12 @@ export const NavBar = () => {
 	const open = Boolean(anchorEl);
 	const navigate = useNavigate();
 	const location = useLocation();
-	const { userId, setUserId } = useUserContext();
 	const [username, setUsername] = useState<string | undefined>();
 	const [imageUrl, setImageUrl] = useState<string | undefined>();
 
 	useEffect(() => {
 		const getUser = async () => {
+			const userId = localStorage.getItem("userId");
 			if (userId) {
 				const res = await getUserNameAndImage(userId);
 				if (res) {
@@ -29,7 +29,7 @@ export const NavBar = () => {
 			}
 		};
 		getUser();
-	}, [userId]);
+	}, []);
 
 	const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
 		setAnchorEl(event.currentTarget);
@@ -46,8 +46,10 @@ export const NavBar = () => {
 	);
 
 	const handleLogOut = () => {
-		setUserId(null);
-		handleClose("/register"); // Redirect to Register page after logout
+		localStorage.removeItem("accessToken");
+		localStorage.removeItem("refreshToken");
+		localStorage.removeItem("userId");
+		handleClose("/login");
 	};
 
 	const isLoginPage = location.pathname === "/login";

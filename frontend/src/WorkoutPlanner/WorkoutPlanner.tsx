@@ -8,8 +8,8 @@ import {
 	TableCell,
 	TableBody,
 } from "@mui/material";
-import { dayColumns, isDayPassed } from "../MealPlanner/MealPlanner";
 import { Workout } from "./Workout";
+import { dayColumns, isDayPassed } from "../common/plannerUtils";
 
 export const WorkoutPlanner = () => {
 	const { userId } = useUserContext();

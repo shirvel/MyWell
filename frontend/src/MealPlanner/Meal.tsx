@@ -15,7 +15,7 @@ import WorkoutIcon from "@mui/icons-material/FitnessCenter";
 import { IMeal, MealTypes } from "./MealPlannerService";
 import { useState } from "react";
 import { ChangeMealModal } from "./ChangeMealModal";
-import { isDayPassed } from "./MealPlanner";
+import { isDayPassed } from "../common/plannerUtils";
 
 const icons: Record<(typeof MealTypes)[number], JSX.Element> = {
 	Breakfast: <FreeBreakfastIcon />,

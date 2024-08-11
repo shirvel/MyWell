@@ -5,66 +5,45 @@ import {
 	TableRow,
 	TableCell,
 } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { IMealPlanner, MealTypes, getMealPlan } from "./MealPlannerService";
 import { Meal } from "./Meal";
 import { useUserContext } from "../providers/UserContextProvider";
-import { useNavigate } from "react-router-dom";
-import { format } from "date-fns";
-
-export const dayColumns = [
-	"Sunday",
-	"Monday",
-	"Tuesday",
-	"Wednesday",
-	"Thursday",
-	"Friday",
-	"Saturday",
-];
-
-export const isDayPassed = (day: string) => {
-	// Get the current date
-	const today = new Date();
-	// Format the date to get the full day name
-	const currentDay = format(today, "EEEE");
-	const currentDayIndex = dayColumns.indexOf(currentDay);
-	if (dayColumns.indexOf(day) < currentDayIndex) {
-		return true;
-	}
-	return false;
-};
+import { dayColumns, isDayPassed, PlannerDates } from "../common/plannerUtils";
+import { DateNav } from "../common/PlannerDateNav";
 
 export const MealPlanner = () => {
-	const navigate = useNavigate();
 	const { userId } = useUserContext();
 	const [mealPlan, setMealPlan] = useState<IMealPlanner | null>(null);
+	const [dates, setDates] = useState<PlannerDates | null>(null);
 	const [loading, setLoading] = useState<boolean>(true);
-	const [error, setError] = useState<string | null>(null);
 	const requestInProgress = useRef<boolean>(false);
 
-	useEffect(() => {
-		const loadMealPlan = async () => {
-			if (userId != null) {
-				if (requestInProgress.current) {
-					return; // Exit if a request is already in progress
-				}
-
-				requestInProgress.current = true;
-
-				try {
-					const response = await getMealPlan(userId);
-					setMealPlan(response);
-				} catch (err) {
-					setError("Failed to load meal plan");
-				} finally {
-					setLoading(false);
-					requestInProgress.current = false;
-				}
-			} else {
-				navigate("/login");
+	const loadMealPlan = useCallback(async (dates?: PlannerDates) => {
+		if (dates) {
+			setDates({ startDate: dates.startDate, endDate: dates.endDate });
+		}
+		if (userId != null) {
+			if (requestInProgress.current) {
+				return; // Exit if a request is already in progress
 			}
-		};
 
+			requestInProgress.current = true;
+
+			try {
+				const response = await getMealPlan(userId, dates);
+				setMealPlan(response);
+				setDates({ startDate: response.startDate, endDate: response.endDate });
+			} catch (err) {
+				console.log("Failed to load meal plan");
+			} finally {
+				setLoading(false);
+				requestInProgress.current = false;
+			}
+		}
+	}, []);
+
+	useEffect(() => {
 		loadMealPlan();
 	}, []);
 
@@ -72,12 +51,12 @@ export const MealPlanner = () => {
 		return <div>Loading...</div>;
 	}
 
-	if (error) {
-		return <div>{error}</div>;
-	}
-
-	return (
+	return mealPlan ? (
 		<div className="w-full py-8 px-2">
+			<DateNav
+				dates={{ startDate: mealPlan.startDate, endDate: mealPlan.endDate }}
+				loadPlan={loadMealPlan}
+			/>
 			<Table className="w-full">
 				<TableHead className="bg-blue-600">
 					<TableRow>
@@ -116,6 +95,14 @@ export const MealPlanner = () => {
 					))}
 				</TableBody>
 			</Table>
+		</div>
+	) : (
+		<div>
+			no meal plan
+			<DateNav
+				dates={{ startDate: dates?.startDate, endDate: dates?.endDate }}
+				loadPlan={loadMealPlan}
+			/>
 		</div>
 	);
 };

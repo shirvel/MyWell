@@ -17,6 +17,12 @@ export const addInfoToLocalStorage = (userInfo: {
 	localStorage.setItem("userId", userInfo.userId);
 };
 
+export const removeInfoToLocalStorage = () => {
+	localStorage.removeItem("accessToken");
+	localStorage.removeItem("refreshToken");
+	localStorage.removeItem("userId");
+};
+
 export const LoginPage = () => {
 	const { setUserId } = useUserContext();
 	const [email, setEmail] = useState("");
@@ -27,7 +33,7 @@ export const LoginPage = () => {
 		const tokens = await login({ email, password });
 		setUserId(tokens.userId);
 		addInfoToLocalStorage(tokens);
-		navigate("/");
+		navigate("/meal-planner");
 	}, [email, password]);
 
 	const onRegister = useCallback(() => {
@@ -36,40 +42,42 @@ export const LoginPage = () => {
 		});
 	}, []);
 
-  return (
-    <div className="flex items-center justify-center" style={{ marginTop: '20px' }}>
-      <div className="w-1/3 p-4">
-        <CustomTypography style={{ marginBottom: '20px' }}>
-          Login
-        </CustomTypography>
-        <Grid container spacing={2} justifyContent="center" alignItems="center">
-          <Grid item xs={12}>
-            <CustomTextField
-              label="Email"
-              onChange={(event) => setEmail(event.target.value)}
-              value={email}
-              required={true}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <CustomTextField
-              label="Password"
-              type="password"
-              onChange={(event) => setPassword(event.target.value)}
-              value={password}
-              required={true}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <CustomButton
-              onClick={onLogin}
-              fullWidth
-              size="large"
-              label="Login"
-            />
-          </Grid>
-        </Grid>
-      </div>
-    </div>
-  );
+	return (
+		<div
+			className="flex items-center justify-center"
+			style={{ marginTop: "20px" }}>
+			<div className="w-1/3 p-4">
+				<CustomTypography style={{ marginBottom: "20px" }}>
+					Login
+				</CustomTypography>
+				<Grid container spacing={2} justifyContent="center" alignItems="center">
+					<Grid item xs={12}>
+						<CustomTextField
+							label="Email"
+							onChange={(event) => setEmail(event.target.value)}
+							value={email}
+							required={true}
+						/>
+					</Grid>
+					<Grid item xs={12}>
+						<CustomTextField
+							label="Password"
+							type="password"
+							onChange={(event) => setPassword(event.target.value)}
+							value={password}
+							required={true}
+						/>
+					</Grid>
+					<Grid item xs={12}>
+						<CustomButton
+							onClick={onLogin}
+							fullWidth
+							size="large"
+							label="Login"
+						/>
+					</Grid>
+				</Grid>
+			</div>
+		</div>
+	);
 };

@@ -9,7 +9,7 @@ import { useCallback, useEffect, useState, useContext } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useUserContext } from "../providers/UserContextProvider";
 import { getUserDetails } from "../Registration/RegisterService";
-import { GlobalState, GlobalStateContext } from '../context/MyWellGlobalState';
+import { GlobalState, GlobalStateContext } from "../context/MyWellGlobalState";
 
 export const NavBar = () => {
 	const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -28,7 +28,12 @@ export const NavBar = () => {
 				if (res) {
 					setUsername(res.name);
 					setImageUrl(res.imageUrl);
-					setGlobalState((prev) => {return {...prev, didWeeklyReflection: res.didWeeklyReflection} as GlobalState})
+					setGlobalState((prev) => {
+						return {
+							...prev,
+							didWeeklyReflection: res.didWeeklyReflection,
+						} as GlobalState;
+					});
 				}
 			}
 		};
@@ -52,7 +57,7 @@ export const NavBar = () => {
 	const handleLogOut = () => {
 		setUserId(null);
 		setGlobalState({} as GlobalState);
-		handleClose("/register"); // Redirect to Register page after logout
+		handleClose("/login");
 	};
 
 	const isLoginPage = location.pathname === "/login";
@@ -117,10 +122,9 @@ export const NavBar = () => {
 						variant="dot"
 						invisible={globalState.didWeeklyReflection !== false}
 						anchorOrigin={{
-							vertical: 'top',
-							horizontal: 'right',
-						}}
-					>
+							vertical: "top",
+							horizontal: "right",
+						}}>
 						<MenuIcon className="text-white" />
 					</Badge>
 				</IconButton>
@@ -146,15 +150,14 @@ export const NavBar = () => {
 								variant="dot"
 								invisible={globalState.didWeeklyReflection !== false}
 								anchorOrigin={{
-									vertical: 'top',
-									horizontal: 'right',
+									vertical: "top",
+									horizontal: "right",
 								}}
 								sx={{
-									'& .MuiBadge-dot': {
-										top: '50%'
+									"& .MuiBadge-dot": {
+										top: "50%",
 									},
-								}}
-							>
+								}}>
 								<MenuItem onClick={() => handleClose("/week-reflection")}>
 									Week Reflection
 								</MenuItem>

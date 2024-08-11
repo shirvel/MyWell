@@ -10,6 +10,7 @@ import { RegisterPage } from "./Registration/RegisterPage";
 import { LoginPage } from "./login/LoginPage";
 import { UpdateUserDetails } from "./UpdateUserDetails/UpdateUserDetails";
 import { WorkoutPlanner } from "./WorkoutPlanner/WorkoutPlanner";
+import { ProtectedRoute } from "./common/ProtectedRoute";
 
 export const App = () => {
 	return (
@@ -17,13 +18,28 @@ export const App = () => {
 			<BrowserRouter>
 				<NavBar />
 				<Routes>
-					<Route path="/" element={<MealPlanner />} />
-					<Route path="meal-planner" element={<MealPlanner />} />
-					<Route path="workout-planner" element={<WorkoutPlanner />} />
+					<Route
+						path="/"
+						element={<ProtectedRoute element={<MealPlanner />} />}
+					/>
+					<Route
+						path="meal-planner"
+						element={<ProtectedRoute element={<MealPlanner />} />}
+					/>
+					<Route
+						path="workout-planner"
+						element={<ProtectedRoute element={<WorkoutPlanner />} />}
+					/>
 					<Route path="login" element={<LoginPage />} />
-					<Route path="week-reflection" element={<WeekReflection />} />
+					<Route
+						path="week-reflection"
+						element={<ProtectedRoute element={<WeekReflection />} />}
+					/>
 					<Route path="register" element={<RegisterPage />} />
-					<Route path="update-user-details" element={<UpdateUserDetails />} />
+					<Route
+						path="update-user-details"
+						element={<ProtectedRoute element={<UpdateUserDetails />} />}
+					/>
 					<Route path="*" element={<PageNotFound />} />
 				</Routes>
 			</BrowserRouter>

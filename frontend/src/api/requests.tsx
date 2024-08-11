@@ -10,10 +10,13 @@ const getRequestConfig = (headers?: any) => {
 	};
 };
 
-export const get = async (endpoint: string, headers?: any) => {
+export const get = async (endpoint: string, params?: any, headers?: any) => {
 	try {
 		console.log("config=" + JSON.stringify(getRequestConfig(headers)));
-		const response = await axios.get(endpoint, getRequestConfig(headers));
+		const response = await axios.get(endpoint, {
+			params,
+			...getRequestConfig(headers),
+		});
 		console.log("done");
 		return response.data;
 	} catch (error) {

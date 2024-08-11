@@ -3,7 +3,6 @@ import { IWorkout } from "./WorkoutPlannerService";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export const Workout = ({ workout }: { workout: IWorkout }) => {
-	console.log("the work", workout);
 	return (
 		<Accordion>
 			<AccordionSummary

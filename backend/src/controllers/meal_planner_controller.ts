@@ -6,12 +6,6 @@ import { getStartAndEndDates } from '../common/date_utils';
 const plannerRequestInProgress: { [key: string]: boolean } = {};
 
 
-export const getMealPlannerByDate = async (req: Request, res: Response) => {
-  const { startDate, endDate } = getStartAndEndDates();
-  const userId = req.params.user_id;
-
-};
-
 // Get a planner by user ID
 export const getMealPlanner = async (req: Request, res: Response) => {
   var startDate, endDate = "";
@@ -25,7 +19,6 @@ export const getMealPlanner = async (req: Request, res: Response) => {
   }
   
   const userId = req.params.user_id;
-  console.log("the query: ", req.query);
 
   // Check if a request is already in progress for this user
   if (plannerRequestInProgress[userId]) {

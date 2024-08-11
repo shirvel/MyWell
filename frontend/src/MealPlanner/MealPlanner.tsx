@@ -59,7 +59,7 @@ export const MealPlanner = () => {
 		<div className="w-full py-8 px-2">
 			<DateNav
 				dates={{ startDate: mealPlan.startDate, endDate: mealPlan.endDate }}
-				loadMealPlan={loadMealPlan}
+				loadPlan={loadMealPlan}
 			/>
 			<Table className="w-full">
 				<TableHead className="bg-blue-600">
@@ -105,7 +105,7 @@ export const MealPlanner = () => {
 			no meal plan
 			<DateNav
 				dates={{ startDate: dates?.startDate, endDate: dates?.endDate }}
-				loadMealPlan={loadMealPlan}
+				loadPlan={loadMealPlan}
 			/>
 		</div>
 	);

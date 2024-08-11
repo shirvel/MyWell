@@ -1,6 +1,6 @@
 import { endpoints } from "../api/endpoints";
 import { get, post } from "../api/requests";
-import { dayColumns } from "../common/plannerUtils";
+import { dayColumns, PlannerDates } from "../common/plannerUtils";
 
 export const MealTypes = ["Breakfast", "Lunch", "Dinner"];
 export type IIngredient = {
@@ -33,10 +33,7 @@ export const changeMeal = async (
 
 export const getMealPlan = async (
 	userId: string,
-	dates?: {
-		startDate?: string;
-		endDate?: string;
-	}
+	dates?: PlannerDates
 ): Promise<IMealPlanner> => {
 	try {
 		const url = endpoints.MEAL_PLAN.GET_USER_MEAL_PLAN(userId);

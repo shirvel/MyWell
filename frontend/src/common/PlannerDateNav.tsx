@@ -10,10 +10,10 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 export const DateNav = ({
 	dates,
-	loadMealPlan,
+	loadPlan,
 }: {
 	dates: PlannerDates;
-	loadMealPlan: (dates?: PlannerDates) => Promise<void>;
+	loadPlan: (dates?: PlannerDates) => Promise<void>;
 }) => {
 	return (
 		<div>
@@ -24,7 +24,7 @@ export const DateNav = ({
 
 			<IconButton
 				onClick={() =>
-					loadMealPlan(
+					loadPlan(
 						getWeekBeforeDates({
 							startDate: dates?.startDate,
 							endDate: dates?.endDate,
@@ -35,7 +35,7 @@ export const DateNav = ({
 			</IconButton>
 			<IconButton
 				onClick={() =>
-					loadMealPlan(
+					loadPlan(
 						getWeekAfterDates({
 							startDate: dates?.startDate,
 							endDate: dates?.endDate,

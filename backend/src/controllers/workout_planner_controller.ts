@@ -7,7 +7,15 @@ const plannerRequestInProgress: { [key: string]: boolean } = {};
 
 // Get a planner by user ID
 export const getWorkoutPlanner = async (req: Request, res: Response) => {
-  const { startDate, endDate } = getStartAndEndDates();
+  var startDate, endDate = "";
+  if (req.query.startDate && req.query.endDate){
+    startDate = req.query.startDate;
+    endDate = req.query.endDate.toString();
+  }else{
+    const res = getStartAndEndDates();
+    startDate = res.startDate;
+    endDate = res.endDate;
+  }
   const userId = req.params.user_id;
 
   // Check if a request is already in progress for this user
@@ -25,7 +33,7 @@ export const getWorkoutPlanner = async (req: Request, res: Response) => {
       endDate: endDate,
     }).lean();
     
-    if (!planner) {
+    if (!planner && !req.query.startDate) {
       const response = await createWorkoutPlanner(userId, startDate, endDate);
       console.log(response)
       const newPlanner = new WorkoutPlanner(response);

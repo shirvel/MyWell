@@ -6,7 +6,7 @@ import { getStartAndEndDates } from '../common/date_utils';
 import Planner from '../models/meal_planner';
 import { updateMealPlanner } from '../ai/meal_planner_utils';
 
-const createMealfeedback = async (req: Request, res: Response) => {
+const createMealFeedback = async (req: Request, res: Response) => {
   console.log('Request Headers:', req.headers);
   console.log('Request Body:', req.body);
   const { user_id, feedback, day, type } = req.body;
@@ -42,7 +42,7 @@ const createMealfeedback = async (req: Request, res: Response) => {
   }
 };
 
-const getAllMealfeedback = async (req: Request, res: Response) => {
+const getAllMealFeedback = async (req: Request, res: Response) => {
   try {
     const meal_feedbacks = await mealFeedback.find();
     res.status(200).json(meal_feedbacks);
@@ -52,4 +52,4 @@ const getAllMealfeedback = async (req: Request, res: Response) => {
   }
 };
 
-  export default { createMealfeedback, getAllMealfeedback }
+  export default { createMealFeedback, getAllMealFeedback }

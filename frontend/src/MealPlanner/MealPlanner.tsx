@@ -9,12 +9,10 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { IMealPlanner, MealTypes, getMealPlan } from "./MealPlannerService";
 import { Meal } from "./Meal";
 import { useUserContext } from "../providers/UserContextProvider";
-import { useNavigate } from "react-router-dom";
 import { dayColumns, isDayPassed, PlannerDates } from "../common/plannerUtils";
 import { DateNav } from "../common/PlannerDateNav";
 
 export const MealPlanner = () => {
-	const navigate = useNavigate();
 	const { userId } = useUserContext();
 	const [mealPlan, setMealPlan] = useState<IMealPlanner | null>(null);
 	const [dates, setDates] = useState<PlannerDates | null>(null);
@@ -42,8 +40,6 @@ export const MealPlanner = () => {
 				setLoading(false);
 				requestInProgress.current = false;
 			}
-		} else {
-			navigate("/login");
 		}
 	}, []);
 

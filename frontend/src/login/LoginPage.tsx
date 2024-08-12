@@ -1,5 +1,5 @@
 import { useState, useCallback } from "react";
-import { Grid } from "@mui/material";
+import { Alert, Grid } from "@mui/material";
 import { login } from "./LoginService";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../providers/UserContextProvider";
@@ -27,12 +27,18 @@ export const LoginPage = () => {
 	const { setUserId } = useUserContext();
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
+	const [showError, setShowError] = useState(false);
 	const navigate = useNavigate();
 	const onLogin = useCallback(async () => {
 		const tokens = await login({ email, password });
-		setUserId(tokens.userId);
-		addInfoToLocalStorage(tokens);
-		navigate("/meal-planner");
+		console.log(tokens);
+		if (tokens) {
+			setUserId(tokens.userId);
+			addInfoToLocalStorage(tokens);
+			navigate("/meal-planner");
+		} else {
+			setShowError(true);
+		}
 	}, [email, password]);
 
 	const onRegister = useCallback(() => {
@@ -53,7 +59,10 @@ export const LoginPage = () => {
 					<Grid item xs={12}>
 						<CustomTextField
 							label="Email"
-							onChange={(event) => setEmail(event.target.value)}
+							onChange={(event) => {
+								setEmail(event.target.value);
+								setShowError(false);
+							}}
 							value={email}
 							required={true}
 						/>
@@ -62,17 +71,36 @@ export const LoginPage = () => {
 						<CustomTextField
 							label="Password"
 							type="password"
-							onChange={(event) => setPassword(event.target.value)}
+							onChange={(event) => {
+								setPassword(event.target.value);
+								setShowError(false);
+							}}
 							value={password}
 							required={true}
 						/>
 					</Grid>
+					{showError && (
+						<Grid item xs={12}>
+							<Alert severity="error">
+								The Email or Password are incorrect please try again or register
+							</Alert>
+						</Grid>
+					)}
+
 					<Grid item xs={12}>
 						<CustomButton
 							onClick={onLogin}
 							fullWidth
 							size="large"
 							label="Login"
+						/>
+					</Grid>
+					<Grid item xs={12}>
+						<CustomButton
+							onClick={onRegister}
+							fullWidth
+							size="large"
+							label="Register"
 						/>
 					</Grid>
 				</Grid>

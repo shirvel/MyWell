@@ -9,10 +9,11 @@ export type ILoginData = {
 export const login = async (loginData: ILoginData) => {
 	try {
 		const response = await post(endpoints.AUTH.LOGIN, loginData);
-		console.log("Response from server:", response.data);
+		if (response.status === 401) {
+			return null;
+		}
 		return response.data;
 	} catch (error) {
-		console.error("Error login:", error);
 		return null;
 	}
 };

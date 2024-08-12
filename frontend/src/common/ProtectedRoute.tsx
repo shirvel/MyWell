@@ -1,6 +1,5 @@
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { useUserContext } from "../providers/UserContextProvider";
 
 export const ProtectedRoute = ({
 	element,
@@ -8,8 +7,8 @@ export const ProtectedRoute = ({
 	element: React.ReactElement;
 }) => {
 	const location = useLocation();
-	const { userId } = useUserContext();
-	if (!userId) {
+
+	if (!localStorage.getItem("userId")) {
 		// Redirect to login if not authenticated
 		return <Navigate to="/login" state={{ from: location }} replace />;
 	}

@@ -8,6 +8,7 @@ export const endpoints = {
 		REGISTER: base + "auth/register/",
 		LOGIN: base + "auth/login/",
 		GET_USER_BY_ID: (userId: string) => base + "user/" + userId + "/",
+		CREATE_NEW_TOKENS: base + "auth/refresh/",
 	},
 	MEAL_PLAN: {
 		GET_USER_MEAL_PLAN: (user_id: string) =>

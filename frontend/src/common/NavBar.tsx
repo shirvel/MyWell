@@ -75,7 +75,7 @@ export const NavBar = () => {
 				}}>
 				{/* Left section: Avatar and username */}
 				<div className="flex items-center space-x-4">
-					{username && (
+					{username && userId && (
 						<div>
 							<Avatar className="my-2" src={imageUrl} alt={username} />
 							<Typography

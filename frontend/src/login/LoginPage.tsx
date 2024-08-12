@@ -29,7 +29,6 @@ export const LoginPage = () => {
 	const [password, setPassword] = useState("");
 	const navigate = useNavigate();
 	const onLogin = useCallback(async () => {
-		console.log(email, password);
 		const tokens = await login({ email, password });
 		setUserId(tokens.userId);
 		addInfoToLocalStorage(tokens);

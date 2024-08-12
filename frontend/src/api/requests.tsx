@@ -1,10 +1,8 @@
-import axios from "axios";
+import axios from "./axiosConfig";
 
 const getRequestConfig = (headers?: any) => {
-	const token = localStorage.getItem("accessToken");
 	return {
 		headers: {
-			Authorization: "JWT " + token,
 			...headers,
 		},
 	};
@@ -12,7 +10,6 @@ const getRequestConfig = (headers?: any) => {
 
 export const get = async (endpoint: string, params?: any, headers?: any) => {
 	try {
-		console.log("config=" + JSON.stringify(getRequestConfig(headers)));
 		const response = await axios.get(endpoint, {
 			params,
 			...getRequestConfig(headers),

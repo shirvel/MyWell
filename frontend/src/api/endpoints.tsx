@@ -14,6 +14,7 @@ export const endpoints = {
 		GET_USER_MEAL_PLAN: (user_id: string) =>
 			base + "api/meal-planner/" + user_id + "/",
 		CHANGE_MEAL: base + "meal_feedback/",
+		CHANGE_MEAL_PLANNER: base + "api/meal-planner/update-meal-planner"
 	},
 	WORKOUT_PLANNER: {
 		WORKOUT_PLAN: (user_id: string) =>

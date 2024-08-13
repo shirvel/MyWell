@@ -1,5 +1,7 @@
 import { FC, useState, useEffect } from 'react';
 import { Grid, Button, Snackbar, Alert } from '@mui/material';
+import { useNavigate } from "react-router-dom";
+import { updateMealPlanner } from '../MealPlanner/MealPlannerService';
 interface actions { 
     onSave: any;
 }
@@ -9,6 +11,7 @@ const ActionButtons: FC<actions> = ({onSave}) => {
     const [showPopup, setShowPopup] = useState<boolean>(false)
     const [popupSeverity, setPopupSeverity] = useState<string | null>("")
     const [popupMessage, setPopupMessage] = useState<string | null>("")
+    const navigate = useNavigate();
 
     useEffect(() => {
         const popupSeverityLS = localStorage.getItem('popupSeverity');
@@ -31,9 +34,11 @@ const ActionButtons: FC<actions> = ({onSave}) => {
         setShowPopup(false);
     }
 
-    const handleGenerateNewPlan = () => {
-        // Logic for generating a new plan
-        alert('New plan generated');
+    const handleGenerateNewPlan = async () => {
+        const userId = localStorage.getItem("userId")
+        alert("Working on your new plan! You'll be redirected to your new plan once it's done :)");
+        await updateMealPlanner(userId);
+        navigate('/meal-planner')
     };
 
     return (

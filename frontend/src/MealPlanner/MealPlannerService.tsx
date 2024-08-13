@@ -1,5 +1,5 @@
 import { endpoints } from "../api/endpoints";
-import { get, post } from "../api/requests";
+import { get, patch, post } from "../api/requests";
 import { dayColumns, PlannerDates } from "../common/plannerUtils";
 
 export const MealTypes = ["Breakfast", "Lunch", "Dinner"];
@@ -45,5 +45,16 @@ export const getMealPlan = async (
 	} catch (error) {
 		console.error("Error in getMealPlan:", error);
 		throw error;
+	}
+};
+
+export const updateMealPlanner = async (userId: string | null) => {
+	try {
+		const response = await patch(endpoints.MEAL_PLAN.CHANGE_MEAL_PLANNER, {userId});
+		console.log("Response from server:", response.data);
+		return response.data;
+	} catch (error) {
+		console.error("Error in updating user details data:", error);
+		return null;
 	}
 };

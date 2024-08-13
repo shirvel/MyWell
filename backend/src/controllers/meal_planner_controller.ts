@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import MealPlanner from '../models/meal_planner';
 import { createMealPlanner } from '../ai/meal_planner_utils';
-import { getStartAndEndDates } from '../common/date_utils';
+import { getStartAndEndDates, weekStartAndEndDates } from '../common/date_utils';
 
 const plannerRequestInProgress: { [key: string]: boolean } = {};
 
@@ -80,4 +80,51 @@ export const updateMeal = async (req: Request, res: Response) => {
   }
 };
 
-export default { getMealPlanner, updateMeal };
+// Update a meal planner and delete the previous one (with the same dates)
+export const updateMealPlanner = async (req: Request, res: Response) => {
+    // Extract parameters from the request body (assuming it's a POST request)
+    const { userId } = req.body;
+
+    try {
+    // Start date and end date of the current week
+    const { startDate, endDate } = weekStartAndEndDates();
+    
+    // Validate input parameters
+    if (!userId) {
+      return res.status(400).json({ error: 'Missing required parameters' });
+    }
+
+      // Check if a request is already in progress for this user
+    if (plannerRequestInProgress[userId]) {
+      return res.status(429).json({ error: 'A planner request is already in progress for this user.' });
+    }
+
+    // Set the flag to indicate a request is in progress
+    plannerRequestInProgress[userId] = true;
+
+    // Call the createMealPlanner function
+    const mealPlanner = await createMealPlanner(userId, startDate, endDate);
+    const newPlanner = new MealPlanner(mealPlanner);
+
+    console.log(newPlanner.toJSON());
+
+    // Delete the old planner for this user id with the planner of this week
+    await MealPlanner.findOneAndDelete({
+      user_id: userId,
+      startDate: startDate,
+      endDate: endDate,
+    }).lean();
+
+    await newPlanner.save();
+
+    // Send the response with the updated meal planner
+    res.status(200).json(newPlanner);
+    plannerRequestInProgress[userId] = false;
+  } catch (error) {
+    console.error('Error updating meal planner:', error);
+    res.status(500).json({ error: 'Internal Server Error' });
+    plannerRequestInProgress[userId] = false;
+  }
+};
+
+export default { getMealPlanner, updateMeal, updateMealPlanner };

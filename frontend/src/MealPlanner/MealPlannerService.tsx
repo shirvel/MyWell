@@ -54,7 +54,7 @@ export const updateMealPlanner = async (userId: string | null) => {
 		console.log("Response from server:", response.data);
 		return response.data;
 	} catch (error) {
-		console.error("Error in updating user details data:", error);
+		console.error("Error in updating meal planner data:", error);
 		return null;
 	}
 };

@@ -2,6 +2,7 @@ import { FC, useState, useEffect } from 'react';
 import { Grid, Button, Snackbar, Alert } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import { updateMealPlanner } from '../MealPlanner/MealPlannerService';
+import { updateWorkoutPlanner } from '../WorkoutPlanner/WorkoutPlannerService';
 interface actions { 
     onSave: any;
 }
@@ -38,6 +39,7 @@ const ActionButtons: FC<actions> = ({onSave}) => {
         const userId = localStorage.getItem("userId")
         alert("Working on your new plan! You'll be redirected to your new plan once it's done :)");
         await updateMealPlanner(userId);
+        await updateWorkoutPlanner(userId);
         navigate('/meal-planner')
     };
 
@@ -51,7 +53,7 @@ const ActionButtons: FC<actions> = ({onSave}) => {
                 </Grid>
                 <Grid item>
                     <Button variant="outlined" onClick={handleGenerateNewPlan}>
-                        Generate New Plan
+                        Generate New Plans
                     </Button>
                 </Grid>
             </Grid>

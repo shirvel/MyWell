@@ -82,7 +82,7 @@ export const updateMeal = async (req: Request, res: Response) => {
 
 // Update a meal planner and delete the previous one (with the same dates)
 export const updateMealPlanner = async (req: Request, res: Response) => {
-    // Extract parameters from the request body (assuming it's a POST request)
+    // Extract parameters from the request body 
     const { userId } = req.body;
 
     try {

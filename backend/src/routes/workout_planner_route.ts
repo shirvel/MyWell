@@ -6,5 +6,6 @@ const router = express.Router();
 
 router.get("/:user_id", authMiddleware, planner_controller.getWorkoutPlanner); // Existing route for getting a planner
 // router.put("/:user_id/:day", planner_controller.updateWorkout); // New route for updating a meal
+router.patch("/update-workout-planner", authMiddleware, planner_controller.updateWorkoutPlanner); 
 
 export default router;

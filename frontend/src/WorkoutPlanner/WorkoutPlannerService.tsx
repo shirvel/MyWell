@@ -1,5 +1,5 @@
 import { endpoints } from "../api/endpoints";
-import { get } from "../api/requests";
+import { get, patch } from "../api/requests";
 import { dayColumns, PlannerDates } from "../common/plannerUtils";
 
 export type IWorkout = {
@@ -22,5 +22,16 @@ export const getWorkoutPlan = async (
 		return data;
 	} catch (error) {
 		throw error;
+	}
+};
+
+export const updateWorkoutPlanner = async (userId: string | null) => {
+	try {
+		const response = await patch(endpoints.WORKOUT_PLANNER.CHANGE_WORKOUT_PLANNER, {userId});
+		console.log("Response from server:", response.data);
+		return response.data;
+	} catch (error) {
+		console.error("Error in updating workout planner data:", error);
+		return null;
 	}
 };

@@ -1,5 +1,5 @@
 import { FC, useState, useEffect } from 'react';
-import { Grid, Button, Snackbar, Alert } from '@mui/material';
+import { Grid, Button, Snackbar, Alert, CircularProgress } from '@mui/material';
 import { useNavigate } from "react-router-dom";
 import { updateMealPlanner } from '../MealPlanner/MealPlannerService';
 import { updateWorkoutPlanner } from '../WorkoutPlanner/WorkoutPlannerService';
@@ -37,10 +37,32 @@ const ActionButtons: FC<actions> = ({onSave}) => {
 
     const handleGenerateNewPlan = async () => {
         const userId = localStorage.getItem("userId")
-        alert("Working on your new plan! You'll be redirected to your new plan once it's done :)");
-        await updateMealPlanner(userId);
-        await updateWorkoutPlanner(userId);
-        navigate('/meal-planner')
+        let {severity, message} = await onSave(false)
+        let isOk = severity !== "error";
+
+        if (isOk) {
+            message = "Working on your new plan! You'll be redirected to your new plan once it's done :)"
+            severity = "info";
+            setPopupSeverity(severity)
+            setPopupMessage(message)
+            setShowPopup(true);
+
+            isOk = isOk && await updateMealPlanner(userId) !== null;
+            isOk = isOk && await updateWorkoutPlanner(userId) !== null;
+            if (isOk) {
+                navigate('/meal-planner')
+            }
+        }
+        
+        // Something was not ok
+        if (severity !== "error") {
+            message = "There were problems generating your new plans. Please try again!"
+            severity = "error";
+        }
+        
+        setPopupSeverity(severity)
+        setPopupMessage(message)
+        setShowPopup(true);
     };
 
     return (
@@ -57,13 +79,14 @@ const ActionButtons: FC<actions> = ({onSave}) => {
                     </Button>
                 </Grid>
             </Grid>
-            <Snackbar style={{width: '20vw', left: '40vw'}} open={showPopup} autoHideDuration={5000} 
+            <Snackbar style={{width: '20vw', left: '40vw'}} open={showPopup} autoHideDuration={popupSeverity === "info" ? null : 5000} 
                 onClose={onPopupClose}>
                 <Alert
-                    severity={popupSeverity === "success" ? "success" : "error"}
+                    severity={popupSeverity === "success" ? "success" : popupSeverity === "info" ? "info" : "error"}
                     variant="filled"
                     sx={{ width: '100%' }}
                 >
+                    {popupSeverity === "info" && <CircularProgress sx={{ display: 'block', mx: 'auto', my: 2, color: 'white' }} />}
                     {popupMessage}
                 </Alert>
                 </Snackbar>

@@ -73,7 +73,7 @@ export const UpdateUserDetails: any = () => {
         return null
     }
 
-    const onSave = async () => {
+    const onSave = async (stayOnPage = true) => {
         const formErrors = getFormErrors()
         let message = null
         let severity = null
@@ -87,9 +87,13 @@ export const UpdateUserDetails: any = () => {
             message = formErrors
         }
 
-        localStorage.setItem('popupSeverity', severity)
-        localStorage.setItem('popupMessage', message);
-        window.location.reload();
+        if (stayOnPage) {
+            localStorage.setItem('popupSeverity', severity)
+            localStorage.setItem('popupMessage', message);
+            window.location.reload();
+        }
+
+        return {severity, message}
     }
 
 

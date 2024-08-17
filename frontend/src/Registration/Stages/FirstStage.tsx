@@ -4,6 +4,8 @@ import { CustomSelect } from '../../components/CustomSelect';
 import { CustomTypography } from '../../components/CustomTypography';
 import { FormData, Errors } from '../types';
 
+const textColor = '#5A8BAF'; // Color from the Login text
+
 interface FirstStageProps {
     formData: FormData;
     handleChange: (field: string, value: any) => void;
@@ -12,7 +14,13 @@ interface FirstStageProps {
 
 export const FirstStage: React.FC<FirstStageProps> = ({ formData, handleChange, errors }) => (
   <div className="space-y-4 p-4">
-    <CustomTypography variant='h5'>
+    <CustomTypography
+      variant="h5"
+      style={{
+        color: textColor, // Apply the same color as the Login text
+        fontFamily: "'Lora', serif", // Ensure the font family matches as well
+      }}
+    >
       Getting to know you!
     </CustomTypography>
 

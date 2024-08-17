@@ -10,6 +10,8 @@ const dietOptions = [
     { label: "Gluten-free", description: "I avoid wheat, barley, rye or other grains" }
 ];
 
+const textColor = '#5A8BAF'; // The same color as the "Login" text
+
 interface ThirdStageProps {
     formData: FormData;
     handleChange: (field: string, value: any) => void;
@@ -26,7 +28,13 @@ export const ThirdStage: React.FC<ThirdStageProps> = ({ formData, handleChange, 
 
     return (
         <div className="space-y-4 p-4">
-            <CustomTypography variant='h5'>
+            <CustomTypography
+              variant='h5'
+              style={{
+                color: textColor, // Apply the same color as the "Login" text
+                fontFamily: "'Lora', serif", // Ensure the font family matches as well
+              }}
+            >
                 What is your diet?
             </CustomTypography>
             {dietOptions.map(option => (

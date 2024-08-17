@@ -6,6 +6,8 @@ import { CustomButton } from '../../components/CustomButton';
 import { CustomAvatar } from '../../components/CustomAvatar';
 import { CustomTypography } from '../../components/CustomTypography';
 
+const textColor = '#5A8BAF'; // The same color as the "Login" text
+
 interface FifthStageProps {
 	formData: FormData;
 	handleChange: (field: string, value: any) => void;
@@ -27,7 +29,6 @@ export const FifthStage = ({
 				setImage(e.target && e.target.result ? e.target.result : "");
 			};
 			handleChange("image", file);
-			console.log("the image is", image);
 			reader.readAsDataURL(file);
 		}
 	};
@@ -38,7 +39,14 @@ export const FifthStage = ({
 
   return (
     <div className="p-4">
-      <CustomTypography variant='h5' style={{marginBottom: "20px"}}>
+      <CustomTypography
+        variant='h5'
+        style={{
+          marginBottom: "20px",
+          color: textColor, // Apply the same color as the "Login" text
+          fontFamily: "'Lora', serif", // Ensure the font family matches as well
+        }}
+      >
         Register
       </CustomTypography>
       <div className="flex flex-col items-center space-y-4">

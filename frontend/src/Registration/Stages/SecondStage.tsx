@@ -10,6 +10,8 @@ const goalOptions = [
     { label: "Improve Sleep", emoji: "😴" }
 ];
 
+const textColor = '#5A8BAF'; // The same color as the "Login" text
+
 interface SecondStageProps {
   formData: FormData;
   handleChange: (field: string, value: any) => void;
@@ -32,7 +34,13 @@ export const SecondStage: React.FC<SecondStageProps> = ({ formData, handleChange
 
   return (
     <div className="space-y-4 p-4">
-        <CustomTypography variant='h5'>
+        <CustomTypography
+          variant='h5'
+          style={{
+            color: textColor, // Apply the same color as the "Login" text
+            fontFamily: "'Lora', serif", // Ensure the font family matches as well
+          }}
+        >
             What are your main goals?
         </CustomTypography>
       {goalOptions.map((option) => (

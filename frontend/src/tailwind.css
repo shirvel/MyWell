@@ -600,9 +600,18 @@ video {
   position: sticky;
 }
 
+.mx-auto {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .my-2 {
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
 }
 
 .block {
@@ -665,10 +674,12 @@ video {
   border-width: 1px;
 }
 
-.bg-blue-600 {
+
+.bg-blue-300 {
   --tw-bg-opacity: 1;
-  background-color: rgb(37 99 235 / var(--tw-bg-opacity));
+  background-color: rgb(147 197 253 / var(--tw-bg-opacity)); /* This is a lighter shade of blue */
 }
+
 
 .p-4 {
   padding: 1rem;

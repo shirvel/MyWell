@@ -13,6 +13,9 @@ import { Meal } from "./Meal";
 import { useUserContext } from "../providers/UserContextProvider";
 import { dayColumns, PlannerDates } from "../common/plannerUtils";
 import { DateNav } from "../common/PlannerDateNav";
+import MealWithImage from './MealWithImage';
+import axios from "axios";
+
 
 export const MealPlanner = () => {
 	const { userId } = useUserContext();
@@ -21,20 +24,60 @@ export const MealPlanner = () => {
 	const [loading, setLoading] = useState<boolean>(true);
 	const requestInProgress = useRef<boolean>(false);
 
+	const fetchBatchMealImages = async (mealNames: string[]) => {
+		const cachedImages = JSON.parse(localStorage.getItem('mealImages') || '{}');
+		const mealsToFetch = mealNames.filter(meal => !cachedImages[meal]);
+	
+		if (mealsToFetch.length > 0) {
+			try {
+				const response = await axios.get(`https://api.spoonacular.com/recipes/complexSearch`, {
+					params: {
+						query: mealsToFetch.join(','), // Batch request for multiple meals
+						number: mealsToFetch.length,
+						apiKey: '', // Replace with your actual Spoonacular API key
+					},
+				});
+	
+				response.data.results.forEach((result: any) => {
+					cachedImages[result.title] = result.image; // Assuming the meal title is accurate
+				});
+	
+				// Cache the fetched images
+				localStorage.setItem('mealImages', JSON.stringify(cachedImages));
+			} catch (error) {
+				console.error("Error fetching meal images", error);
+			}
+		}
+	};
+	
+
 	const loadMealPlan = useCallback(async (dates?: PlannerDates) => {
 		if (dates) {
 			setDates({ startDate: dates.startDate, endDate: dates.endDate });
 		}
 		if (userId != null) {
 			if (requestInProgress.current) {
-				return; // Exit if a request is already in progress
+				return;
 			}
-
+	
 			requestInProgress.current = true;
-
+	
 			try {
 				const response = await getMealPlan(userId, dates);
 				setMealPlan(response);
+	
+				const mealNames: string[] = []; // Explicitly define the type of mealNames as string[]
+	
+				Object.keys(response).forEach(day => {
+					MealTypes.forEach(mealType => {
+						if (response[day][mealType]) {
+							mealNames.push(response[day][mealType].name);
+						}
+					});
+				});
+	
+				await fetchBatchMealImages(mealNames); // Fetch images for all meals in batch
+	
 				setDates({ startDate: response.startDate, endDate: response.endDate });
 			} catch (err) {
 				console.log("Failed to load meal plan");
@@ -43,7 +86,8 @@ export const MealPlanner = () => {
 				requestInProgress.current = false;
 			}
 		}
-	}, []);
+	}, [userId]);
+	
 
 	useEffect(() => {
 		loadMealPlan();
@@ -60,7 +104,7 @@ export const MealPlanner = () => {
 				justifyContent: "center",
 				alignItems: "center",
 				minHeight: "100vh",
-				backgroundImage: `url('/background.jpg')`, // Replace with your image path
+				backgroundImage: `url('/background.jpg')`,
 				backgroundSize: "cover",
 				backgroundPosition: "center",
 				padding: "20px",
@@ -69,9 +113,9 @@ export const MealPlanner = () => {
 			<Box
 				className="background-overlay"
 				sx={{
-					width: "100%", // Width set to fill the screen
-					maxWidth: "1600px", // Max width to contain content
-					backgroundColor: "rgba(255, 255, 255, 0.8)", // Semi-transparent white overlay
+					width: "100%",
+					maxWidth: "1600px",
+					backgroundColor: "rgba(255, 255, 255, 0.8)",
 					borderRadius: "12px",
 					padding: "20px",
 					boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
@@ -82,7 +126,7 @@ export const MealPlanner = () => {
 					align="center"
 					gutterBottom
 					style={{
-						color: "#6A8CAF", // Softer blue color for text
+						color: "#6A8CAF",
 						fontWeight: "bold",
 					}}
 				>
@@ -104,7 +148,7 @@ export const MealPlanner = () => {
 										fontWeight: "bold",
 										fontSize: "16px",
 										padding: "12px",
-										borderBottom: "2px solid #6A8CAF", // Softer blue color
+										borderBottom: "2px solid #6A8CAF",
 									}}
 								>
 									{day}
@@ -129,17 +173,14 @@ export const MealPlanner = () => {
 										{mealPlan && mealPlan[day][mealType] && (
 											<Box
 												sx={{
-													backgroundColor: "#D4E6F1", // Softer blue background for the cards
+													backgroundColor: "#D4E6F1",
 													borderRadius: "8px",
 													padding: "10px",
 													boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
 												}}
 											>
-												<Meal
-													key={mealPlan[day][mealType]._id}
-													mealKind={mealType}
-													meal={mealPlan[day][mealType]}
-													day={day}
+												<MealWithImage 
+													mealName={mealPlan[day][mealType].name} 
 												/>
 											</Box>
 										)}

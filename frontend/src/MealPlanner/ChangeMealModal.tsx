@@ -70,7 +70,7 @@ export const ChangeMealModal = ({
 		}
 
 		setLoading(true);
-		await commentMeal(userId, meal.name, summary, day, type).then((response) => {
+		await commentMeal(userId, meal._id, summary, day, type).then((response) => {
 			if (response != null) {
 				navigate(0); // Refresh the page
 			}

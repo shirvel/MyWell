@@ -13,6 +13,8 @@ export type IMeal = {
 	ingredients?: IIngredient[];
 	instructions: string[];
 	_id: string;
+	liked: boolean;
+	wasEaten: boolean;
 };
 export type IMealPlanner = Record<
 	(typeof dayColumns)[number],
@@ -21,14 +23,35 @@ export type IMealPlanner = Record<
 
 export const changeMeal = async (
 	userId: string,
-	meal: string,
+	mealId: string,
 	reason: string,
 	day: string,
 	type: string
 ) => {
-	console.log(`change the meal: ${meal} because ${reason} `);
+	console.log(`change the meal: ${mealId} because ${reason} `);
 	const url = endpoints.MEAL_PLAN.CHANGE_MEAL;
-	return post(url, { user_id: userId, feedback: reason, day: day, type: type });
+	return post(url, { user_id: userId, meal_id: mealId, feedback: reason, day: day, type: type });
+};
+
+export const changeLikeMeal = async (
+	userId: string,
+	mealId: string,
+	mealName: string,
+	liked: boolean
+) => {
+	console.log(`change the meal: ${mealName} like ${liked} `);
+	const url = endpoints.MEAL_PLAN.LIKE_MEAL;
+	return post(url, { user_id: userId, meal_id: mealId, feedback: `The user liked ${mealName}`, liked: liked });
+};
+
+export const changeEatenMeal = async (
+	userId: string,
+	mealId: string,
+	wasEaten: boolean
+) => {
+	console.log(`change the meal: ${mealId} to eaten ${wasEaten} `);
+	const url = endpoints.MEAL_PLAN.EAT_MEAL;
+	return post(url, { user_id: userId, meal_id: mealId, wasEaten: wasEaten });
 };
 
 export const getMealPlan = async (

@@ -28,6 +28,16 @@ const mealDetailSchema = new mongoose.Schema({
     type: [String],
     required: true,
   },
+  wasEaten: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  liked: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
 });
 
 const workoutSchema = new mongoose.Schema({

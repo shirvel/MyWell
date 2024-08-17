@@ -1,16 +1,16 @@
 import mealFeedback from '../models/meal_feedback';
 import { Request, Response } from 'express';
-import sendMessageToChatGPT from '../ai/chat_gpt_sender';
-import { buildPromptAfterMealFeedback } from '../ai/prompt/meal_prompt_builder';
-import { getStartAndEndDates } from '../common/date_utils';
+import { daysOfWeek, getStartAndEndDates } from '../common/date_utils';
 import Planner from '../models/meal_planner';
-import { updateMealPlanner } from '../ai/meal_planner_utils';
+import { mealTypes, updateMealPlanner } from '../ai/meal_planner_utils';
+import mongoose from 'mongoose';
+const { ObjectId } = mongoose.Types;
 
-const createMealFeedback = async (req: Request, res: Response) => {
+const createMealChange = async (req: Request, res: Response) => {
   console.log('Request Headers:', req.headers);
   console.log('Request Body:', req.body);
-  const { user_id, feedback, day, type } = req.body;
-  const meal_feedback = new mealFeedback({ user_id, feedback });
+  const { user_id, meal_id, feedback, day, type } = req.body;
+  const meal_feedback = new mealFeedback({ user_id, meal_id, feedback });
 
   try {
     await meal_feedback.save();
@@ -42,6 +42,71 @@ const createMealFeedback = async (req: Request, res: Response) => {
   }
 };
 
+const updateMealLike = async (req: Request, res: Response) => {
+  console.log('Request Headers:', req.headers);
+  console.log('Request Body:', req.body);
+  
+  const { user_id, meal_id, liked, feedback } = req.body;
+
+  try {
+    if (liked) {
+      await handleMealLike(user_id, meal_id, feedback);
+      res.status(201).json({ message: 'Meal liked successfully' });
+    } else {
+      await handleMealUnlike(user_id, meal_id);
+      res.status(200).json({ message: 'Meal unliked successfully' });
+    }
+  } catch (err) {
+    const errorMessage = (err as Error).message;
+    res.status(500).json({ error: "fail: " + errorMessage });
+  }
+};
+
+const handleMealLike = async (user_id: string, meal_id: string, feedback: string) => {
+  const meal_feedback = new mealFeedback({ user_id, meal_id, feedback });
+  await meal_feedback.save();
+  console.log(`Created new meal_feedback, ID: ${meal_feedback._id}`);
+
+  // Update the meal as liked in the meal planner
+  await updateMealLikedStatus(user_id, meal_id, true);
+};
+
+const handleMealUnlike = async (user_id: string, meal_id: string) => {
+  console.log(`user id: ${user_id} meal id: ${meal_id}`)
+  const result = await mealFeedback.findOneAndDelete({ user_id, meal_id });
+  
+  if (result) {
+    console.log(`Deleted meal_feedback, ID: ${result._id}`);
+    // Update the meal as unliked in the meal planner
+    await updateMealLikedStatus(user_id, meal_id, false);
+  } else {
+    throw new Error('Meal feedback not found');
+  }
+};
+
+const updateMealLikedStatus = async (user_id: string, meal_id: string, liked: boolean) => {
+  try {
+    const message = await updateMealStatus(user_id, meal_id, 'liked', liked);
+    console.log(message);
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
+const updateEatenMeal = async (req: Request, res: Response) => {
+  console.log('Request Headers:', req.headers);
+  console.log('Request Body:', req.body);
+  
+  const { user_id, meal_id, wasEaten } = req.body;
+
+  try {
+    const message = await updateMealStatus(user_id, meal_id, 'wasEaten', wasEaten);
+    res.status(200).json({ message });
+  } catch (error) {
+    res.status(500).json({ error: `fail: ${error.message}` });
+  }
+};
+
 const getAllMealFeedback = async (req: Request, res: Response) => {
   try {
     const meal_feedbacks = await mealFeedback.find();
@@ -52,4 +117,43 @@ const getAllMealFeedback = async (req: Request, res: Response) => {
   }
 };
 
-  export default { createMealFeedback, getAllMealFeedback }
+const updateMealStatus = async (user_id: string, meal_id: string, statusKey: string, statusValue: boolean) => {
+  try {
+    const mealId = new ObjectId(meal_id);
+    
+    // Find the document
+    const planner = await Planner.findOne({ user_id });
+
+    if (!planner) {
+      throw new Error('Planner not found for the given user ID');
+    }
+
+    let updateSuccessful = false;
+
+    // Iterate through days and meal types to find the meal
+    for (const day of daysOfWeek) {
+      for (const mealType of mealTypes) {
+        const meal = planner[day]?.[mealType];
+        if (meal && meal._id.equals(mealId)) {
+          await Planner.updateOne(
+            { user_id, [`${day}.${mealType}._id`]: mealId },
+            { $set: { [`${day}.${mealType}.${statusKey}`]: statusValue } }
+          );
+          updateSuccessful = true;
+          break;
+        }
+      }
+      if (updateSuccessful) break;
+    }
+
+    if (!updateSuccessful) {
+      throw new Error('Meal not found');
+    }
+
+    return 'Meal status updated successfully';
+  } catch (error) {
+    throw new Error(`Error updating meal status: ${error.message}`);
+  }
+};
+
+export default { createMealChange, getAllMealFeedback, updateMealLike, updateEatenMeal }

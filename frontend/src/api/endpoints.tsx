@@ -21,6 +21,9 @@ export const endpoints = {
 	WORKOUT_PLANNER: {
 		WORKOUT_PLAN: (user_id: string) =>
 			base + "api/workout-planner/" + user_id + "/",
+		CHANGE_WORKOUT: base + "workout_feedback/change",
+		LIKE_WORKOUT: base + "workout_feedback/like",
+		DONE_WORKOUT: base + "workout_feedback/done",
 		CHANGE_WORKOUT_PLANNER: base + "api/workout-planner/update-workout-planner"
 	},
 	WEEKLY_REFLECTION: {

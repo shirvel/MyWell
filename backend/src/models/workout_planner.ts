@@ -9,6 +9,16 @@ const workoutSchema = new mongoose.Schema({
     type: [String],
     required: true,
   },
+  done: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  liked: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
 });
 
 const dailyPlanSchema = new mongoose.Schema({

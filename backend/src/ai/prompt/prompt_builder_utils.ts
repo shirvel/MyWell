@@ -4,6 +4,7 @@ import WeeklyReflection from '../../models/weekly_reflection';
 import { differenceInYears, parseISO } from 'date-fns';
 import { mealTypes } from '../meal_planner_utils';
 import { daysOfWeek } from '../../common/date_utils';
+import workout_feedback from '../../models/workout_feedback';
 
 export const formatUserHistory = async (userId: string) => {
     // Fetch user details
@@ -127,6 +128,38 @@ export const getMealsFromDayAndMealType = async (userId, startDay, startMealType
       return JSON.stringify(mealsOnly, null, 2); // Pretty-print JSON with 2 spaces
     } catch (error) {
       console.error('Error fetching meals:', error);
+      throw error;
+    }
+};  
+
+export const getWorkoutsFromDay = async (userId, startDay) => {
+    try {
+      const planner = await workout_feedback.findOne({ user_id: userId }).exec();
+      if (!planner) throw new Error('Planner not found');
+  
+      // Find the index of the start day
+      const startDayIndex = daysOfWeek.indexOf(startDay);
+  
+      if (startDayIndex === -1) throw new Error('Invalid day');
+  
+      // Extract workouts from the planner starting from the specified day
+      const workouts = {};
+      let dayReached = false;
+  
+      for (const day of daysOfWeek) {
+        if (day === startDay) {
+          dayReached = true;
+        }
+  
+        if (dayReached) {
+          workouts[day] = {};
+          workouts[day]['Workout'] = planner[day]['Workout'];
+      }
+    }
+  
+      return JSON.stringify(workouts, null, 2); // Pretty-print JSON with 2 spaces
+    } catch (error) {
+      console.error('Error fetching workouts:', error);
       throw error;
     }
 };  

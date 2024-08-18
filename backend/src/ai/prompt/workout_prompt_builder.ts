@@ -1,7 +1,7 @@
 import { firstExample } from '../workout_examples/first_example';
 import { secondExample } from '../workout_examples/second_example';
 import { thirdExample } from '../workout_examples/third_example';
-import { formatUserHistory, getMealsFromDayAndMealType } from './prompt_builder_utils';
+import { formatUserHistory, getWorkoutsFromDay } from './prompt_builder_utils';
 import WorkoutFeedback from '../../models/workout_feedback';
 
 const format = `The needed format for the result workout planner:\n` +
@@ -50,7 +50,7 @@ export const buildPromptForWorkoutWeek = async (userId: string): Promise<string>
 
 export const buildPromptAfterWorkoutFeedback = async(userId: string, day: string): Promise<string> => {
     try {
-        const possibleWorkoutsToReplace = await getMealsFromDayAndMealType(userId, day, 'Workout');
+        const possibleWorkoutsToReplace = await getWorkoutsFromDay(userId, day);
 
         // Build the prompt
         const steps = `Steps to replace problametic workouts in a plan:\n` +

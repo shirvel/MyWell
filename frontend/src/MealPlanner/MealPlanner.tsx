@@ -4,13 +4,17 @@ import {
 	TableBody,
 	TableRow,
 	TableCell,
+	Typography,
+	Box,
 } from "@mui/material";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { IMealPlanner, MealTypes, getMealPlan } from "./MealPlannerService";
 import { Meal } from "./Meal";
 import { useUserContext } from "../providers/UserContextProvider";
-import { dayColumns, isDayPassed, PlannerDates } from "../common/plannerUtils";
+import { dayColumns, PlannerDates } from "../common/plannerUtils";
 import { DateNav } from "../common/PlannerDateNav";
+import MealWithImage from './MealWithImage';
+import axios from "axios";
 
 export const MealPlanner = () => {
 	const { userId } = useUserContext();
@@ -19,20 +23,60 @@ export const MealPlanner = () => {
 	const [loading, setLoading] = useState<boolean>(true);
 	const requestInProgress = useRef<boolean>(false);
 
+	const fetchBatchMealImages = async (mealNames: string[]) => {
+		const cachedImages = JSON.parse(localStorage.getItem('mealImages') || '{}');
+		const mealsToFetch = mealNames.filter(meal => !cachedImages[meal]);
+	
+		if (mealsToFetch.length > 0) {
+			try {
+				const response = await axios.get(`https://api.spoonacular.com/recipes/complexSearch`, {
+					params: {
+						query: mealsToFetch.join(','), // Batch request for multiple meals
+						number: mealsToFetch.length,
+						apiKey: '', // Replace with your actual Spoonacular API key
+					},
+				});
+	
+				response.data.results.forEach((result: any) => {
+					cachedImages[result.title] = result.image; // Assuming the meal title is accurate
+				});
+	
+				// Cache the fetched images
+				localStorage.setItem('mealImages', JSON.stringify(cachedImages));
+			} catch (error) {
+				console.error("Error fetching meal images", error);
+			}
+		}
+	};
+	
+
 	const loadMealPlan = useCallback(async (dates?: PlannerDates) => {
 		if (dates) {
 			setDates({ startDate: dates.startDate, endDate: dates.endDate });
 		}
 		if (userId != null) {
 			if (requestInProgress.current) {
-				return; // Exit if a request is already in progress
+				return;
 			}
-
+	
 			requestInProgress.current = true;
-
+	
 			try {
 				const response = await getMealPlan(userId, dates);
 				setMealPlan(response);
+	
+				const mealNames: string[] = []; // Explicitly define the type of mealNames as string[]
+	
+				Object.keys(response).forEach(day => {
+					MealTypes.forEach(mealType => {
+						if (response[day][mealType]) {
+							mealNames.push(response[day][mealType].name);
+						}
+					});
+				});
+	
+				await fetchBatchMealImages(mealNames); // Fetch images for all meals in batch
+	
 				setDates({ startDate: response.startDate, endDate: response.endDate });
 			} catch (err) {
 				console.log("Failed to load meal plan");
@@ -41,7 +85,8 @@ export const MealPlanner = () => {
 				requestInProgress.current = false;
 			}
 		}
-	}, []);
+	}, [userId]);
+	
 
 	useEffect(() => {
 		loadMealPlan();
@@ -52,49 +97,129 @@ export const MealPlanner = () => {
 	}
 
 	return mealPlan ? (
-		<div className="w-full py-8 px-2">
-			<DateNav
-				dates={{ startDate: mealPlan.startDate, endDate: mealPlan.endDate }}
-				loadPlan={loadMealPlan}
-			/>
-			<Table className="w-full">
-				<TableHead className="bg-blue-600">
-					<TableRow>
-						{dayColumns.map((day) => (
-							<TableCell key={day} align="center">
-								<div className="font-bold text-white decoration-8">{day}</div>
-							</TableCell>
-						))}
-					</TableRow>
-				</TableHead>
-				<TableBody>
-					{MealTypes.map((mealType) => (
-						<TableRow key={mealType}>
+		<div
+			style={{
+				display: "flex",
+				justifyContent: "center",
+				alignItems: "center",
+				minHeight: "100vh",
+				backgroundImage: `url('/background.jpg')`,
+				backgroundSize: "cover",
+				backgroundPosition: "center",
+				padding: "20px",
+			}}
+		>
+			<Box
+				className="background-overlay"
+				sx={{
+					width: "100%",
+					maxWidth: "1600px",
+					backgroundColor: "rgba(255, 255, 255, 0.8)",
+					borderRadius: "12px",
+					padding: "20px",
+					boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+				}}
+			>
+				<Typography
+					variant="h4"
+					align="center"
+					gutterBottom
+					style={{
+						color: "#6A8CAF",
+						fontWeight: "bold",
+					}}
+				>
+					Weekly Planner
+				</Typography>
+				<DateNav
+					dates={{ startDate: mealPlan.startDate, endDate: mealPlan.endDate }}
+					loadPlan={loadMealPlan}
+				/>
+				<Table
+					style={{
+						tableLayout: "fixed", // Force equal width for each column
+						width: "100%",
+					}}
+				>
+					<TableHead>
+						<TableRow>
 							{dayColumns.map((day) => (
 								<TableCell
-									key={`${mealType}-${day}`}
+									key={day}
 									align="center"
-									sx={
-										isDayPassed(day)
-											? {
-													backgroundColor: "#DCDCDC",
-											  }
-											: {}
-									}>
-									{mealPlan && mealPlan[day][mealType] && (
-										<Meal
-											key={mealPlan[day][mealType]._id}
-											mealKind={mealType}
-											meal={mealPlan[day][mealType]}
-											day={day}
-										/>
-									)}
+									style={{
+										color: "#6C757D",
+										fontWeight: "bold",
+										fontSize: "16px",
+										padding: "12px",
+										borderBottom: "2px solid #6A8CAF",
+										width: "150px", // Ensure consistent width for each column
+									}}
+								>
+									{day}
 								</TableCell>
 							))}
 						</TableRow>
-					))}
-				</TableBody>
-			</Table>
+					</TableHead>
+					<TableBody>
+						{MealTypes.map((mealType) => (
+							<TableRow key={mealType}>
+								{dayColumns.map((day) => (
+									<TableCell
+										key={`${mealType}-${day}`}
+										align="center"
+										style={{
+											padding: "8px", // Less padding to fit everything properly
+											backgroundColor: "#F9F9F9",
+											borderBottom: "1px solid #DCDCDC",
+											borderRadius: "8px",
+											height: "220px",  // Ensure consistent height for each row
+											width: "150px",   // Ensure consistent width for each column
+											verticalAlign: "top", // Ensure content aligns to the top of the cell
+										}}
+									>
+										{mealPlan && mealPlan[day][mealType] && (
+											<Box
+												sx={{
+													backgroundColor: "#D4E6F1", // Blue background
+													borderRadius: "8px",
+													height: "100%", // Ensure blue box fills the cell height
+													width: "95%",  // Make the blue box slightly wider
+													display: "flex",
+													flexDirection: "column",
+													justifyContent: "center",
+													alignItems: "center",
+													padding: "6px", // Adjust padding to ensure proper fit
+												}}
+											>
+												<Box
+													sx={{
+														backgroundColor: "white",
+														borderRadius: "8px",
+														height: "85%", // Ensure white box fills blue box with even padding
+														width: "100%",  // Consistent width across all boxes
+														display: "flex",
+														flexDirection: "column",
+														justifyContent: "center", // Center content
+														alignItems: "center",
+														boxShadow: "none", // Removed the shadow to avoid double box appearance
+														padding: "10px", // Consistent padding inside white box
+														textAlign: "center", // Center text within the card
+														overflow: "hidden", // Prevent content from overflowing
+													}}
+												>
+													{/* Render only once */}
+													<MealWithImage mealName={mealPlan[day][mealType].name} />
+												</Box>
+											</Box>
+										)}
+									</TableCell>
+								))}
+							</TableRow>
+						))}
+					</TableBody>
+				</Table>
+			</Box>
 		</div>
 	) : (
 		<div>

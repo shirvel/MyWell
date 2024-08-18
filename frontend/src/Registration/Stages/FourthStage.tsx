@@ -3,6 +3,8 @@ import { FormData } from '../types';
 import { CustomTextField } from '../../components/CustomTextField';
 import { CustomTypography } from '../../components/CustomTypography';
 
+const textColor = '#5A8BAF'; // The same color as the "Login" text
+
 interface FourthStageProps {
     formData: FormData;
     handleChange: (field: string, value: any) => void;
@@ -11,7 +13,13 @@ interface FourthStageProps {
 export const FourthStage: React.FC<FourthStageProps> = ({ formData, handleChange }) => {
   return (
     <div className="space-y-4 p-4">
-        <CustomTypography variant='h5'>
+        <CustomTypography
+          variant='h5'
+          style={{
+            color: textColor, // Apply the same color as the "Login" text
+            fontFamily: "'Lora', serif", // Ensure the font family matches as well
+          }}
+        >
             More about you!
         </CustomTypography>
       <CustomTextField

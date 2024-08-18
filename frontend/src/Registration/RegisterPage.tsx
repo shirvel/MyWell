@@ -25,21 +25,38 @@ const steps = [
 ];
 
 const RegisterStepper = ({
-	activeStep,
+    activeStep,
 }: {
-	activeStep: number | undefined;
-}) => (
-	<Stepper
-		activeStep={activeStep}
-		alternativeLabel
-		connector={<CustomStepConnector />}>
-		{steps.map((_, index) => (
-			<Step key={index}>
-				<StepLabel StepIconComponent={CustomStepIcon} />
-			</Step>
-		))}
-	</Stepper>
-);
+    activeStep: number | undefined;
+}) => {
+    const textColor = '#5A8BAF'; // The same color as the "Login" text
+
+    return (
+        <Stepper
+            activeStep={activeStep}
+            alternativeLabel
+            connector={<CustomStepConnector />}
+        >
+            {steps.map((_, index) => (
+                <Step key={index}>
+                    <StepLabel
+                        StepIconComponent={CustomStepIcon}
+                        StepIconProps={{
+                            style: {
+                                color: index === activeStep ? textColor : '#5A8BAF', // Apply color to the current step
+                            }
+                        }}
+                        sx={{
+                            '& .MuiStepLabel-label': {
+                                color: index === activeStep ? textColor : '#5A8BAF', // Apply the color to the label text of the current step
+                            }
+                        }}
+                    />
+                </Step>
+            ))}
+        </Stepper>
+    );
+};
 
 export const RegisterPage = () => {
 	const navigate = useNavigate();
@@ -191,45 +208,76 @@ export const RegisterPage = () => {
 	];
 
 	return (
-		<div
-			className="flex items-center justify-center"
-			style={{ marginTop: "20px" }}>
-			<Box className="w-1/3 p-4">
-				<RegisterStepper activeStep={activeStep} />
-				{activeStep === steps.length ? (
-					<>
-						<Typography sx={{ mt: 2, mb: 1 }}>
-							All steps completed - you&apos;re finished
-						</Typography>
-						<Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-							<Box sx={{ flex: "1 1 auto" }} />
-							<CustomButton onClick={handleReset} color="secondary">
-								Reset
-							</CustomButton>
-						</Box>
-					</>
-				) : (
-					<>
-						{components[activeStep]}
-						<Box
-							sx={{ display: "flex", justifyContent: "space-between", pt: 2 }}>
-							<CustomButton
-								color="secondary"
-								disabled={activeStep === 0}
-								onClick={handleBack}>
-								Back
-							</CustomButton>
-							<CustomButton
-								color="primary"
-								onClick={
-									activeStep === steps.length - 1 ? handleSubmit : handleNext
-								}>
-								{activeStep === steps.length - 1 ? "Finish" : "Next"}
-							</CustomButton>
-						</Box>
-					</>
-				)}
-			</Box>
-		</div>
-	);
+        <div
+            style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                minHeight: "100vh",
+                backgroundImage: "url('/background.jpg')", // Use the same background image
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
+                width: "100vw",
+            }}
+        >
+            <div style={{
+                width: '700px', // Circle size
+                height: '700px', // Circle size
+                backgroundColor: 'rgba(255, 255, 255, 0.8)', // White background with slight opacity
+                borderRadius: '50%', // Make it circular
+                padding: '50px 30px 30px', // Padding inside the circle
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'flex-start', // Align items at the top
+                alignItems: 'center',
+                boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', // Optional: Adds a subtle shadow
+                textAlign: 'center', // Centralize content inside the circle
+                position: 'relative', // Allow positioning of children
+            }}>
+                <RegisterStepper activeStep={activeStep} />
+                {activeStep === steps.length ? (
+                    <>
+                        <Typography sx={{ mt: 2, mb: 1 }}>
+                            All steps completed - you&apos;re finished
+                        </Typography>
+                        <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
+                            <Box sx={{ flex: "1 1 auto" }} />
+                            <CustomButton onClick={handleReset} color="secondary">
+                                Reset
+                            </CustomButton>
+                        </Box>
+                    </>
+                ) : (
+                    <>
+                        {components[activeStep]}
+                        <Box
+    sx={{ display: "flex", justifyContent: "space-between", pt: 2 }}>
+    <CustomButton
+        color="secondary"
+        disabled={activeStep === 0}
+        onClick={handleBack}
+        sx={{
+            backgroundColor: '#5A8BAF', // Change to soft blue color
+            color: 'white',            // Text color should be white
+        }}
+    >
+        Back
+    </CustomButton>
+    <CustomButton
+        color="primary"
+        onClick={activeStep === steps.length - 1 ? handleSubmit : handleNext}
+        sx={{
+            backgroundColor: '#5A8BAF', // Change to soft blue color
+            color: 'white',            // Text color should be white
+        }}
+    >
+        {activeStep === steps.length - 1 ? "Finish" : "Next"}
+    </CustomButton>
+</Box>
+                    </>
+                )}
+            </div>
+        </div>
+    );
 };

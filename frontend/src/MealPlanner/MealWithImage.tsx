@@ -2,6 +2,42 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Box, Typography } from "@mui/material";
 
+const fetchBatchMealImages = async (
+    mealsToFetch: string[], // Define the type as an array of strings
+    cachedImages: Record<string, string>, // Define the type as a record with string keys and string values
+    apiKey: string // Define the type as a string
+): Promise<void> => { // Return type is Promise<void>
+    // Split the meals into two smaller batches
+    const halfIndex = Math.ceil(mealsToFetch.length / 2);
+    const firstBatch = mealsToFetch.slice(0, halfIndex);
+    const secondBatch = mealsToFetch.slice(halfIndex);
+
+    const fetchImages = async (batch: string[]) => { // Define the type as an array of strings
+        try {
+            const response = await axios.get(``, {
+                params: {
+                    query: batch.join(','),
+                    number: batch.length,
+                    apiKey: '', // Use the provided API key
+                },
+            });
+
+            response.data.results.forEach((result: { title: string; image: string }) => {
+                cachedImages[result.title] = result.image; // Assuming the meal title is accurate
+            });
+
+            // Cache the fetched images
+            localStorage.setItem('mealImages', JSON.stringify(cachedImages));
+        } catch (error) {
+            console.error("Error fetching meal images", error);
+        }
+    };
+
+    await fetchImages(firstBatch);
+    await fetchImages(secondBatch);
+};
+
+
 const MealWithImage = ({ mealName }) => {
     const [imageUrl, setImageUrl] = useState(null);
 
@@ -13,25 +49,12 @@ const MealWithImage = ({ mealName }) => {
             if (cachedImages[mealName]) {
                 setImageUrl(cachedImages[mealName]);
             } else {
-                try {
-                    const response = await axios.get(`https://api.spoonacular.com/recipes/complexSearch`, {
-                        params: {
-                            query: mealName,
-                            number: 1,
-                            apiKey: '', // Replace with your actual Spoonacular API key
-                        },
-                    });
+                const mealsToFetch = [mealName]; // You could expand this array to include more meals
+                await fetchBatchMealImages(mealsToFetch, cachedImages, ''); // Replace with your actual Spoonacular API key
 
-                    if (response.data.results.length > 0) {
-                        const imageUrl = response.data.results[0].image;
-                        setImageUrl(imageUrl);
-
-                        // Cache the image URL
-                        cachedImages[mealName] = imageUrl;
-                        localStorage.setItem('mealImages', JSON.stringify(cachedImages));
-                    }
-                } catch (error) {
-                    console.error("Error fetching meal image", error);
+                // Set the image URL from the cache
+                if (cachedImages[mealName]) {
+                    setImageUrl(cachedImages[mealName]);
                 }
             }
         };
@@ -46,8 +69,9 @@ const MealWithImage = ({ mealName }) => {
             alignItems: 'center',
             padding: '10px',
             borderRadius: '8px',
-            boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
-            backgroundColor: '#fff',
+            // Removed the boxShadow and backgroundColor to avoid double white box
+            // boxShadow: 'none',
+            // backgroundColor: 'transparent',
         }}>
             {imageUrl ? (
                 <img src={imageUrl} alt={mealName} style={{ width: '100%', borderRadius: '8px' }} />

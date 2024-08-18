@@ -16,7 +16,6 @@ import { DateNav } from "../common/PlannerDateNav";
 import MealWithImage from './MealWithImage';
 import axios from "axios";
 
-
 export const MealPlanner = () => {
 	const { userId } = useUserContext();
 	const [mealPlan, setMealPlan] = useState<IMealPlanner | null>(null);
@@ -136,7 +135,12 @@ export const MealPlanner = () => {
 					dates={{ startDate: mealPlan.startDate, endDate: mealPlan.endDate }}
 					loadPlan={loadMealPlan}
 				/>
-				<Table>
+				<Table
+					style={{
+						tableLayout: "fixed", // Force equal width for each column
+						width: "100%",
+					}}
+				>
 					<TableHead>
 						<TableRow>
 							{dayColumns.map((day) => (
@@ -149,6 +153,7 @@ export const MealPlanner = () => {
 										fontSize: "16px",
 										padding: "12px",
 										borderBottom: "2px solid #6A8CAF",
+										width: "150px", // Ensure consistent width for each column
 									}}
 								>
 									{day}
@@ -164,24 +169,48 @@ export const MealPlanner = () => {
 										key={`${mealType}-${day}`}
 										align="center"
 										style={{
-											padding: "16px",
+											padding: "8px", // Less padding to fit everything properly
 											backgroundColor: "#F9F9F9",
 											borderBottom: "1px solid #DCDCDC",
 											borderRadius: "8px",
+											height: "220px",  // Ensure consistent height for each row
+											width: "150px",   // Ensure consistent width for each column
+											verticalAlign: "top", // Ensure content aligns to the top of the cell
 										}}
 									>
 										{mealPlan && mealPlan[day][mealType] && (
 											<Box
 												sx={{
-													backgroundColor: "#D4E6F1",
+													backgroundColor: "#D4E6F1", // Blue background
 													borderRadius: "8px",
-													padding: "10px",
-													boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
+													height: "100%", // Ensure blue box fills the cell height
+													width: "95%",  // Make the blue box slightly wider
+													display: "flex",
+													flexDirection: "column",
+													justifyContent: "center",
+													alignItems: "center",
+													padding: "6px", // Adjust padding to ensure proper fit
 												}}
 											>
-												<MealWithImage 
-													mealName={mealPlan[day][mealType].name} 
-												/>
+												<Box
+													sx={{
+														backgroundColor: "white",
+														borderRadius: "8px",
+														height: "85%", // Ensure white box fills blue box with even padding
+														width: "100%",  // Consistent width across all boxes
+														display: "flex",
+														flexDirection: "column",
+														justifyContent: "center", // Center content
+														alignItems: "center",
+														boxShadow: "none", // Removed the shadow to avoid double box appearance
+														padding: "10px", // Consistent padding inside white box
+														textAlign: "center", // Center text within the card
+														overflow: "hidden", // Prevent content from overflowing
+													}}
+												>
+													{/* Render only once */}
+													<MealWithImage mealName={mealPlan[day][mealType].name} />
+												</Box>
 											</Box>
 										)}
 									</TableCell>

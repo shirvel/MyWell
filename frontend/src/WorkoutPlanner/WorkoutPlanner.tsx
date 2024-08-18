@@ -85,7 +85,7 @@ export const WorkoutPlanner = () => {
 										: {}
 								}>
 								{workoutPlan[day] ? (
-									<Workout workout={workoutPlan[day]} />
+									<Workout workout={workoutPlan[day].Workout} day={day} />
 								) : (
 									<div>rest</div>
 								)}

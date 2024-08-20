@@ -11,6 +11,7 @@ import { Meal } from "./Meal";
 import { useUserContext } from "../providers/UserContextProvider";
 import { dayColumns, isDayPassed, PlannerDates } from "../common/plannerUtils";
 import { DateNav } from "../common/PlannerDateNav";
+import { PlannerRecreationButton } from "../common/RecreationPlanner/PlannerRecreationButton";
 
 export const MealPlanner = () => {
 	const { userId } = useUserContext();
@@ -57,6 +58,7 @@ export const MealPlanner = () => {
 				dates={{ startDate: mealPlan.startDate, endDate: mealPlan.endDate }}
 				loadPlan={loadMealPlan}
 			/>
+			<PlannerRecreationButton />
 			<Table className="w-full">
 				<TableHead className="bg-blue-600">
 					<TableRow>

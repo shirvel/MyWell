@@ -100,10 +100,11 @@ export const MealPlanner = () => {
 				justifyContent: "center",
 				alignItems: "center",
 				minHeight: "100vh",
-				backgroundImage: `url('/background.jpg')`,
-				backgroundSize: "cover",
-				backgroundPosition: "center",
+				backgroundImage: `url('/test.jpg')`, // Background image
+				backgroundSize: "cover", // Cover the entire container
+				backgroundPosition: "center", // Center the background image
 				padding: "20px",
+				backgroundColor: "#f0f8ff", // Soft pastel blue background
 			}}
 		>
 			<Box
@@ -111,10 +112,10 @@ export const MealPlanner = () => {
 				sx={{
 					width: "100%",
 					maxWidth: "1600px",
-					backgroundColor: "rgba(255, 255, 255, 0.8)",
-					borderRadius: "12px",
-					padding: "20px",
-					boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+					backgroundColor: "rgba(255, 255, 255, 0.9)", // Softer white background
+					borderRadius: "15px", // More rounded corners
+					padding: "25px", // Slightly increased padding
+					boxShadow: "0 6px 12px rgba(0, 0, 0, 0.1)", // Slightly stronger shadow
 				}}
 			>
 				<Typography
@@ -122,8 +123,9 @@ export const MealPlanner = () => {
 					align="center"
 					gutterBottom
 					style={{
-						color: "#6A8CAF",
+						color: "#4a90e2", // Softer blue
 						fontWeight: "bold",
+						fontFamily: "'Nunito', sans-serif", // Friendly font
 					}}
 				>
 					Weekly Planner
@@ -147,9 +149,9 @@ export const MealPlanner = () => {
 									style={{
 										color: "#6C757D",
 										fontWeight: "bold",
-										fontSize: "16px",
+										fontSize: "18px", // Slightly larger for readability
 										padding: "12px",
-										borderBottom: "2px solid #6A8CAF",
+										borderBottom: "2px solid #4a90e2", // Softer blue
 										width: "150px", // Ensure consistent width for each column
 									}}
 								>
@@ -166,13 +168,14 @@ export const MealPlanner = () => {
 										key={`${mealType}-${day}`}
 										align="center"
 										style={{
-											padding: "8px", // Less padding to fit everything properly
-											backgroundColor: "#F9F9F9",
+											padding: "10px", // Slightly increased padding for comfort
+											backgroundColor: "#f9fafb", // Light background
 											borderBottom: "1px solid #DCDCDC",
-											borderRadius: "8px",
+											borderRadius: "12px", // More rounded corners
 											height: "220px",  // Ensure consistent height for each row
 											width: "150px",   // Ensure consistent width for each column
 											verticalAlign: "top", // Ensure content aligns to the top of the cell
+											boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)", // Subtle shadow for each card
 										}}
 									>
 										{mealPlan && mealPlan[day][mealType] && (

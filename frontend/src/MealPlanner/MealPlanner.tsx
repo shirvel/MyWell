@@ -9,12 +9,11 @@ import {
 } from "@mui/material";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { IMealPlanner, MealTypes, getMealPlan } from "./MealPlannerService";
-import { Meal } from "./Meal";
 import { useUserContext } from "../providers/UserContextProvider";
 import { dayColumns, PlannerDates } from "../common/plannerUtils";
 import { DateNav } from "../common/PlannerDateNav";
-import MealWithImage from './MealWithImage';
 import axios from "axios";
+import { Meal } from "./Meal";  // Import the Meal component
 
 export const MealPlanner = () => {
 	const { userId } = useUserContext();
@@ -26,7 +25,7 @@ export const MealPlanner = () => {
 	const fetchBatchMealImages = async (mealNames: string[]) => {
 		const cachedImages = JSON.parse(localStorage.getItem('mealImages') || '{}');
 		const mealsToFetch = mealNames.filter(meal => !cachedImages[meal]);
-	
+
 		if (mealsToFetch.length > 0) {
 			try {
 				const response = await axios.get(`https://api.spoonacular.com/recipes/complexSearch`, {
@@ -36,11 +35,11 @@ export const MealPlanner = () => {
 						apiKey: '', // Replace with your actual Spoonacular API key
 					},
 				});
-	
+
 				response.data.results.forEach((result: any) => {
 					cachedImages[result.title] = result.image; // Assuming the meal title is accurate
 				});
-	
+
 				// Cache the fetched images
 				localStorage.setItem('mealImages', JSON.stringify(cachedImages));
 			} catch (error) {
@@ -48,7 +47,6 @@ export const MealPlanner = () => {
 			}
 		}
 	};
-	
 
 	const loadMealPlan = useCallback(async (dates?: PlannerDates) => {
 		if (dates) {
@@ -58,15 +56,15 @@ export const MealPlanner = () => {
 			if (requestInProgress.current) {
 				return;
 			}
-	
+
 			requestInProgress.current = true;
-	
+
 			try {
 				const response = await getMealPlan(userId, dates);
 				setMealPlan(response);
-	
-				const mealNames: string[] = []; // Explicitly define the type of mealNames as string[]
-	
+
+				const mealNames: string[] = [];
+
 				Object.keys(response).forEach(day => {
 					MealTypes.forEach(mealType => {
 						if (response[day][mealType]) {
@@ -74,9 +72,9 @@ export const MealPlanner = () => {
 						}
 					});
 				});
-	
-				await fetchBatchMealImages(mealNames); // Fetch images for all meals in batch
-	
+
+				await fetchBatchMealImages(mealNames);
+
 				setDates({ startDate: response.startDate, endDate: response.endDate });
 			} catch (err) {
 				console.log("Failed to load meal plan");
@@ -86,7 +84,6 @@ export const MealPlanner = () => {
 			}
 		}
 	}, [userId]);
-	
 
 	useEffect(() => {
 		loadMealPlan();
@@ -179,39 +176,11 @@ export const MealPlanner = () => {
 										}}
 									>
 										{mealPlan && mealPlan[day][mealType] && (
-											<Box
-												sx={{
-													backgroundColor: "#D4E6F1", // Blue background
-													borderRadius: "8px",
-													height: "100%", // Ensure blue box fills the cell height
-													width: "95%",  // Make the blue box slightly wider
-													display: "flex",
-													flexDirection: "column",
-													justifyContent: "center",
-													alignItems: "center",
-													padding: "6px", // Adjust padding to ensure proper fit
-												}}
-											>
-												<Box
-													sx={{
-														backgroundColor: "white",
-														borderRadius: "8px",
-														height: "85%", // Ensure white box fills blue box with even padding
-														width: "100%",  // Consistent width across all boxes
-														display: "flex",
-														flexDirection: "column",
-														justifyContent: "center", // Center content
-														alignItems: "center",
-														boxShadow: "none", // Removed the shadow to avoid double box appearance
-														padding: "10px", // Consistent padding inside white box
-														textAlign: "center", // Center text within the card
-														overflow: "hidden", // Prevent content from overflowing
-													}}
-												>
-													{/* Render only once */}
-													<MealWithImage mealName={mealPlan[day][mealType].name} />
-												</Box>
-											</Box>
+											<Meal
+												mealKind={mealType}
+												meal={mealPlan[day][mealType]}
+												day={day}
+											/>
 										)}
 									</TableCell>
 								))}
@@ -223,7 +192,7 @@ export const MealPlanner = () => {
 		</div>
 	) : (
 		<div>
-			no meal plan
+			No meal plan available.
 			<DateNav
 				dates={{ startDate: dates?.startDate, endDate: dates?.endDate }}
 				loadPlan={loadMealPlan}

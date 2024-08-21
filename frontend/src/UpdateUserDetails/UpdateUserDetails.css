@@ -1,9 +1,10 @@
 body {
     margin: 0;
-    font-family: 'Roboto', sans-serif;
+    font-family: "Lora", "serif"; /* Replace with the actual font-family */
     background-color: #f0f4f8;
     color: #5e7b99;
 }
+
 
 .MuiButton-containedPrimary {
     background-color: #5e7b99;

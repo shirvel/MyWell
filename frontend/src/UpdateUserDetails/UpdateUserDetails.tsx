@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Grid, Box, Typography,Button, TextField} from '@mui/material';
+import { Grid, Box, Typography, Button, TextField } from '@mui/material';
 import UserImageSection from './UserImageSection';
 import ActionButtons from './ActionButtons';
 import './UpdateUserDetails.css';
@@ -110,51 +110,87 @@ export const UpdateUserDetails: any = () => {
                 </Grid>
                 <Grid item xs={7} style={{ paddingLeft: '100px', paddingTop: '80px'}}>
                     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-                        <Typography variant="h6" style={{color: '#5e7b99'}}>Main Goal</Typography>
+                        <Typography variant="h6" style={{color: '#5e7b99', fontFamily: 'Lora', fontWeight: 'bold', fontSize: '28px'}}>Main Goal</Typography>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                             <Button
                                 onClick={(e) => handleMultiSelectChange(e, 'mainGoal', true)}
                                 variant={(userDetails?.mainGoal ?? []).includes('Reduce Stress') ? 'contained' : 'outlined'}
-                                style={{width: '32%'}}
+                                style={{
+                                    width: '32%',
+                                    color: (userDetails?.mainGoal ?? []).includes('Reduce Stress') ? '#fff' : '#5e7b99',
+                                    borderColor: '#5e7b99',
+                                    fontFamily: 'Lora',
+                                    backgroundColor: (userDetails?.mainGoal ?? []).includes('Reduce Stress') ? '#5e7b99' : 'transparent',
+                                }}
                             >
                                 Reduce Stress
                             </Button>
                             <Button
                                 onClick={(e) => handleMultiSelectChange(e, 'mainGoal', true)}
                                 variant={(userDetails?.mainGoal ?? []).includes('Eat Healthy') ? 'contained' : 'outlined'}
-                                style={{width: '32%'}}
+                                style={{
+                                    width: '32%',
+                                    color: (userDetails?.mainGoal ?? []).includes('Eat Healthy') ? '#fff' : '#5e7b99',
+                                    borderColor: '#5e7b99',
+                                    fontFamily: 'Lora',
+                                    backgroundColor: (userDetails?.mainGoal ?? []).includes('Eat Healthy') ? '#5e7b99' : 'transparent',
+                                }}
                             >
                                 Eat Healthy
                             </Button>
                             <Button
                                 onClick={(e) => handleMultiSelectChange(e, 'mainGoal', true)}
                                 variant={(userDetails?.mainGoal ?? []).includes('Improve Sleep') ? 'contained' : 'outlined'}
-                                style={{width: '32%'}}
+                                style={{
+                                    width: '32%',
+                                    color: (userDetails?.mainGoal ?? []).includes('Improve Sleep') ? '#fff' : '#5e7b99',
+                                    borderColor: '#5e7b99',
+                                    fontFamily: 'Lora',
+                                    backgroundColor: (userDetails?.mainGoal ?? []).includes('Improve Sleep') ? '#5e7b99' : 'transparent',
+                                }}
                             >
                                 Improve Sleep
                             </Button>
                         </Box>
 
-                        <Typography mt={3} variant="h6" style={{color: '#5e7b99'}}>Special Diet</Typography>
+                        <Typography mt={3} variant="h6" style={{color: '#5e7b99', fontFamily: 'Lora',fontWeight: 'bold', fontSize: '28px'}}>Special Diet</Typography>
                         <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                             <Button
                                 onClick={(e) => handleMultiSelectChange(e, 'specialDiets', false)}
                                 variant={(userDetails?.specialDiets ?? []).includes('No Specific Diet') ? 'contained' : 'outlined'}
-                                style={{width: '32%'}}
+                                style={{
+                                    width: '32%',
+                                    color: (userDetails?.specialDiets ?? []).includes('No Specific Diet') ? '#fff' : '#5e7b99',
+                                    borderColor: '#5e7b99',
+                                    fontFamily: 'Lora',
+                                    backgroundColor: (userDetails?.specialDiets ?? []).includes('No Specific Diet') ? '#5e7b99' : 'transparent',
+                                }}
                             >
                                 No Specific Diet
                             </Button>
                             <Button
                                 onClick={(e) => handleMultiSelectChange(e, 'specialDiets', false)}
                                 variant={(userDetails?.specialDiets ?? []).includes('Vegetarian') ? 'contained' : 'outlined'}
-                                style={{width: '32%'}}
+                                style={{
+                                    width: '32%',
+                                    color: (userDetails?.specialDiets ?? []).includes('Vegetarian') ? '#fff' : '#5e7b99',
+                                    borderColor: '#5e7b99',
+                                    fontFamily: 'Lora',
+                                    backgroundColor: (userDetails?.specialDiets ?? []).includes('Vegetarian') ? '#5e7b99' : 'transparent',
+                                }}
                             >
                                 Vegetarian
                             </Button>
                             <Button
                                 onClick={(e) => handleMultiSelectChange(e, 'specialDiets', false)}
                                 variant={(userDetails?.specialDiets ?? []).includes('Gluten-Free') ? 'contained' : 'outlined'}
-                                style={{width: '32%'}}
+                                style={{
+                                    width: '32%',
+                                    color: (userDetails?.specialDiets ?? []).includes('Gluten-Free') ? '#fff' : '#5e7b99',
+                                    borderColor: '#5e7b99',
+                                    fontFamily: 'Lora',
+                                    backgroundColor: (userDetails?.specialDiets ?? []).includes('Gluten-Free') ? '#5e7b99' : 'transparent',
+                                }}
                             >
                                 Gluten-Free
                             </Button>

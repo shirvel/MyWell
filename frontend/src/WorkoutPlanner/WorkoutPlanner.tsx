@@ -101,9 +101,9 @@ export const WorkoutPlanner = () => {
                     align="center"
                     gutterBottom
                     style={{
-                        color: "#4a90e2", // Softer blue
+                        color: "#5e7b99", // Softer blue
                         fontWeight: "bold",
-                        fontFamily: "'Nunito', sans-serif", // Friendly font
+                        fontFamily: "Lora", // Friendly font
                     }}
                 >
                     Weekly Workout Planner
@@ -122,6 +122,9 @@ export const WorkoutPlanner = () => {
                         width: '100%',
                         justifyContent: 'space-between',
                         overflowX: 'auto',  // Allow horizontal scrolling if necessary
+                        overflowY: 'auto',  // Allow vertical scrolling if necessary
+                        paddingBottom: '20px',  // Add padding to the bottom to prevent cutting
+                        marginBottom: '20px',  // Ensure there's space at the bottom of the container
                     }}
                 >
                     {dayColumns.map((day) => (
@@ -139,6 +142,7 @@ export const WorkoutPlanner = () => {
                                 maxWidth: '200px', // Max width for consistency
                                 height: 'auto', // Let the height adjust based on content
                                 flexGrow: 1, // Allow boxes to grow to fill available space
+                                paddingBottom: '10px',  // Add padding inside each card to prevent cutting
                             }}
                         >
                             <Typography
@@ -160,7 +164,7 @@ export const WorkoutPlanner = () => {
                                     flexDirection: 'column',
                                     justifyContent: 'space-between',
                                     padding: '10px',
-                                    minHeight: '180px', // Ensure enough height for all content
+                                    minHeight: '150px', // Decreased minHeight to reduce card height
                                 }}
                             >
                                 {workoutPlan[day] ? (
@@ -180,8 +184,8 @@ export const WorkoutPlanner = () => {
                                             src={RestImage}
                                             alt="Rest Day"
                                             style={{
-                                                width: "100px",
-                                                height: "100px",
+                                                width: "80px", // Adjusted size to fit in smaller card
+                                                height: "80px",
                                                 marginBottom: "10px",
                                             }}
                                         />

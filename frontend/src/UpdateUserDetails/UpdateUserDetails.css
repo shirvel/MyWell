@@ -6,38 +6,19 @@ body {
 }
 
 .MuiButton-containedPrimary {
-    background-color: #5e7b99;
+    background-color: #5e7b99; /* Matching color for buttons */
 }
 
 .MuiButton-outlined {
-    color: #5e7b99;
+    color: #5e7b99; /* Matching color for outlined buttons */
     border-color: #5e7b99;
 }
 
 .MuiButtonGroup-root .MuiButton-contained {
-    border-color: #5e7b99;
+    border-color: #5e7b99; /* Matching border color for contained buttons */
 }
 
 .MuiButtonGroup-root .MuiButton-outlined {
-    border-color: #5e7b99;
+    border-color: #5e7b99; /* Matching color for button groups */
     color: #5e7b99;
-}
-
-.MuiTextField-root {
-    background-color: #fff;
-}
-
-.MuiFormControl-root {
-    background-color: #fff;
-}
-
-.multi-select-group {
-    display: flex;
-    flex-wrap: nowrap;
-    gap: 4px; /* Adjust the gap as necessary */
-}
-
-.MuiFormControl-root .MuiButtonBase-root {
-    flex: 1; /* Make buttons equal width */
-    white-space: nowrap; /* Prevent line breaks */
 }

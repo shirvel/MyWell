@@ -47,12 +47,18 @@ const ActionButtons: FC<actions> = ({onSave}) => {
         <>
             <Grid container spacing={2} justifyContent="space-between" sx={{ mt: 2 }}>
                 <Grid item>
-                    <Button variant="contained" color="primary" onClick={handleSubmit}>
+                    <Button 
+    variant="contained" 
+    sx={{ backgroundColor: '#5e7b99', color: '#fff', fontFamily: 'Lora', textAlign: 'center' }}
+ color="primary" onClick={handleSubmit}>
                         Save
                     </Button>
                 </Grid>
                 <Grid item>
-                    <Button variant="outlined" onClick={handleGenerateNewPlan}>
+                    <Button 
+    variant="contained" 
+    sx={{ backgroundColor: '#5e7b99', color: '#fff', fontFamily: 'Lora', textAlign: 'center' }}
+ onClick={handleGenerateNewPlan}>
                         Generate New Plans
                     </Button>
                 </Grid>

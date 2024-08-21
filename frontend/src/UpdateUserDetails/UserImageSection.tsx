@@ -48,6 +48,12 @@ const UserImageSection: FC<UserImageSectionProps> = ({ imageUrl, setUserImage })
                     sx={{ 
                         width: '50%', 
                         textAlign: 'center',
+                        backgroundColor: '#5e7b99', // Change background color
+                        fontFamily: 'Lora',
+                        color: '#fff', // Change text color
+                        '&:hover': {
+                            backgroundColor: '#4a607e', // Optional: Add hover effect
+                        }
                     }} 
                 >
                     Upload New Image

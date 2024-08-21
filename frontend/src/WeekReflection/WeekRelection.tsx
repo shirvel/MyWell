@@ -52,7 +52,7 @@ export const WeekReflection = () => {
 							component="div" 
 							sx={{ 
 								color: '#5e7b99', // Updated color
-								fontFamily: "'Nunito', sans-serif", // Matching font family
+								fontFamily: 'Lora', // Matching font family
 								fontWeight: 'bold', // Matching font weight
 								fontSize: '2rem', // Adjust the font size to match
 							}}
@@ -65,7 +65,7 @@ export const WeekReflection = () => {
 							className="pb-4" 
 							sx={{ 
 								color: '#5e7b99',
-								fontFamily: "'Nunito', sans-serif", // Matching font family
+								fontFamily: 'Lora', // Matching font family
 							}}
 						>
 							Its important to us to know how was you experience in our app! Its
@@ -104,7 +104,10 @@ export const WeekReflection = () => {
 						</div>
 					</CardContent>
 					<CardActions>
-						<Button size="small" onClick={saveReflection}>
+						<Button 
+							variant="contained" 
+							sx={{ backgroundColor: '#5e7b99', color: '#fff', fontFamily: 'Lora', textAlign: 'center' }}
+							color="primary" onClick={saveReflection}>
 							Save
 						</Button>
 					</CardActions>

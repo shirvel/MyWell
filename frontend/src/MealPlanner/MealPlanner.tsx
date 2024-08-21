@@ -136,9 +136,9 @@ export const MealPlanner = () => {
                     align="center"
                     gutterBottom
                     style={{
-                        color: "#4a90e2", // Softer blue
+                        color: "#5e7b99", // Softer blue
                         fontWeight: "bold",
-                        fontFamily: "'Nunito', sans-serif", // Friendly font
+                        fontFamily: "Lora", // Friendly font
                     }}
                 >
                     Weekly Planner

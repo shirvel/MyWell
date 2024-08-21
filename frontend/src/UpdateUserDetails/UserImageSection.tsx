@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
-import { Avatar, Button } from '@mui/material';
+import { Avatar, Button, Box } from '@mui/material';
 
 interface UserImageSectionProps {
     imageUrl: string | undefined; 
-    setUserImage?: any
+    setUserImage?: any;
 }
 
-const UserImageSection: FC<UserImageSectionProps> = ({imageUrl, setUserImage}) => {
+const UserImageSection: FC<UserImageSectionProps> = ({ imageUrl, setUserImage }) => {
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -21,25 +21,44 @@ const UserImageSection: FC<UserImageSectionProps> = ({imageUrl, setUserImage}) =
     };
 
     return (
-        <>
+        <Box 
+            sx={{ 
+                display: 'flex', 
+                flexDirection: 'column', 
+                alignItems: 'center',
+                justifyContent: 'flex-start', 
+                height: '100%',
+                paddingTop: '20px', // Padding to move avatar higher
+            }}
+        >
             <Avatar 
                 alt="User Image" 
                 src={imageUrl} 
-                sx={{ width: '100%', height: '70vh' }} 
+                sx={{ 
+                    width: '300px',  // Size of the avatar
+                    height: '300px', 
+                    borderRadius: '50%', 
+                    objectFit: 'cover',
+                }} 
             />
-            <Button 
-                variant="contained" 
-                component="label"
-                sx={{ mt: 4, width: '40%' }}
-            >
-                Upload New Image
-                <input 
-                    type="file" 
-                    hidden 
-                    onChange={handleImageUpload}
-                />
-            </Button>
-        </>
+            <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: '40px' }}> {/* Increased marginTop */}
+                <Button 
+                    variant="contained" 
+                    component="label"
+                    sx={{ 
+                        width: '50%', 
+                        textAlign: 'center',
+                    }} 
+                >
+                    Upload New Image
+                    <input 
+                        type="file" 
+                        hidden 
+                        onChange={handleImageUpload}
+                    />
+                </Button>
+            </Box>
+        </Box>
     );
 };
 

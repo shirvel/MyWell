@@ -7,6 +7,7 @@ import {
 	FormControlLabel,
 	Checkbox,
 	Box,
+	CardContent,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import FavoriteIcon from "@mui/icons-material/Favorite";
@@ -15,6 +16,7 @@ import { useState } from "react";
 import { IWorkout, changeDoneWorkout, changeLikeWorkout } from "./WorkoutPlannerService";
 import { WorkoutDetailsModal } from "./WorkoutDetailsModal";
 import { ChangeWorkoutModal } from "./ChangeWorkoutModal";
+import { isDayPassed } from "../common/plannerUtils";
 
 export const Workout = ({ workout, day }: { workout: IWorkout | null, day: string }) => {
 	const [liked, setLiked] = useState(workout?.liked || false);
@@ -26,7 +28,6 @@ export const Workout = ({ workout, day }: { workout: IWorkout | null, day: strin
 	const handleLikeClick = () => {
 		if (workout) {
 			workout.liked = !workout.liked;
-			console.log(`new liked: ${workout.liked}`);
 			setLiked(workout.liked);
 			changeLikeWorkout(userId!!, workout._id, workout.name, workout.liked);
 		}
@@ -35,7 +36,6 @@ export const Workout = ({ workout, day }: { workout: IWorkout | null, day: strin
 	const handleCheckboxChange = () => {
 		if (workout) {
 			workout.done = !workout.done;
-			console.log(`new completed: ${workout.done}`);
 			setDone(workout.done);
 			changeDoneWorkout(userId!!, workout._id, workout.done);
 		}
@@ -55,20 +55,50 @@ export const Workout = ({ workout, day }: { workout: IWorkout | null, day: strin
 
 	return (
 		<>
-			<Card onClick={workout ? handleCardClick : undefined} sx={{ cursor: workout ? "pointer" : "default" }}>
-				<Box>
+			<Card
+				className="h-full"
+				sx={
+					isDayPassed(day)
+						? {
+								backgroundColor: "#DCDCDC",
+								border: "none",
+								boxShadow: "none",
+						  }
+						: {}
+				}
+			>
+				<Box onClick={handleCardClick} sx={{ cursor: "pointer" }}>
 					<CardHeader
 						avatar={<Avatar>{workout ? <ExpandMoreIcon /> : "R"}</Avatar>}
 						title={workout ? workout.name : "Rest"}
 					/>
+					<CardContent sx={{ minHeight: "64px" }}> {/* Ensuring consistent height */}
+						{workout?.name}
+					</CardContent>
 				</Box>
 
 				{workout && (
-					<CardActions disableSpacing onClick={(e) => e.stopPropagation()}>
-						<IconButton aria-label="Like" onClick={handleLikeClick}>
+					<CardActions
+						disableSpacing
+						sx={{
+							display: 'flex',
+							justifyContent: 'space-between',
+							alignItems: 'center',
+							padding: '0 16px', // Adjust padding for consistent spacing
+						}}
+					>
+						<IconButton
+							aria-label="Like"
+							onClick={handleLikeClick}
+							disabled={isDayPassed(day)}
+						>
 							<FavoriteIcon style={{ color: liked ? "red" : "inherit" }} />
 						</IconButton>
-						<IconButton aria-label="Edit" onClick={handleEditClick}>
+						<IconButton
+							aria-label="Edit"
+							onClick={handleEditClick}
+							disabled={isDayPassed(day)}
+						>
 							<EditIcon />
 						</IconButton>
 						<FormControlLabel
@@ -76,10 +106,11 @@ export const Workout = ({ workout, day }: { workout: IWorkout | null, day: strin
 								<Checkbox
 									checked={done}
 									onChange={handleCheckboxChange}
+									disabled={isDayPassed(day)}
 								/>
 							}
-							label="Completed"
-							sx={{ marginLeft: 1 }}
+							label=""
+							sx={{ marginLeft: 'auto' }} // Align checkbox to the right
 						/>
 					</CardActions>
 				)}

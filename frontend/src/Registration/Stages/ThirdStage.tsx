@@ -5,7 +5,7 @@ import { CustomCard } from '../../components/CustomCard';
 import { CustomTypography } from '../../components/CustomTypography';
 
 const dietOptions = [
-    { label: "No specific diet", description: "I don't have any dietary restrictions" },
+    { label: "No Specific Diet", description: "I don't have any dietary restrictions" },
     { label: "Vegetarian", description: "I abstain from meat, fish, and poultry products" },
     { label: "Gluten-free", description: "I avoid wheat, barley, rye or other grains" }
 ];

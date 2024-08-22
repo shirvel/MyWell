@@ -7,6 +7,8 @@ import {
 	CardContent,
 	TextField,
 	Box,
+	Snackbar,
+	Alert,
 } from "@mui/material";
 import { useCallback, useState, useContext } from "react";
 import { sendWeekReflection } from "./WeekReflectionService";
@@ -20,6 +22,15 @@ export const WeekReflection = () => {
 	const [pastWeek, setPastWeek] = useState<string>("");
 	const [feedback, setFeedback] = useState<string>("");
 
+	const [openSnackbar, setOpenSnackbar] = useState(false);
+
+	const handleSnackbarClose = (event?: React.SyntheticEvent, reason?: string) => {
+		if (reason === 'clickaway') {
+			return;
+		}
+		setOpenSnackbar(false);
+	};
+
 	const saveReflection = useCallback(() => {
 		const user_id = localStorage.getItem("userId");
 		sendWeekReflection(user_id ?? "" , { feeling, pastWeek, feedback });
@@ -27,14 +38,19 @@ export const WeekReflection = () => {
 		setFeeling("");
 		setPastWeek("");
 		setFeedback("");
-		navigate('/meal-planner');
+		setOpenSnackbar(true); // Show the Snackbar
+
+		// Delay the navigation to the meal planner
+		setTimeout(() => {
+			navigate('/meal-planner');
+		}, 3000); // 3-second delay before navigating
 	}, [feeling, pastWeek, feedback]);
 
 	return (
 		<Box
 			sx={{
 				minHeight: '100vh',
-				backgroundImage: `url('/background.jpg')`, // Replace with your image path
+				backgroundImage: `url('/background.jpg')`,
 				backgroundSize: 'cover',
 				backgroundPosition: 'center',
 				display: 'flex',
@@ -44,17 +60,37 @@ export const WeekReflection = () => {
 			}}
 		>
 			<Container maxWidth="md" sx={{ textAlign: "center", mt: 10 }}>
-				<Card>
-					<CardContent>
+				<Card 
+					sx={{
+						borderRadius: '50%',  // Make the card circular
+						width: '700px',       // Adjust width to make the circle bigger
+						height: '700px',      // Adjust height to make the circle bigger
+						display: 'flex',
+						flexDirection: 'column',
+						justifyContent: 'center',
+						alignItems: 'center',
+						boxShadow: "0 6px 12px rgba(0, 0, 0, 0.1)",
+						overflow: 'hidden',
+						margin: '0 auto',     // Center the circle
+					}}
+				>
+					<CardContent 
+						sx={{ 
+							padding: 2, 
+							textAlign: 'center', 
+							width: '90%',       // Increase the width to make text fields slightly wider
+							maxWidth: '650px',  // Ensure the content doesn't exceed a certain width
+						}}
+					>
 						<Typography 
 							gutterBottom 
 							variant="h5" 
 							component="div" 
 							sx={{ 
-								color: '#5e7b99', // Updated color
-								fontFamily: 'Lora', // Matching font family
-								fontWeight: 'bold', // Matching font weight
-								fontSize: '2rem', // Adjust the font size to match
+								color: '#5e7b99', 
+								fontFamily: 'Lora',
+								fontWeight: 'bold',
+								fontSize: '2.5rem', // Increased font size
 							}}
 						>
 							How was your week?
@@ -62,57 +98,75 @@ export const WeekReflection = () => {
 						<Typography 
 							variant="body2" 
 							color="text.secondary" 
-							className="pb-4" 
 							sx={{ 
 								color: '#5e7b99',
-								fontFamily: 'Lora', // Matching font family
+								fontFamily: 'Lora',
+								marginBottom: '16px',  // Added margin for spacing
+								fontSize: '1.0rem',  // Increased font size
 							}}
 						>
-							Its important to us to know how was you experience in our app! Its
+							It's important to us to know how your experience was in our app! It's
 							also important for you to reflect and think about the past week
-							focusing on the positive effects! So grub a cup of tea and lets
+							focusing on the positive effects! So grab a cup of tea and let's
 							start!
 						</Typography>
-						<div className="space-y-4">
-							<TextField
-								className="w-full"
-								label="How Are you feeling"
-								variant="outlined"
-								value={feeling}
-								onChange={(event) => {
-									setFeeling(event.target.value);
-								}}
-							/>
-							<TextField
-								className="w-full"
-								label="How was the past week"
-								variant="outlined"
-								value={pastWeek}
-								onChange={(event) => {
-									setPastWeek(event.target.value);
-								}}
-							/>
-							<TextField
-								className="w-full"
-								label="Feedback on the weekly plan"
-								variant="outlined"
-								value={feedback}
-								onChange={(event) => {
-									setFeedback(event.target.value);
-								}}
-							/>
-						</div>
+						<TextField
+							fullWidth
+							label="Feeling"
+							variant="outlined"
+							value={feeling}
+							onChange={(event) => {
+								setFeeling(event.target.value);
+							}}
+							sx={{ marginBottom: 2 }}
+						/>
+						<TextField
+							fullWidth
+							label="Past Week"
+							variant="outlined"
+							value={pastWeek}
+							onChange={(event) => {
+								setPastWeek(event.target.value);
+							}}
+							sx={{ marginBottom: 2 }}
+						/>
+						<TextField
+							fullWidth
+							label="Feedback"
+							variant="outlined"
+							value={feedback}
+							onChange={(event) => {
+								setFeedback(event.target.value);
+							}}
+							sx={{ marginBottom: 2 }}
+						/>
 					</CardContent>
-					<CardActions>
+					<CardActions sx={{ justifyContent: 'center' }}>
 						<Button 
 							variant="contained" 
-							sx={{ backgroundColor: '#5e7b99', color: '#fff', fontFamily: 'Lora', textAlign: 'center' }}
-							color="primary" onClick={saveReflection}>
+							sx={{ 
+								backgroundColor: '#5e7b99', 
+								color: '#fff', 
+								fontFamily: 'Lora',
+								textAlign: 'center',
+							}}
+							onClick={saveReflection}
+						>
 							Save
 						</Button>
 					</CardActions>
 				</Card>
 			</Container>
+			<Snackbar
+				open={openSnackbar}
+				autoHideDuration={6000}
+				onClose={handleSnackbarClose}
+				anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+			>
+				<Alert onClose={handleSnackbarClose} severity="success" sx={{ width: '100%' }}>
+					Your weekly reflection has been saved successfully!
+				</Alert>
+			</Snackbar>
 		</Box>
 	);
 };

@@ -48,9 +48,9 @@ export const initApp = (): Promise<Express> => {
       })
 
       app.use(bodyParser.json());
-      app.use("/api/weekly_reflection", weekly_reflection_routers);
-      app.use("/api/meal-planner", meal_planner_routes);
-      app.use("/api/workout-planner", workout_planner_routes);
+      app.use("/weekly_reflection", weekly_reflection_routers);
+      app.use("/meal-planner", meal_planner_routes);
+      app.use("/workout-planner", workout_planner_routes);
       app.use("/meal_feedback", meal_feedback_routes);
       app.use("/general_feedback", general_planner_feedbacks_routes);
       app.use("/workout_feedback", workout_feedback_routes);

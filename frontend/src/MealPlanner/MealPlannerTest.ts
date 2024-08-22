@@ -7,22 +7,27 @@ import {
     Typography,
     Box,
     CircularProgress,
+    IconButton,
+    Collapse,
 } from "@mui/material";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { IMealPlanner, MealTypes, getMealPlan } from "./MealPlannerService";
 import { useUserContext } from "../providers/UserContextProvider";
-import { dayColumns, PlannerDates } from "../common/plannerUtils";
+import { dayColumns, PlannerDates, isDayPassed } from "../common/plannerUtils";
 import { DateNav } from "../common/PlannerDateNav";
-import axios from "axios";
-import { Meal } from "./Meal";  // Import the Meal component
+import MealWithImage from "./MealWithImage"; 
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import EditIcon from '@mui/icons-material/Edit';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 
 export const MealPlanner = () => {
     const { userId } = useUserContext();
     const [mealPlan, setMealPlan] = useState<IMealPlanner | null>(null);
     const [dates, setDates] = useState<PlannerDates | null>(null);
     const [loading, setLoading] = useState<boolean>(true);
+    const [expandedMeal, setExpandedMeal] = useState<{ [key: string]: boolean }>({});
     const requestInProgress = useRef<boolean>(false);
-    
+
     const loadMealPlan = useCallback(async (dates?: PlannerDates) => {
         if (dates) {
             setDates({ startDate: dates.startDate, endDate: dates.endDate });
@@ -48,6 +53,7 @@ export const MealPlanner = () => {
                     });
                 });
 
+                // Fetch images for the meals
                 await fetchBatchMealImages(mealNames);
 
                 setDates({ startDate: response.startDate, endDate: response.endDate });
@@ -62,7 +68,24 @@ export const MealPlanner = () => {
 
     useEffect(() => {
         loadMealPlan();
-    }, []);
+    }, [loadMealPlan]);
+
+    const handleLike = (day: string, mealType: string) => {
+        console.log(`Liked ${mealType} on ${day}`);
+        // Implement like functionality here
+    };
+
+    const handleEdit = (day: string, mealType: string) => {
+        console.log(`Editing ${mealType} on ${day}`);
+        // Implement edit functionality here
+    };
+
+    const handleExpandClick = (day: string, mealType: string) => {
+        setExpandedMeal((prev) => ({
+            ...prev,
+            [`${day}-${mealType}`]: !prev[`${day}-${mealType}`],
+        }));
+    };
 
     if (loading) {
         return (
@@ -87,11 +110,11 @@ export const MealPlanner = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 minHeight: "100vh",
-                backgroundImage: `url('/test.jpg')`, // Background image
-                backgroundSize: "cover", // Cover the entire container
-                backgroundPosition: "center", // Center the background image
+                backgroundImage: `url('/test.jpg')`, 
+                backgroundSize: "cover", 
+                backgroundPosition: "center", 
                 padding: "20px",
-                backgroundColor: "#f0f8ff", // Soft pastel blue background
+                backgroundColor: "#f0f8ff", 
             }}
         >
             <Box
@@ -99,10 +122,10 @@ export const MealPlanner = () => {
                 sx={{
                     width: "100%",
                     maxWidth: "1600px",
-                    backgroundColor: "rgba(255, 255, 255, 0.9)", // Softer white background
-                    borderRadius: "15px", // More rounded corners
-                    padding: "25px", // Slightly increased padding
-                    boxShadow: "0 6px 12px rgba(0, 0, 0, 0.1)", // Slightly stronger shadow
+                    backgroundColor: "rgba(255, 255, 255, 0.9)", 
+                    borderRadius: "15px", 
+                    padding: "25px", 
+                    boxShadow: "0 6px 12px rgba(0, 0, 0, 0.1)", 
                 }}
             >
                 <Typography
@@ -110,9 +133,9 @@ export const MealPlanner = () => {
                     align="center"
                     gutterBottom
                     style={{
-                        color: "#5e7b99", // Softer blue
+                        color: "#5e7b99", 
                         fontWeight: "bold",
-                        fontFamily: "Lora", // Friendly font
+                        fontFamily: "Lora", 
                     }}
                 >
                     Weekly Planner
@@ -123,7 +146,7 @@ export const MealPlanner = () => {
                 />
                 <Table
                     style={{
-                        tableLayout: "fixed", // Force equal width for each column
+                        tableLayout: "fixed", 
                         width: "100%",
                     }}
                 >
@@ -136,10 +159,10 @@ export const MealPlanner = () => {
                                     style={{
                                         color: "#6C757D",
                                         fontWeight: "bold",
-                                        fontSize: "18px", // Slightly larger for readability
+                                        fontSize: "18px", 
                                         padding: "12px",
-                                        borderBottom: "2px solid #4a90e2", // Softer blue
-                                        width: "150px", // Ensure consistent width for each column
+                                        borderBottom: "2px solid #4a90e2", 
+                                        width: "150px", 
                                     }}
                                 >
                                     {day}
@@ -155,22 +178,50 @@ export const MealPlanner = () => {
                                         key={`${mealType}-${day}`}
                                         align="center"
                                         style={{
-                                            padding: "10px", // Slightly increased padding for comfort
-                                            backgroundColor: "#f9fafb", // Light background
+                                            padding: "10px", 
+                                            backgroundColor: isDayPassed(day) ? "#DCDCDC" : "#f9fafb", 
                                             borderBottom: "1px solid #DCDCDC",
-                                            borderRadius: "12px", // More rounded corners
-                                            height: "220px",  // Ensure consistent height for each row
-                                            width: "150px",   // Ensure consistent width for each column
-                                            verticalAlign: "top", // Ensure content aligns to the top of the cell
-                                            boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)", // Subtle shadow for each card
+                                            borderRadius: "12px", 
+                                            height: "auto",  // Adjust height automatically based on content
+                                            width: "150px",   
+                                            verticalAlign: "top", 
+                                            boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)", 
                                         }}
                                     >
                                         {mealPlan && mealPlan[day][mealType] && (
-                                            <Meal
-                                                mealKind={mealType}
-                                                meal={mealPlan[day][mealType]}
-                                                day={day}
-                                            />
+                                            <div>
+                                                <MealWithImage
+                                                    mealName={mealPlan[day][mealType].name}
+                                                />
+                                                <Box sx={{ display: 'flex', justifyContent: 'space-between', marginTop: '10px' }}>
+                                                    <IconButton 
+                                                        onClick={() => handleLike(day, mealType)} 
+                                                        color="primary"
+                                                    >
+                                                        <FavoriteIcon />
+                                                    </IconButton>
+                                                    <IconButton 
+                                                        onClick={() => handleEdit(day, mealType)} 
+                                                        color="primary"
+                                                    >
+                                                        <EditIcon />
+                                                    </IconButton>
+                                                    <IconButton
+                                                        onClick={() => handleExpandClick(day, mealType)}
+                                                        color="primary"
+                                                    >
+                                                        <ExpandMoreIcon />
+                                                    </IconButton>
+                                                </Box>
+                                                <Collapse in={expandedMeal[`${day}-${mealType}`]} timeout="auto" unmountOnExit>
+                                                    <Typography variant="body2" align="left" style={{ padding: "10px", textAlign: "left" }}>
+                                                        <strong>Ingredients:</strong><br />
+                                                        {mealPlan[day][mealType].ingredients.map((ingredient, index) => (
+                                                            <div key={index}>{ingredient}</div>
+                                                        ))}
+                                                    </Typography>
+                                                </Collapse>
+                                            </div>
                                         )}
                                     </TableCell>
                                 ))}

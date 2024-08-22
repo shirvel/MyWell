@@ -1,88 +1,89 @@
+import React, { useEffect, useState } from 'react';
+import { Box } from "@mui/material";
 import axios from 'axios';
-import { useEffect, useState } from 'react';
-import { Box, Typography } from "@mui/material";
+import { openDB } from 'idb';
 
-const fetchBatchMealImages = async (
-    mealsToFetch: string[], // Define the type as an array of strings
-    cachedImages: Record<string, string>, // Define the type as a record with string keys and string values
-    apiKey: string // Define the type as a string
-): Promise<void> => { // Return type is Promise<void>
-    // Split the meals into two smaller batches
-    const halfIndex = Math.ceil(mealsToFetch.length / 2);
-    const firstBatch = mealsToFetch.slice(0, halfIndex);
-    const secondBatch = mealsToFetch.slice(halfIndex);
+const DB_NAME = 'MealImageDB';
+const STORE_NAME = 'images';
 
-    const fetchImages = async (batch: string[]) => { // Define the type as an array of strings
-        try {
-            const response = await axios.get(``, {
-                params: {
-                    query: batch.join(','),
-                    number: batch.length,
-                    apiKey: '', // Use the provided API key
-                },
-            });
+// Define the type for the object stored in IndexedDB
+interface StoredImage {
+  prompt: string;
+  imageUrl: string;
+}
 
-            response.data.results.forEach((result: { title: string; image: string }) => {
-                cachedImages[result.title] = result.image; // Assuming the meal title is accurate
-            });
-
-            // Cache the fetched images
-            localStorage.setItem('mealImages', JSON.stringify(cachedImages));
-        } catch (error) {
-            console.error("Error fetching meal images", error);
-        }
-    };
-
-    await fetchImages(firstBatch);
-    await fetchImages(secondBatch);
+// Function to get the database
+const getDb = async () => {
+  return openDB(DB_NAME, 1, {
+    upgrade(db) {
+      if (!db.objectStoreNames.contains(STORE_NAME)) {
+        db.createObjectStore(STORE_NAME, { keyPath: 'prompt' });
+      }
+    }
+  });
 };
 
+// Function to save an image to IndexedDB
+const saveImageToIndexedDB = async (prompt: string, imageUrl: string) => {
+  const db = await getDb();
+  await db.put(STORE_NAME, { prompt, imageUrl });
+};
 
-const MealWithImage = ({ mealName }) => {
-    const [imageUrl, setImageUrl] = useState(null);
+// Function to get an image from IndexedDB
+const getImageFromIndexedDB = async (prompt: string): Promise<StoredImage | undefined> => {
+  const db = await getDb();
+  return db.get(STORE_NAME, prompt);
+};
 
-    useEffect(() => {
-        const fetchMealImage = async () => {
-            // Check if the image URL is cached
-            const cachedImages = JSON.parse(localStorage.getItem('mealImages') || '{}');
+// Component to fetch and display the meal image
+const MealWithImage: React.FC<{ mealName: string }> = ({ mealName }) => {
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
 
-            if (cachedImages[mealName]) {
-                setImageUrl(cachedImages[mealName]);
-            } else {
-                const mealsToFetch = [mealName]; // You could expand this array to include more meals
-                await fetchBatchMealImages(mealsToFetch, cachedImages, ''); // Replace with your actual Spoonacular API key
+  useEffect(() => {
+    const fetchMealImage = async () => {
+      try {
+        // First, try to get the image from IndexedDB
+        const storedImage = await getImageFromIndexedDB(mealName);
+        if (storedImage) {
+          setImageUrl(storedImage.imageUrl);
+          console.log('Loaded image from IndexedDB');
+          return;
+        }
 
-                // Set the image URL from the cache
-                if (cachedImages[mealName]) {
-                    setImageUrl(cachedImages[mealName]);
-                }
-            }
-        };
+        // If not in IndexedDB, fetch from the backend
+        const response = await axios.post('http://localhost:3000/generate/generate-image', { prompt: mealName });
+        if (response.status === 200 && response.data.imageUrl) {
+          setImageUrl(response.data.imageUrl);
 
-        fetchMealImage();
-    }, [mealName]);
+          // Save the fetched image to IndexedDB for future use
+          await saveImageToIndexedDB(mealName, response.data.imageUrl);
+          console.log('Fetched image from backend and saved to IndexedDB');
+        } else {
+          console.error('No image URL returned by the backend:', response.data);
+        }
+      } catch (error) {
+        console.error('Error fetching image:', error);
+      }
+    };
 
-    return (
-        <Box sx={{
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-            padding: '10px',
-            borderRadius: '8px',
-            // Removed the boxShadow and backgroundColor to avoid double white box
-            // boxShadow: 'none',
-            // backgroundColor: 'transparent',
-        }}>
-            {imageUrl ? (
-                <img src={imageUrl} alt={mealName} style={{ width: '100%', borderRadius: '8px' }} />
-            ) : (
-                <img src="/path-to-placeholder-image.jpg" alt="Placeholder" style={{ width: '100%', borderRadius: '8px' }} />
-            )}
-            <Typography variant="h6" align="center" style={{ marginTop: '10px' }}>
-                {mealName}
-            </Typography>
-        </Box>
-    );
+    fetchMealImage();
+  }, [mealName]);
+
+  return (
+    <Box sx={{
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      padding: '10px',
+      borderRadius: '8px',
+    }}>
+      {imageUrl ? (
+        <img src={imageUrl} alt={mealName} style={{ width: '80%', height: 'auto', borderRadius: '8px', objectFit: 'cover' }} />
+      ) : (
+        <img src="/food-placeholder.png" alt="Placeholder" style={{ width: '80%', height: 'auto', borderRadius: '8px', objectFit: 'cover' }} />
+      )}
+    </Box>
+  );
 };
 
 export default MealWithImage;

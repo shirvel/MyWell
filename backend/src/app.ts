@@ -14,7 +14,7 @@ import image_route from "./routes/image_route";
 import meal_feedback_routes from "./routes/meal_feedback_routers";
 import workout_feedback_routes from "./routes/workout_feedback_routers";
 import general_planner_feedbacks_routes from "./routes/general_planner_feedbacks_routes";
-
+import generateImageRoute from './routes/generate_image_from_ai_route';
 env.config();
 
 export const initApp = (): Promise<Express> => {
@@ -56,6 +56,7 @@ export const initApp = (): Promise<Express> => {
       app.use("/workout_feedback", workout_feedback_routes);
       app.use("/user", userRoute);
       app.use("/auth", authRoute);
+      app.use("/generate",generateImageRoute)
       app.use("/image", image_route);
       app.use("/uploads", express.static('uploads'))
       resolve(app);

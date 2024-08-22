@@ -1,30 +1,21 @@
 import {
 	Card,
-	CardHeader,
-	Avatar,
 	CardContent,
 	CardActions,
 	IconButton,
 	Checkbox,
 	FormControlLabel,
 	Box,
+	Typography,
 } from "@mui/material";
-import FreeBreakfastIcon from "@mui/icons-material/FreeBreakfast";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import EditIcon from "@mui/icons-material/Edit";
-import LunchDiningIcon from "@mui/icons-material/LunchDining";
-import RamenDiningIcon from "@mui/icons-material/RamenDining";
 import { IMeal, MealTypes, changeEatenMeal, changeLikeMeal } from "./MealPlannerService";
 import { useState } from "react";
 import { ChangeMealModal } from "./ChangeMealModal";
 import { isDayPassed } from "../common/plannerUtils";
 import { RecipeModal } from "./RecipeModal";
-
-const icons: Record<(typeof MealTypes)[number], JSX.Element> = {
-	Breakfast: <FreeBreakfastIcon />,
-	Lunch: <LunchDiningIcon />,
-	Dinner: <RamenDiningIcon />,
-};
+import MealWithImage from "./MealWithImage"; // Import the MealWithImage component
 
 export const Meal = ({
 	mealKind,
@@ -47,57 +38,60 @@ export const Meal = ({
 
 	const handleLikeClick = () => {
 		meal.liked = !meal.liked;
-		console.log(`new liked: ${meal.liked}`);
 		changeLikeMeal(localStorage.getItem("userId")!!, meal._id, meal.name, meal.liked);
 		setLiked(meal.liked);
 	};
 
 	const handleCheckboxChange = () => {
 		meal.wasEaten = !meal.wasEaten;
-		console.log(`new eaten: ${meal.wasEaten}`);
 		changeEatenMeal(localStorage.getItem("userId")!!, meal._id, meal.wasEaten);
 		setWasEaten(meal.wasEaten);
 	};
 
 	const handleCardClick = () => {
-		console.log("show details");
 		setRecipeModalOpen(true);
 	};
+
+	const dayPassed = isDayPassed(day);
 
 	return (
 		<>
 			<Card
 				className="h-full"
-				sx={
-					isDayPassed(day)
-						? {
-								backgroundColor: "#DCDCDC",
-								border: "none",
-								boxShadow: "none",
-						  }
-						: {}
-				}
+				sx={{
+					width: '150px', // Ensuring a fixed width
+					height: '220px', // Ensuring a fixed height
+					display: 'flex',
+					flexDirection: 'column',
+					justifyContent: 'space-between',
+					...(dayPassed && {
+						backgroundColor: "#DCDCDC",
+						border: "none",
+						boxShadow: "none",
+					}),
+				}}
 			>
-				<Box onClick={handleCardClick} sx={{ cursor: "pointer" }}>
-					<CardHeader
-						avatar={<Avatar aria-label="recipe">{icons[mealKind]}</Avatar>}
-						title={mealKind}
-					/>
-					<CardContent>{meal.name}</CardContent>
+				<Box onClick={handleCardClick} sx={{ cursor: "pointer", flex: 1, textAlign: 'center' }}>
+					<CardContent sx={{ padding: '8px', paddingTop: '4px', textAlign: 'center' }}>
+						<MealWithImage mealName={meal.name} imageHeight="55px" /> {/* Adjusted image height */}
+						<Typography variant="body2" sx={{ marginTop: '4px', fontSize: '0.75rem' }}>{meal.name}</Typography>
+					</CardContent>
 				</Box>
 
-				<CardActions disableSpacing>
+				<CardActions disableSpacing sx={{ justifyContent: 'space-around', padding: '0 4px', alignItems: 'center' }}>
 					<IconButton
 						aria-label="Like"
 						onClick={handleLikeClick}
-						disabled={isDayPassed(day)}
+						disabled={dayPassed}
+						sx={{ opacity: dayPassed ? 0.5 : 1 }}
 					>
 						<FavoriteIcon style={{ color: liked ? "red" : "inherit" }} />
 					</IconButton>
 					<IconButton
 						aria-label="Edit"
 						onClick={handleEditClick}
-						disabled={isDayPassed(day)}
+						disabled={dayPassed}
+						sx={{ opacity: dayPassed ? 0.5 : 1 }}
 					>
 						<EditIcon />
 					</IconButton>
@@ -106,11 +100,12 @@ export const Meal = ({
 							<Checkbox
 								checked={wasEaten}
 								onChange={handleCheckboxChange}
-								disabled={isDayPassed(day)}
+								disabled={dayPassed}
+								sx={{ opacity: dayPassed ? 0.5 : 1 }}
 							/>
 						}
 						label=""
-						sx={{ marginLeft: 1 }}
+						sx={{ marginLeft: 0 }}
 					/>
 				</CardActions>
 			</Card>

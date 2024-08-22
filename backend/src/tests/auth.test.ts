@@ -21,12 +21,6 @@ const user: IUser = {
   specialDiets: "Gluten-free"
 }
 
-// const comment: IComment = {
-//     user_name: "comment_test2",
-//     post_id: "1111",
-//     content: "Hey"
-//   };
-
 beforeAll(async () => {
     app = await initApp();
     console.log("BeforeAll");
@@ -117,24 +111,10 @@ afterAll(async () => {
         expect(accessToken).toBeDefined();
     });
 
-    // TODO: change it to planner after Shely will check her code (unit testing)
-
-    // test("Test forbidden access without token - Comments", async ()=> {
-    //     const response = await request(app).post('/comments').send(comment);
-    //     expect(response.statusCode).toEqual(401);
-    // });
-
     test("Test forbidden access without token - User", async ()=> {
         const response = await request(app).get('/user').send(user);
         expect(response.statusCode).toEqual(401);
     });
-
-     // TODO: change it to planner after Shely will check her code (unit testing)
-     
-    // test("Test access with valid token - Commetns", async ()=> {
-    //     const response = await request(app).get('/comments').set("Authorization", "JWT " + accessToken);
-    //     expect(response.statusCode).toEqual(200);
-    // });
 
     test("Test access with valid token - User", async ()=> {
         const response = await request(app).get('/user').set("Authorization", "JWT " + accessToken);

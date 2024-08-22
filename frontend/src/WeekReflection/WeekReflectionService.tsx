@@ -13,7 +13,7 @@ export const sendWeekReflection = async (
   console.log("sends the reflection summery", reflectionSummery);
 
   try {
-    const response = await axios.post('http://localhost:3000/api/weekly_reflection', {
+    const response = await axios.post('http://localhost:3000/weekly_reflection', {
       user_id: user_id,
       feeling: reflectionSummery.feeling,
       pastWeek: reflectionSummery.pastWeek,

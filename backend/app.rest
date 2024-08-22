@@ -1,4 +1,4 @@
-POST http://localhost:3000/api/weekly_reflection
+POST http://localhost:3000/weekly_reflection
 Content-Type: application/json
 
 {
@@ -9,7 +9,7 @@ Content-Type: application/json
 }
 
 ### Test GET Request
-curl -X POST http://localhost:3000/api/planner \
+curl -X POST http://localhost:3000/planner \
 -H "Content-Type: application/json" \
 -d '{
   "Sunday": {
@@ -51,7 +51,7 @@ curl -X POST http://localhost:3000/api/planner \
 }'
 
 # ###
-GET http://localhost:3000/api/planner/1234
+GET http://localhost:3000/planner/1234
 
 
 # ###

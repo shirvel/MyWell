@@ -13,7 +13,6 @@ import { IMealPlanner, MealTypes, getMealPlan } from "./MealPlannerService";
 import { useUserContext } from "../providers/UserContextProvider";
 import { dayColumns, PlannerDates } from "../common/plannerUtils";
 import { DateNav } from "../common/PlannerDateNav";
-import axios from "axios";
 import { Meal } from "./Meal";  // Import the Meal component
 
 export const MealPlanner = () => {
@@ -37,19 +36,6 @@ export const MealPlanner = () => {
             try {
                 const response = await getMealPlan(userId, dates);
                 setMealPlan(response);
-
-                const mealNames: string[] = [];
-
-                Object.keys(response).forEach(day => {
-                    MealTypes.forEach(mealType => {
-                        if (response[day][mealType]) {
-                            mealNames.push(response[day][mealType].name);
-                        }
-                    });
-                });
-
-                await fetchBatchMealImages(mealNames);
-
                 setDates({ startDate: response.startDate, endDate: response.endDate });
             } catch (err) {
                 console.log("Failed to load meal plan");

@@ -11,7 +11,7 @@ interface UserDetailsForm {
 }
 
 const dietMap: Record<string, string> = {
-    "No Specific Diet": "No specific diet",
+    "No Specific Diet": "No Specific Diet",
     "Vegetarian": "Vegetarian", 
     "Gluten Free": "Gluten-free"
 }

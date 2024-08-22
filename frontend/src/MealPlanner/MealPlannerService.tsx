@@ -30,7 +30,13 @@ export const changeMeal = async (
 ) => {
 	console.log(`change the meal: ${mealId} because ${reason} `);
 	const url = endpoints.MEAL_PLAN.CHANGE_MEAL;
-	return post(url, { user_id: userId, meal_id: mealId, feedback: reason, day: day, type: type });
+	return post(url, {
+		user_id: userId,
+		meal_id: mealId,
+		feedback: reason,
+		day: day,
+		type: type,
+	});
 };
 
 export const changeLikeMeal = async (
@@ -41,7 +47,12 @@ export const changeLikeMeal = async (
 ) => {
 	console.log(`change the meal: ${mealName} like ${liked} `);
 	const url = endpoints.MEAL_PLAN.LIKE_MEAL;
-	return post(url, { user_id: userId, meal_id: mealId, feedback: `The user liked ${mealName}`, liked: liked });
+	return post(url, {
+		user_id: userId,
+		meal_id: mealId,
+		feedback: `The user liked ${mealName}`,
+		liked: liked,
+	});
 };
 
 export const changeEatenMeal = async (
@@ -73,7 +84,26 @@ export const getMealPlan = async (
 
 export const updateMealPlanner = async (userId: string | null) => {
 	try {
-		const response = await patch(endpoints.MEAL_PLAN.CHANGE_MEAL_PLANNER, {userId});
+		const response = await patch(endpoints.MEAL_PLAN.CHANGE_MEAL_PLANNER, {
+			userId,
+		});
+		console.log("Response from server:", response.data);
+		return response;
+	} catch (error) {
+		console.error("Error in updating meal planner data:", error);
+		return null;
+	}
+};
+
+export const addMealPlannerFeedback = async (
+	user_id: string | null,
+	feedback: string
+) => {
+	try {
+		const response = await post(endpoints.GENERAL_FEEDBACKS.MEAL, {
+			user_id,
+			feedback,
+		});
 		console.log("Response from server:", response.data);
 		return response.data;
 	} catch (error) {

@@ -42,7 +42,7 @@ export const getWorkoutPlanner = async (req: Request, res: Response) => {
       planner = await newPlanner.save();
     }
 
-    console.log('Retrieved or created planner:', planner); // Debug statement
+    // console.log('Retrieved or created planner:', planner); // Debug statement
 
     res.status(200).json(planner);
     plannerRequestInProgress[userId] = false;

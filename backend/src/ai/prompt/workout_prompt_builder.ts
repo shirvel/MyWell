@@ -3,6 +3,8 @@ import { secondExample } from '../workout_examples/second_example';
 import { thirdExample } from '../workout_examples/third_example';
 import { formatUserHistory, getWorkoutsFromDay } from './prompt_builder_utils';
 import WorkoutFeedback from '../../models/workout_feedback';
+import WorkoutPlannerFeedback from '../../models/workout_planner_feedback';
+
 
 const format = `The needed format for the result workout planner:\n` +
 `{
@@ -83,14 +85,18 @@ export const buildPromptAfterWorkoutFeedback = async(userId: string, day: string
 const formatWorkoutFeedbacks = async (userId: string) => {
     // Fetch all meal feedbacks for the user
     const workoutFeedbacks = await WorkoutFeedback.find({ user_id: userId });
+    const workoutGeneralFeedbacks = await WorkoutPlannerFeedback.find({ user_id: userId });
 
     var feedbacks : string
 
-    if (workoutFeedbacks.length == 0) {
+    if (workoutFeedbacks.length == 0 && workoutGeneralFeedbacks.length == 0) {
         feedbacks = `No feedbacks on workouts were written yet.`
     }
     else {
         feedbacks = workoutFeedbacks.map(feedback => (
+            `* ${feedback.feedback}`
+        )).join('');
+        feedbacks += workoutGeneralFeedbacks.map(feedback => (
             `* ${feedback.feedback}`
         )).join('');
     }

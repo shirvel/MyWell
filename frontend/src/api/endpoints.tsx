@@ -16,7 +16,11 @@ export const endpoints = {
 		CHANGE_MEAL: base + "meal_feedback/change",
 		LIKE_MEAL: base + "meal_feedback/like",
 		EAT_MEAL: base + "meal_feedback/eat",
-		CHANGE_MEAL_PLANNER: base + "api/meal-planner/update-meal-planner"
+		CHANGE_MEAL_PLANNER: base + "api/meal-planner/update-meal-planner",
+	},
+	GENERAL_FEEDBACKS: {
+		WORKOUT: base + "general_feedback/workout",
+		MEAL: base + "general_feedback/meal",
 	},
 	WORKOUT_PLANNER: {
 		WORKOUT_PLAN: (user_id: string) =>
@@ -24,10 +28,10 @@ export const endpoints = {
 		CHANGE_WORKOUT: base + "workout_feedback/change",
 		LIKE_WORKOUT: base + "workout_feedback/like",
 		DONE_WORKOUT: base + "workout_feedback/done",
-		CHANGE_WORKOUT_PLANNER: base + "api/workout-planner/update-workout-planner"
+		CHANGE_WORKOUT_PLANNER: base + "api/workout-planner/update-workout-planner",
 	},
 	WEEKLY_REFLECTION: {
-		CREATE_FEEDBACK: (user_id: string)=>
+		CREATE_FEEDBACK: (user_id: string) =>
 			base + "api/weekly_reflection/" + user_id,
 	},
 	IMAGE: {

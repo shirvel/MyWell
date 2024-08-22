@@ -3,6 +3,8 @@ import { secondExample } from '../meal_examples/second_example';
 import { daysOfWeek } from '../../common/date_utils';
 import { formatUserHistory, getMealsFromDayAndMealType } from './prompt_builder_utils';
 import MealFeedback from '../../models/meal_feedback';
+import MealPlannerFeedback from '../../models/meal_planner_feedback';
+
 
 const format = `The needed format for the result meal planner:\n` +
 `{
@@ -120,14 +122,18 @@ export const buildPromptAfterMealFeedback = async(userId: string, day: string, m
 const formatMealFeedbacks = async (userId: string) => {
     // Fetch all meal feedbacks for the user
     const mealFeedbacks = await MealFeedback.find({ user_id: userId });
+    const generalMealFeedbacks = await MealPlannerFeedback.find({ user_id: userId });
 
     var feedbacks : string
 
-    if (mealFeedbacks.length == 0) {
+    if (mealFeedbacks.length == 0 && generalMealFeedbacks.length == 0) {
         feedbacks = `No feedbacks on meals were written yet.`
     }
     else {
         feedbacks = mealFeedbacks.map(feedback => (
+            `* ${feedback.feedback}`
+        )).join('');
+        feedbacks += generalMealFeedbacks.map(feedback => (
             `* ${feedback.feedback}`
         )).join('');
     }

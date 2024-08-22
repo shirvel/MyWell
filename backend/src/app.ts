@@ -13,6 +13,7 @@ import userRoute from "./routes/user_routes";
 import image_route from "./routes/image_route";
 import meal_feedback_routes from "./routes/meal_feedback_routers";
 import workout_feedback_routes from "./routes/workout_feedback_routers";
+import general_planner_feedbacks_routes from "./routes/general_planner_feedbacks_routes";
 
 env.config();
 
@@ -51,6 +52,7 @@ export const initApp = (): Promise<Express> => {
       app.use("/api/meal-planner", meal_planner_routes);
       app.use("/api/workout-planner", workout_planner_routes);
       app.use("/meal_feedback", meal_feedback_routes);
+      app.use("/general_feedback", general_planner_feedbacks_routes);
       app.use("/workout_feedback", workout_feedback_routes);
       app.use("/user", userRoute);
       app.use("/auth", authRoute);

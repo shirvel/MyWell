@@ -2,20 +2,44 @@ import { IconButton, Tooltip } from "@mui/material";
 import RefreshIcon from "@mui/icons-material/Refresh";
 import { useState } from "react";
 import { PlannerRecreationModal } from "./PlannerRecreationModal";
-import { updateMealPlanner } from "../../MealPlanner/MealPlannerService";
-import { updateWorkoutPlanner } from "../../WorkoutPlanner/WorkoutPlannerService";
+import {
+	addMealPlannerFeedback,
+	IMealPlanner,
+	updateMealPlanner,
+} from "../../MealPlanner/MealPlannerService";
+import {
+	addWorkoutPlannerFeedback,
+	IWorkoutPlanner,
+	updateWorkoutPlanner,
+} from "../../WorkoutPlanner/WorkoutPlannerService";
 
-export const PlannerRecreationButton = () => {
+export const PlannerRecreationButton = ({
+	isMealPlan,
+	setPlanner,
+}: {
+	isMealPlan: boolean;
+	setPlanner:
+		| React.Dispatch<React.SetStateAction<IMealPlanner | null>>
+		| React.Dispatch<React.SetStateAction<IWorkoutPlanner | undefined>>;
+}) => {
 	const [open, setOpen] = useState(false);
-	const onClose = async () => {
+	const onClose = async (feedback: string) => {
 		const userId = localStorage.getItem("userId");
-		// Add the user comments
-
-		// Make the new planners
-		await updateMealPlanner(userId);
-		await updateWorkoutPlanner(userId);
-		// set the new planner with loading
-
+		if (isMealPlan) {
+			// Save meal feedback
+			await addMealPlannerFeedback(userId, feedback);
+			// Recreate the planner
+			const planner = await updateMealPlanner(userId);
+			// Set the new planner
+			setPlanner(planner);
+		} else {
+			// Save workout feedback
+			await addWorkoutPlannerFeedback(userId, feedback);
+			// Recreate the planner
+			const planner = await updateWorkoutPlanner(userId);
+			// Set the new planner
+			setPlanner(planner);
+		}
 		setOpen(false);
 	};
 	return (

@@ -153,7 +153,7 @@ export const MealPlanner = () => {
 					dates={{ startDate: mealPlan.startDate, endDate: mealPlan.endDate }}
 					loadPlan={loadMealPlan}
 				/>
-				<PlannerRecreationButton />
+				<PlannerRecreationButton isMealPlan={true} setPlanner={setMealPlan} />
 				<Table
 					style={{
 						tableLayout: "fixed", // Force equal width for each column

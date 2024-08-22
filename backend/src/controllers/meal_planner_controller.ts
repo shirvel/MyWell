@@ -43,7 +43,7 @@ export const getMealPlanner = async (req: Request, res: Response) => {
       planner = await newPlanner.save();
     }
 
-    console.log('Retrieved or created planner:', planner); // Debug statement
+    // console.log('Retrieved or created planner:', planner); // Debug statement
 
     res.status(200).json(planner);
     plannerRequestInProgress[userId] = false;
@@ -106,7 +106,7 @@ export const updateMealPlanner = async (req: Request, res: Response) => {
     const mealPlanner = await createMealPlanner(userId, startDate, endDate);
     const newPlanner = new MealPlanner(mealPlanner);
 
-    console.log(newPlanner.toJSON());
+    //console.log(newPlanner.toJSON());
 
     // Delete the old planner for this user id with the planner of this week
     await MealPlanner.findOneAndDelete({

@@ -182,7 +182,7 @@ export const LoginPage = () => {
                     </Grid>
                     <Grid item xs={12} style={{ width: '300px' }}>
                         <CustomTypography style={linkStyle}>
-                            Dont have an account yet? <Link to="/register" style={{ textDecoration: 'none', color: '#5A8BAF' }}>Register</Link>
+                            <Link to="/register" style={{ textDecoration: 'none', color: '#5A8BAF' }}>Dont have an account yet? Register</Link>
                         </CustomTypography>
                     </Grid>
                 </Grid>

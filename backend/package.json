@@ -8,7 +8,8 @@
     "build": "tsc",
     "test": "jest",
     "testAuth": "tsc && jest --detectOpenHandles --forceExit --runInBand ./src/tests/auth.test.ts",
-    "testUser": "tsc && jest --detectOpenHandles --forceExit --runInBand ./src/tests/user.test.ts"
+    "testUser": "tsc && jest --detectOpenHandles --forceExit --runInBand ./src/tests/user.test.ts",
+     "prod1": "cp .envprod .env && tsc -p tsconfig_prod.json &&  node ./dist/src/server.js"
   },
   "keywords": [],
   "author": "",

@@ -12,6 +12,13 @@ import { Link } from "react-router-dom";
 // Ensure that the Lora font is loaded in your project, you can include this in your index.html or import via CSS
 // @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap');
 
+export const linkStyle: React.CSSProperties = {
+    color: '#5A8BAF',
+    textDecoration: 'underline',
+    fontSize: '16px',
+    cursor: 'pointer',
+};
+
 export const addInfoToLocalStorage = (userInfo: {
     accessToken: string;
     refreshToken: string;
@@ -56,13 +63,6 @@ export const LoginPage = () => {
         fontFamily: 'Product Sans',
         width: '50%', // Make the button wider
         maxWidth: '400px', // You can adjust the max-width as needed
-    };
-
-    const linkStyle: React.CSSProperties = {
-        color: '#5A8BAF',
-        textDecoration: 'underline',
-        fontSize: '16px',
-        cursor: 'pointer',
     };
 
     return (
@@ -182,7 +182,7 @@ export const LoginPage = () => {
                     </Grid>
                     <Grid item xs={12} style={{ width: '300px' }}>
                         <CustomTypography style={linkStyle}>
-                            <Link to="/register" style={{ textDecoration: 'none', color: '#5A8BAF' }}>Dont have an account yet? Register</Link>
+                            <Link to="/register" style={{ textDecoration: 'none', color: '#5A8BAF' }}>Don't have an account yet? Register</Link>
                         </CustomTypography>
                     </Grid>
                 </Grid>

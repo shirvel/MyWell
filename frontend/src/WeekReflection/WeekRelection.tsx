@@ -15,6 +15,12 @@ import { sendWeekReflection } from "./WeekReflectionService";
 import { useNavigate } from "react-router-dom";
 import { GlobalState, GlobalStateContext } from '../context/MyWellGlobalState';
 
+const SNACKBAR_MESSAGES = {
+    success: "Your weekly reflection has been saved successfully!",
+    error: "Failed to save your weekly reflection. Please try again.",
+    warning: "Please fill out all required fields before submitting."
+};
+
 export const WeekReflection = () => {
 	const navigate = useNavigate();
 	const { globalState, setGlobalState } = useContext(GlobalStateContext)!;
@@ -23,6 +29,7 @@ export const WeekReflection = () => {
 	const [feedback, setFeedback] = useState<string>("");
 
 	const [openSnackbar, setOpenSnackbar] = useState(false);
+	const [snackbarSeverity, setSnackbarSeverity] = useState<"success" | "error" | "warning">("success");
 
 	const handleSnackbarClose = (event?: React.SyntheticEvent, reason?: string) => {
 		if (reason === 'clickaway') {
@@ -32,18 +39,31 @@ export const WeekReflection = () => {
 	};
 
 	const saveReflection = useCallback(() => {
-		const user_id = localStorage.getItem("userId");
-		sendWeekReflection(user_id ?? "" , { feeling, pastWeek, feedback });
-		setGlobalState((prev) => {return {...prev, didWeeklyReflection: true} as GlobalState})
-		setFeeling("");
-		setPastWeek("");
-		setFeedback("");
-		setOpenSnackbar(true); // Show the Snackbar
+		if (feeling.length == 0 || pastWeek.length == 0 || feedback.length == 0) {
+			setSnackbarSeverity("warning");
+			setOpenSnackbar(true);
+		}
+		else {
+			const user_id = localStorage.getItem("userId");
 
-		// Delay the navigation to the meal planner
-		setTimeout(() => {
-			navigate('/meal-planner');
-		}, 3000); // 3-second delay before navigating
+			sendWeekReflection(user_id ?? "", { feeling, pastWeek, feedback }).then(result => {
+				if (result?.status == 201) {
+					setGlobalState((prev) => { return { ...prev, didWeeklyReflection: true } as GlobalState });
+					setFeeling("");
+					setPastWeek("");
+					setFeedback("");
+					setSnackbarSeverity("success");
+					setOpenSnackbar(true);
+
+					setTimeout(() => {
+						navigate('/meal-planner');
+					}, 3000); // 3-second delay before navigating
+				} else {
+					setSnackbarSeverity("error");
+					setOpenSnackbar(true);
+				}
+			});
+		}
 	}, [feeling, pastWeek, feedback]);
 
 	return (
@@ -163,8 +183,8 @@ export const WeekReflection = () => {
 				onClose={handleSnackbarClose}
 				anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
 			>
-				<Alert onClose={handleSnackbarClose} severity="success" sx={{ width: '100%' }}>
-					Your weekly reflection has been saved successfully!
+				<Alert onClose={handleSnackbarClose} severity={snackbarSeverity} sx={{ width: '100%' }}>
+					{SNACKBAR_MESSAGES[snackbarSeverity]}
 				</Alert>
 			</Snackbar>
 		</Box>

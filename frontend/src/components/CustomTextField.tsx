@@ -1,17 +1,11 @@
 import React from 'react';
-import TextField from '@mui/material/TextField';
+import TextField, { TextFieldProps } from '@mui/material/TextField';
 
-interface CustomTextFieldProps {
+type CustomTextFieldProps = TextFieldProps & {
   label: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  multiline?: boolean;
-  rows?: number;
-  error?: boolean;
-  helperText?: string;
-  type?: string;
-  required?: boolean;
-}
+};
 
 export const CustomTextField: React.FC<CustomTextFieldProps> = ({
   label,
@@ -22,7 +16,12 @@ export const CustomTextField: React.FC<CustomTextFieldProps> = ({
   error = false,
   helperText = '',
   type = 'text',
-  required = false
+  required = false,
+  InputProps,
+  InputLabelProps,
+  FormHelperTextProps,
+  sx,
+  ...rest
 }) => (
   <TextField
     fullWidth
@@ -41,22 +40,27 @@ export const CustomTextField: React.FC<CustomTextFieldProps> = ({
         fontFamily: 'Product Sans',
         fontWeight: '500',
         padding: '10px',
-        backgroundColor: 'none', // Set to transparent to remove any unwanted color
+        backgroundColor: 'transparent', // Set to transparent to remove any unwanted color
         border: '1px solid #ddd', // Add a border to ensure the input is visible
         borderRadius: '20px', // Optional: Keep the rounded corners
         color: '#000', // Ensure the text inside is black
       },
       disableUnderline: true, // Disable the underline to prevent any blue color from appearing
+      ...InputProps, // Spread additional InputProps passed as props
     }}
     InputLabelProps={{
       style: {
-        fontFamily: 'Product Sans'
-      }
+        fontFamily: 'Product Sans',
+        ...InputLabelProps?.style, // Spread additional InputLabelProps styles
+      },
+      ...InputLabelProps, // Spread additional InputLabelProps passed as props
     }}
     FormHelperTextProps={{
       style: {
-        fontFamily: 'Product Sans'
-      }
+        fontFamily: 'Product Sans',
+        ...FormHelperTextProps?.style, // Spread additional FormHelperTextProps styles
+      },
+      ...FormHelperTextProps, // Spread additional FormHelperTextProps passed as props
     }}
     sx={{
       '& .MuiOutlinedInput-root': {
@@ -65,8 +69,10 @@ export const CustomTextField: React.FC<CustomTextFieldProps> = ({
         backgroundColor: 'rgba(255, 255, 255, 0.7)', // Semi-transparent background
       },
       '& .MuiFormHelperText-root': {
-        fontFamily: 'Product Sans'
-      }
+        fontFamily: 'Product Sans',
+      },
+      ...sx, // Spread additional sx styles passed as props
     }}
+    {...rest} // Spread any additional props passed to the component
   />
 );

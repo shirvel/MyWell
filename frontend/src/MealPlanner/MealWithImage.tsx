@@ -36,7 +36,7 @@ const getImageFromIndexedDB = async (prompt: string): Promise<StoredImage | unde
 };
 
 // Component to fetch and display the meal image
-const MealWithImage: React.FC<{ mealName: string }> = ({ mealName }) => {
+const MealWithImage: React.FC<{ mealName: string; imageHeight?: string }> = ({ mealName, imageHeight = 'auto' }) => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   useEffect(() => {
@@ -78,9 +78,9 @@ const MealWithImage: React.FC<{ mealName: string }> = ({ mealName }) => {
       borderRadius: '8px',
     }}>
       {imageUrl ? (
-        <img src={imageUrl} alt={mealName} style={{ width: '80%', height: 'auto', borderRadius: '8px', objectFit: 'cover' }} />
+        <img src={imageUrl} alt={mealName} style={{ width: '80%', height: imageHeight, borderRadius: '8px', objectFit: 'cover' }} />
       ) : (
-        <img src="/food-placeholder.png" alt="Placeholder" style={{ width: '80%', height: 'auto', borderRadius: '8px', objectFit: 'cover' }} />
+        <img src="/food-placeholder.png" alt="Placeholder" style={{ width: '80%', height: imageHeight, borderRadius: '8px', objectFit: 'cover' }} />
       )}
     </Box>
   );

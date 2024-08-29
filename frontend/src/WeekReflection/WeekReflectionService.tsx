@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { endpoints } from '../api/endpoints';
 
 export type IReflectionSummery = {
   feeling: string;
@@ -13,15 +14,16 @@ export const sendWeekReflection = async (
   console.log("sends the reflection summery", reflectionSummery);
 
   try {
-    const response = await axios.post('http://localhost:3000/weekly_reflection', {
+    const url = endpoints.WEEKLY_REFLECTION.CREATE_FEEDBACK;
+    const response = await axios.post(url, {
       user_id: user_id,
       feeling: reflectionSummery.feeling,
       pastWeek: reflectionSummery.pastWeek,
       feedbackOnWeeklyPlan: reflectionSummery.feedback,
     });
 
-    console.log('Response from server:', response.data);
-    return response.data;
+    console.log('Response from server:', response);
+    return response;
   } catch (error) {
     console.error('Error sending reflection summary:', error);
     return null;

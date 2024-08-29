@@ -31,8 +31,7 @@ export const endpoints = {
 		CHANGE_WORKOUT_PLANNER: base + "workout-planner/update-workout-planner",
 	},
 	WEEKLY_REFLECTION: {
-		CREATE_FEEDBACK: (user_id: string) =>
-			base + "weekly_reflection/" + user_id,
+		CREATE_FEEDBACK: base + "weekly_reflection",
 	},
 	IMAGE: {
 		UPLOAD_IMAGE: base + "image/upload/",

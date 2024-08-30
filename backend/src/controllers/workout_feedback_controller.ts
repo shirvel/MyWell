@@ -112,7 +112,7 @@ const updateWorkoutStatus = async (user_id, workout_id, statusKey, statusValue) 
     const workoutId = new ObjectId(workout_id);
     
     // Find the document
-    const planner = await WorkoutPlanner.findOne({ user_id });
+    const planner = await WorkoutPlanner.findOne({ user_id }).sort({ startDate: -1 });
 
     if (!planner) {
       throw new Error('Planner not found for the given user ID');

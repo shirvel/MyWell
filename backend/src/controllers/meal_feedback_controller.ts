@@ -122,7 +122,7 @@ const updateMealStatus = async (user_id: string, meal_id: string, statusKey: str
     const mealId = new ObjectId(meal_id);
     
     // Find the document
-    const planner = await Planner.findOne({ user_id });
+    const planner = await Planner.findOne({ user_id }).sort({ startDate: -1 });
 
     if (!planner) {
       throw new Error('Planner not found for the given user ID');

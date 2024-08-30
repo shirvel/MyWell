@@ -91,7 +91,7 @@ const formatMealPlan = (mealPlan: any): string => {
 
 export const getMealsFromDayAndMealType = async (userId, startDay, startMealType) => {
     try {
-      const planner = await Planner.findOne({ user_id: userId }).exec();
+      const planner = await Planner.findOne({ user_id: userId }).sort({ startDate: -1 });
       if (!planner) throw new Error('Planner not found');
   
       // Find the index of the start day and start meal type

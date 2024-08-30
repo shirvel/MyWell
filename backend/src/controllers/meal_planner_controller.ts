@@ -66,7 +66,7 @@ export const updateMeal = async (req: Request, res: Response) => {
     const planner = await MealPlanner.findOneAndUpdate(
       { user_id: userId },
       { $set: update },
-      { new: true, runValidators: true }
+      { new: true, runValidators: true, sort: { startDate: -1 } }
     );
 
     if (!planner) {

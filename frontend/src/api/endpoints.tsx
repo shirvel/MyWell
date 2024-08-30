@@ -1,5 +1,6 @@
-// For now..
-const URL = "http://127.0.0.1:3000/";
+const PROD_URL = "";
+const LOCAL_URL = "http://127.0.0.1:3000/";
+const URL = LOCAL_URL;
 
 const base = URL;
 export const endpoints = {

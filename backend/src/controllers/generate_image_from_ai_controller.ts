@@ -20,7 +20,7 @@ export const generateImageController = async (req, res) => {
       return res.status(500).json({ error: 'Failed to generate image' });
     }
 
-    console.log('Image generated successfully:', imageUrl);
+    // console.log('Image generated successfully:', imageUrl);
     res.status(200).json({ imageUrl });
   } catch (error) {
     console.error('Error generating image:', error.message);

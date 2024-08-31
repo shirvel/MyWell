@@ -23,7 +23,11 @@ export const PlannerRecreationButton = ({
 		| React.Dispatch<React.SetStateAction<IWorkoutPlanner | undefined>>;
 }) => {
 	const [open, setOpen] = useState(false);
-	const onClose = async (feedback: string) => {
+	const onClose = async (feedback: string | null) => {
+		if (!feedback) {
+			setOpen(false);
+			return;
+		}
 		const userId = localStorage.getItem("userId");
 		if (isMealPlan) {
 			// Save meal feedback

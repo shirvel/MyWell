@@ -14,12 +14,12 @@ export const PlannerRecreationModal = ({
 	onClose,
 }: {
 	isOpen: boolean;
-	onClose: (feedback: string) => void;
+	onClose: (feedback: string | null) => void;
 }) => {
 	const [loading, setLoading] = useState(false);
 	const [feedback, setFeedback] = useState("");
 	return (
-		<Dialog onClose={onClose} open={isOpen} fullWidth>
+		<Dialog onClose={() => onClose(null)} open={isOpen} fullWidth>
 			<DialogTitle>Regenerate Planner</DialogTitle>
 			{!loading ? (
 				<div className="p-4 w-full h-full text-center">

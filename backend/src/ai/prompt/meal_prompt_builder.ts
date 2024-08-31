@@ -50,23 +50,30 @@ const role = `Your rule is: nutritionist.\n`
 const examples = `A few examples to learn from:\n${firstExample}\n\n${secondExample}\n`
 
 const buildPromptForDays = (userHistory: string, day: string): string => {
-    const steps = `Steps to create a detailed meal plan:\n` +
-        `1. Check the user's details (age, plan goals, dietary restrictions and preferences).\n` +
-        `2. Check the user's feedback on previous meals, to identify what the user doesn't like.\n` +
-        `3. Check the user's previous weekly reflections, to understand the user's preferences.\n` +
-        `4. For each day, create a detailed list of meals. All meals (breakfast, lunch, and dinner) needs to be included:\n` +
-        `For each meal, provide:\n` +
-        `\t- a list of ingredients.\n` +
-        `\t- step-by-step cooking instructions.\n` +
-        `At the end, make sure none of the results violate the user's needs.\n`;
+    return `Create a detailed meal planner for ${day} for the current user in the given format based on:
+    - Your role.
+    - The user's details and history.
+    - The given steps.
+    - The given examples.
 
-    return `${steps}\n${format}\n${role}\n${examples}\n\n${userHistory}` +
-    `Create a detailed planner for ${day} for the current user *in the given format* based on:\n` +
-    `\t- Your role.\n` +
-    `\t- the user's details and history.\n` +
-    `\t- the given steps.\n` +
-    `\t- the given examples.\n` +
-    `return only the result in the format, no extra chars before or after.`;
+Constraints:
+    - Do not include any ingredients that the user dislikes!!!
+    - Ensure that all meals align with the user’s dietary preferences (e.g., vegan, gluten-free, kosher, etc.).
+
+Steps to create a detailed meal plan:
+    - Check the user's details (age, plan goals, dietary restrictions, and preferences).
+    - Check the user's feedback on previous meals to identify what the user doesn't like.
+    - Check the user's previous weekly reflections to understand the user's preferences.
+    - For each day, create a detailed list of meals. All meals (breakfast, lunch, and dinner) need to be included:
+    For each meal, provide:
+        * A list of ingredients.
+        * Step-by-step cooking instructions.
+    - At the end, validate the meal plan to ensure none of the results violate the user's dietary restrictions or preferences.
+
+${userHistory}
+${format}
+${examples}
+${role}`
 }
 
 export const buildPromptForMealsPlanner = async (userId: string): Promise<string[]> => {
@@ -90,29 +97,37 @@ export const buildPromptForMealsPlanner = async (userId: string): Promise<string
 export const buildPromptAfterMealFeedback = async(userId: string, day: string, mealType: string): Promise<string> => {
     try {
         const possibleMealsToReplace = await getMealsFromDayAndMealType(userId, day, mealType);
+        
+        const userHistory = await formatUserHistory(userId) +
+        `Current user's feedbacks on previous meals':\n${await formatMealFeedbacks(userId)}\n\n`;
 
-        // Build the prompt
-        const steps = `Steps to replace problametic meals in a plan:\n` +
-        `1. Check the user's details (age, plan goals, dietary restrictions and preferences).\n` +
-        `2. Check the user's feedbacks on previous meals, to identify what the user doesn't like.\n` +
-        `3. Check the user's previous weekly reflections, to understand the user's preferences.\n` +
-        `4. Go through the received meals.\n` +
-        `For each meal, check if the meal invades the user's preferences or contains ingredients that the user dislikes, and if so, replace the meal.\n` +
-        `For each meal, provide:\n` +
-        `\t- a list of ingredients.\n` +
-        `\t- step-by-step cooking instructions.\n` +
-        `At the end, make sure again none of the results violate the user's needs.\n`
-            
-        return `${steps}\n${format}\n${role}\n\n` + 
-        `${await formatUserHistory(userId)}` +
-        `Current user's feedbacks on previous meals':\n${await formatMealFeedbacks(userId)}\n\n` +
-        `Here are the meals you need to check: ${possibleMealsToReplace}\n\n` +
-        `Replace only the problematic meals for the current user. Return only the new meals. Base your answer on:\n` +
-        `\t- The given format.\n` +
-        `\t- Your rule.\n` +
-        `\t- the user's details and history.\n` +
-        `\t- the given steps.\n` +
-        `\t- the given examples.`
+        return `Replace only the problematic meals for the current user. Return only the new meals, in the given format based on:
+    - Your role.
+    - The user's details and history.
+    - The given steps.
+    - The given examples.
+
+Constraints:
+    - Do not include any ingredients that the user dislikes!!!
+    - Ensure that all meals align with the user’s dietary preferences (e.g., vegan, gluten-free, kosher, etc.).
+
+Steps to replace problametic meals in a plan:
+    - Check the user's details (age, plan goals, dietary restrictions, and preferences).
+    - Check the user's feedback on previous meals to identify what the user doesn't like.
+    - Check the user's previous weekly reflections to understand the user's preferences.
+    - Go through the received meals.
+    For each meal, check if the meal invades the user's preferences or contains ingredients that the user dislikes, and if so, replace the meal.
+    For each meal, provide:
+        * A list of ingredients.
+        * Step-by-step cooking instructions.
+    - At the end, validate the meal plan to ensure none of the results violate the user's dietary restrictions or preferences.
+
+${userHistory}
+${format}
+${role}
+
+The meals to check:
+${possibleMealsToReplace}`
     } catch (error) {
         console.error('Error building prompt:', error);
         throw new Error('Failed to build prompt');

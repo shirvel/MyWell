@@ -4,7 +4,7 @@ import WeeklyReflection from '../../models/weekly_reflection';
 import { differenceInYears, parseISO } from 'date-fns';
 import { mealTypes } from '../meal_planner_utils';
 import { daysOfWeek } from '../../common/date_utils';
-import workout_feedback from '../../models/workout_feedback';
+import workout_planner from '../../models/workout_planner';
 
 export const formatUserHistory = async (userId: string) => {
     // Fetch user details
@@ -134,7 +134,7 @@ export const getMealsFromDayAndMealType = async (userId, startDay, startMealType
 
 export const getWorkoutsFromDay = async (userId, startDay) => {
     try {
-      const planner = await workout_feedback.findOne({ user_id: userId }).exec();
+      const planner = await workout_planner.findOne({ user_id: userId }).sort({ startDate: -1 });
       if (!planner) throw new Error('Planner not found');
   
       // Find the index of the start day
@@ -152,8 +152,10 @@ export const getWorkoutsFromDay = async (userId, startDay) => {
         }
   
         if (dayReached) {
-          workouts[day] = {};
-          workouts[day]['Workout'] = planner[day]['Workout'];
+          if (planner[day] && planner[day]['Workout']) {
+            workouts[day] = {};
+            workouts[day]['Workout'] = planner[day]['Workout'];
+          }
       }
     }
   

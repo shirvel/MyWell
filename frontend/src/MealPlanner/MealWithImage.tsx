@@ -48,6 +48,7 @@ const MealWithImage: React.FC<{ mealName: string; imageHeight?: string }> = ({
 	useEffect(() => {
 		const fetchMealImage = async () => {
 			try {
+				setImageUrl(null);
 				// First, try to get the image from IndexedDB
 				const storedImage = await getImageFromIndexedDB(mealName);
 				if (storedImage) {

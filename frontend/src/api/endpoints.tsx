@@ -1,4 +1,4 @@
-const PROD_URL = "";
+// const PROD_URL = "http://193.106.55.142:3000/";
 const LOCAL_URL = "http://127.0.0.1:3000/";
 const URL = LOCAL_URL;
 
@@ -36,6 +36,7 @@ export const endpoints = {
 	},
 	IMAGE: {
 		UPLOAD_IMAGE: base + "image/upload/",
+		GENERATE_IMAGES: base + "generate/generate-image",
 	},
 	USER: {
 		UPDATE_USER: (id: string) => base + "user/" + id + "/",

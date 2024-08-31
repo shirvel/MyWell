@@ -97,8 +97,9 @@ export const NavBar = () => {
                     style={{
                         flex: 1,
                         display: "flex",
-                        justifyContent: "center",
+                        justifyContent: "center",  // Center the title section
                         alignItems: "center",
+                        marginLeft: "-100px",  // Move the title slightly more to the left
                     }}>
                     <SelfImprovementIcon
                         sx={{ display: { xs: "none", md: "flex" }, mr: 1 }}

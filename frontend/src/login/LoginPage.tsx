@@ -4,13 +4,10 @@ import { login } from "./LoginService";
 import { useNavigate } from "react-router-dom";
 import { useUserContext } from "../providers/UserContextProvider";
 import { CustomTextField } from "../components/CustomTextField";
-import { CustomButton } from "../components/CustomButton"; // Import your CustomButton
+import { CustomButton } from "../components/CustomButton"; 
 import { CustomTypography } from "../components/CustomTypography";
 import React from "react";
 import { Link } from "react-router-dom";
-
-// Ensure that the Lora font is loaded in your project, you can include this in your index.html or import via CSS
-// @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;700&display=swap');
 
 export const linkStyle: React.CSSProperties = {
     color: '#5A8BAF',
@@ -92,6 +89,7 @@ export const LoginPage = () => {
                 boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)',
                 textAlign: 'center',
                 position: 'relative',
+                transform: 'translateX(-40px)', // Move the circle a tiny bit more to the left
             }}>
                 <CustomTypography style={{
                     position: 'absolute',

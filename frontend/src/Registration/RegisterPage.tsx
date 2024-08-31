@@ -234,6 +234,7 @@ export const RegisterPage = () => {
 			boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.1)', // Optional: Adds a subtle shadow
 			textAlign: 'center', // Centralize content inside the circle
 			position: 'relative', // Allow positioning of children
+			transform: 'translateX(-40px)', // Move the circle a tiny bit more to the left
 		}}>
 		<RegisterStepper activeStep={activeStep} />
 		{activeStep === steps.length ? (

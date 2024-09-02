@@ -5,8 +5,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { TextField, CircularProgress, IconButton } from "@mui/material";
-import ThumbUpIcon from '@mui/icons-material/ThumbUp';
-import ThumbDownIcon from '@mui/icons-material/ThumbDown';
+import ThumbUpIcon from "@mui/icons-material/ThumbUp";
+import ThumbDownIcon from "@mui/icons-material/ThumbDown";
 import { useCallback, useState } from "react";
 import { IMeal } from "./MealPlannerService";
 import { useUserContext } from "../providers/UserContextProvider";
@@ -26,39 +26,48 @@ export const ChangeMealModal = ({
 	isOpen: boolean;
 	closeModal: VoidFunction;
 }) => {
-	const [preferences, setPreferences] = useState<{ [key: string]: 'like' | 'dislike' | '' }>({});
+	const [preferences, setPreferences] = useState<{
+		[key: string]: "like" | "dislike" | "";
+	}>({});
 	const [comment, setComment] = useState<string>("");
 	const [loading, setLoading] = useState<boolean>(false);
 	const { userId } = useUserContext();
 	const navigate = useNavigate();
 
-	const handlePreferenceChange = (ingredient: string, value: 'like' | 'dislike') => {
+	const handlePreferenceChange = (
+		ingredient: string,
+		value: "like" | "dislike"
+	) => {
 		setPreferences((prev) => {
 			const currentPreference = prev[ingredient];
-			let newPreference: 'like' | 'dislike' | '' = '';
-			
+			let newPreference: "like" | "dislike" | "" = "";
+
 			if (currentPreference === value) {
-				newPreference = '';
+				newPreference = "";
 			} else {
 				newPreference = value;
 			}
-			
+
 			return {
 				...prev,
 				[ingredient]: newPreference,
 			};
 		});
 	};
-	
+
 	const sendChangeRequest = useCallback(async () => {
 		if (!userId) {
 			return;
 		}
 
-		const likeIngredients = Object.keys(preferences).filter((ingredient) => preferences[ingredient] === 'like');
-		const dislikeIngredients = Object.keys(preferences).filter((ingredient) => preferences[ingredient] === 'dislike');
+		const likeIngredients = Object.keys(preferences).filter(
+			(ingredient) => preferences[ingredient] === "like"
+		);
+		const dislikeIngredients = Object.keys(preferences).filter(
+			(ingredient) => preferences[ingredient] === "dislike"
+		);
 
-		let summary = '';
+		let summary = "";
 		if (likeIngredients.length > 0) {
 			summary += `The user likes: ${likeIngredients.join(", ")}.\n`;
 		}
@@ -78,31 +87,56 @@ export const ChangeMealModal = ({
 			setLoading(false);
 			closeModal();
 		});
-	}, [preferences, comment, meal.name, day, type, userId, navigate, closeModal]);
+	}, [
+		preferences,
+		comment,
+		meal.name,
+		day,
+		type,
+		userId,
+		navigate,
+		closeModal,
+	]);
 
 	return (
 		<Dialog open={isOpen} onClose={closeModal} fullWidth maxWidth="sm">
 			<DialogTitle>{`Provide Feedback for ${meal.name}`}</DialogTitle>
 			<DialogContent>
 				<DialogContentText>
-					If you want to change this meal, please indicate your preferences for the ingredients and leave any additional comments.
+					If you want to change this meal, please indicate your preferences for
+					the ingredients and leave any additional comments.
 				</DialogContentText>
 				{meal.ingredients?.map((ingredient) => (
-					<div key={ingredient.name} style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '8px' }}>
+					<div
+						key={ingredient.name}
+						style={{
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "space-between",
+							marginBottom: "8px",
+						}}>
 						<span>{ingredient.name}</span>
 						<div>
 							<IconButton
-								color={preferences[ingredient.name] === 'like' ? 'primary' : 'default'}
-								onClick={() => handlePreferenceChange(ingredient.name, 'like')}
-								aria-label={`like ${ingredient.name}`}
-							>
+								color={
+									preferences[ingredient.name] === "like"
+										? "primary"
+										: "default"
+								}
+								onClick={() => handlePreferenceChange(ingredient.name, "like")}
+								aria-label={`like ${ingredient.name}`}>
 								<ThumbUpIcon />
 							</IconButton>
 							<IconButton
-								color={preferences[ingredient.name] === 'dislike' ? 'error' : 'default'}
-								onClick={() => handlePreferenceChange(ingredient.name, 'dislike')}
-								aria-label={`dislike ${ingredient.name}`}
-							>
+								color={
+									preferences[ingredient.name] === "dislike"
+										? "error"
+										: "default"
+								}
+								onClick={() =>
+									handlePreferenceChange(ingredient.name, "dislike")
+								}
+								aria-label={`dislike ${ingredient.name}`}>
 								<ThumbDownIcon />
 							</IconButton>
 						</div>
@@ -118,10 +152,15 @@ export const ChangeMealModal = ({
 					rows={3}
 					margin="normal"
 				/>
-				{loading && <CircularProgress sx={{ display: 'block', mx: 'auto', my: 2 }} />}
+				{loading && (
+					<CircularProgress sx={{ display: "block", mx: "auto", my: 2 }} />
+				)}
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={sendChangeRequest} disabled={loading} variant="contained">
+				<Button
+					onClick={sendChangeRequest}
+					disabled={loading}
+					variant="contained">
 					{loading ? "Saving..." : "Save"}
 				</Button>
 				<Button onClick={closeModal} disabled={loading} color="inherit">
